@@ -8,20 +8,20 @@ from WeeklyTestsParser import WeeklyTestsParser
 from JSONFileSink import JSONFileSink
 
 def init_sequences():
-        source = HTTPResponseSource('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
-        parser = DailyCasesParser(source)
-        sink = JSONFileSink(parser, 'covid_daily_cases.json')
-        Sequence(source, parser, sink, 'daily_cases')
+    source = HTTPResponseSource('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
+    parser = DailyCasesParser(source)
+    sink = JSONFileSink(parser, 'covid_daily_cases.json')
+    Sequence(source, parser, sink, 'daily_cases')
 
-        source = HTTPResponseSource('https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquotenmonitoring.xlsx?__blob=publicationFile')
-        parser = DailyVaccinationsParser(source)
-        sink = JSONFileSink(parser, 'covid_daily_vaccinations.json')
-        Sequence(source, parser, sink, 'daily_vaccinations')
+    source = HTTPResponseSource('https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquotenmonitoring.xlsx?__blob=publicationFile')
+    parser = DailyVaccinationsParser(source)
+    sink = JSONFileSink(parser, 'covid_daily_vaccinations.json')
+    Sequence(source, parser, sink, 'daily_vaccinations')
 
-        source = HTTPResponseSource('https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile')
-        parser = WeeklyTestsParser(source)
-        sink = JSONFileSink(parser, 'covid_weekly_tests.json')
-        Sequence(source, parser, sink, 'weekly_tests')
+    source = HTTPResponseSource('https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile')
+    parser = WeeklyTestsParser(source)
+    sink = JSONFileSink(parser, 'covid_weekly_tests.json')
+    Sequence(source, parser, sink, 'weekly_tests')
 
 
 if __name__ == '__main__':
