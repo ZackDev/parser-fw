@@ -7,7 +7,7 @@ target_dir="/assets/json/"
 num_args=$#
 
 if [ $num_args -eq 2 ]; then
-  cd script_base_dir
+  cd $script_base_dir
   python3 InfoGetSetPrototype.py -s $1
   if [ -f $2 ]; then
     cd $jekyll_base_dir
