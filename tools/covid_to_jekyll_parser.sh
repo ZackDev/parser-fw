@@ -13,7 +13,7 @@ if [ $num_args -eq 2 ]; then
     cd $jekyll_base_dir
     git pull
     cd $script_base_dir
-    ./tools/diff_files.sh $json_file $jekyll_base_dir$target_dir$json_file
+    ./tools/diff_files.sh $2 $jekyll_base_dir$target_dir$2
     ecode=$?
     if [ $ecode -eq 0 ]; then
       mv $2 $jekyll_base_dir$target_dir
