@@ -23,7 +23,9 @@ if [ $num_args -eq 2 ]; then
       git push
       echo "copied output file to jekyll directory. set git commit message."
     else
-      echo "files are equal. not copying."
+      echo "files are equal. removing artifact."
+      cd $script_base_dir
+      rm $2
     fi
   else
     echo "expected file not found"
