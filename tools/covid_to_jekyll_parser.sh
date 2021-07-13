@@ -9,27 +9,32 @@ num_args=$#
 if [ $num_args -eq 2 ]; then
   cd $script_base_dir
   python3 InfoGetSetPrototype.py -s $1
-  if [ -f $2 ]; then
-    cd $jekyll_base_dir
-    git pull
-    cd $script_base_dir
-    ./tools/diff_files.sh $2 $jekyll_base_dir$target_dir$2
-    ecode=$?
-    if [ $ecode -eq 0 ]; then
-      mv $2 $jekyll_base_dir$target_dir
+  ecode=$?
+  if [ $ecode -eq 0 ]; then
+    if [ -f $2 ]; then
       cd $jekyll_base_dir
-      git add ./$target_dir$2
-      git commit -m "automated dataset update"
-      git push
-      echo "copied output file to jekyll directory. set git commit message."
-    else
-      echo "files are equal. removing artifact."
+      git pull
       cd $script_base_dir
-      rm $2
+      ./tools/diff_files.sh $2 $jekyll_base_dir$target_dir$2
+      ecode=$?
+      if [ $ecode -eq 0 ]; then
+        mv $2 $jekyll_base_dir$target_dir
+        cd $jekyll_base_dir
+        git add ./$target_dir$2
+        git commit -m "automated dataset update"
+        git push
+        echo "copied output file to jekyll directory. set git commit message."
+      else
+        echo "files are equal. removing artifact."
+        cd $script_base_dir
+        rm $2
+      fi
+    else
+      echo "expected file not found"
+      exit 1
     fi
   else
-    echo "expected file not found"
-    exit 1
+    echo "InfoGetSetPrototype.py exited with" $ecode
   fi
 else
   echo "error: script takes two arguments:"
