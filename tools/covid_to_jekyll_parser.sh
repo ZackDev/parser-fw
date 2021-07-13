@@ -35,6 +35,7 @@ if [ $num_args -eq 2 ]; then
     fi
   else
     echo "InfoGetSetPrototype.py exited with" $ecode
+    exit 1
   fi
 else
   echo "error: script takes two arguments:"
