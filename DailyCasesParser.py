@@ -93,7 +93,7 @@ class DailyCasesParser(AbstractParser):
                         if case < last_case:
                             raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
                     last_case = case
-                    index++
+                    index+=1
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
