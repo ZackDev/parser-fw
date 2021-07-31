@@ -85,6 +85,16 @@ class DailyCasesParser(AbstractParser):
                     else:
                         raise TypeError('case is not numeric.')
 
+                ''' check if day-to-day cases are decreasing '''
+                last_case = 0
+                index = 0
+                for case in cases:
+                    if index > 0:
+                        if case < last_case:
+                            raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
+                    last_case = case
+                    index++
+
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
                 raise DataLengthUnequalError('dates and cases array length not equal.')
