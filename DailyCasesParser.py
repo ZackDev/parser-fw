@@ -99,6 +99,7 @@ class DailyCasesParser(AbstractParser):
                                 raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
                             elif self.strict == False:
                                 cases[index] = last_case
+                                case = last_case
                     last_case = case
                     index+=1
 
