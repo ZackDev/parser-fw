@@ -10,6 +10,10 @@ class DataLengthZeroError(Exception):
     pass
 
 class DailyCasesParser(AbstractParser):
+    def __init__(self, source, strict):
+        AbstractParser.__init__(self, source)
+        self.strict = strict
+
     def _parse(self, data):
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
             raw_dates = None
@@ -91,7 +95,10 @@ class DailyCasesParser(AbstractParser):
                 for case in cases:
                     if index > 0:
                         if case < last_case:
-                            raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
+                            if self.strict == True:
+                                raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
+                            elif self.strict == False:
+                                cases[index] = last_case
                     last_case = case
                     index+=1
 
