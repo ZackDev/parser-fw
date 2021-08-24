@@ -1,13 +1,8 @@
 from abstract.AbstractParser import AbstractParser
+from parser.Exceptions import DataLengthZeroError
+from parser.Exceptions import DataLengthUnequalError
 from io import BytesIO
 from openpyxl import load_workbook
-
-class DataLengthUnequalError(Exception):
-    pass
-
-class DataLengthZeroError(Exception):
-    pass
-
 
 class WeeklyTestsParser(AbstractParser):
 

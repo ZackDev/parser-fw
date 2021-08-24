@@ -1,13 +1,9 @@
 from abc import ABC
 from abstract.AbstractParser import AbstractParser
+from parser.Exceptions import DataLengthZeroError
+from parser.Exceptions import DataLengthUnequalError
 from io import StringIO
 import csv
-
-class DataLengthUnequalError(Exception):
-    pass
-
-class DataLengthZeroError(Exception):
-    pass
 
 class DailyCasesParser(AbstractParser):
     def __init__(self, source, strict):
