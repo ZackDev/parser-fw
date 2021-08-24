@@ -93,7 +93,6 @@ class WeeklyTestsParser(AbstractParser):
 
                 if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
                     print('no data extracted. ending programm.')
-                    exit(1)
                     raise DataLengthZeroError('calendar_weeks and weekly_tests array length is zero.')
 
                 dict = {'calendar_weeks':calendar_weeks, 'weekly_tests':weekly_tests}
