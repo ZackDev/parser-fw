@@ -50,6 +50,11 @@ class Sequence:
         SequenceRegister().register_sequence(self)
 
     def run(self):
-        self.source.run()
-        self.parser.run()
-        self.sink.run()
+        try:
+            self.source.run()
+            self.parser.run()
+            self.sink.run()
+        except Exception as e:
+            print(f'exception {e}')
+            exit(1)
+        exit(0)
