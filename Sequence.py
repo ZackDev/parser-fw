@@ -9,6 +9,7 @@ new():                  singleton pattern instantiation
 register_sequence():    add a Sequence to the register
 has_sequence():         indicates weather a Sequence with the provided_name exists
 get_sequence():         returns a Sequence identified by sequence_name or None
+get_sequences():        returns a dictionary containing all registered sequences
 '''
 class SequenceRegister(object):
     instance = None
