@@ -1,5 +1,5 @@
 from abc import ABC
-from AbstractSource import AbstractSource
+from abstract.AbstractSource import AbstractSource
 import requests
 
 class HTTPResponseSource(AbstractSource):

@@ -1,5 +1,5 @@
 from abc import ABC
-from AbstractSink import AbstractSink
+from abstract.AbstractSink import AbstractSink
 import json
 
 class JSONFileSink(AbstractSink):

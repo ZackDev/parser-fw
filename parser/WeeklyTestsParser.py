@@ -1,4 +1,4 @@
-from AbstractParser import AbstractParser
+from abstract.AbstractParser import AbstractParser
 from io import BytesIO
 from openpyxl import load_workbook
 

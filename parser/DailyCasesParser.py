@@ -1,5 +1,5 @@
 from abc import ABC
-from AbstractParser import AbstractParser
+from abstract.AbstractParser import AbstractParser
 from io import StringIO
 import csv
 

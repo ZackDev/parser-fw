@@ -1,6 +1,6 @@
-from AbstractSource import AbstractSource
-from AbstractSink import AbstractSink
-from AbstractParser import AbstractParser
+from abstract.AbstractSource import AbstractSource
+from abstract.AbstractSink import AbstractSink
+from abstract.AbstractParser import AbstractParser
 
 
 '''
@@ -29,6 +29,9 @@ class SequenceRegister(object):
 
     def get_sequence(self, sequence_name):
         return self.registered_sequences[sequence_name]
+
+    def get_sequences(self):
+        return self.registered_sequences;
 
 '''
 sequence class used to define a sequence of Source, Parse and Sink
