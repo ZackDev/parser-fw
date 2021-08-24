@@ -67,5 +67,5 @@ class ICUOccupancyParser(AbstractParser):
             raise DataLengthZeroError()
 
         else:
-            dict = { 'dates' : dates, 'icou_free' : icou_free_array, 'icou_covid' : icou_covid_array }
+            dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }
             self.parsed_data = dict
