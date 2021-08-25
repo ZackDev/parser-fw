@@ -48,8 +48,4 @@ if __name__ == '__main__':
             exit(1)
     else:
         arg_parser.print_help()
-        print('available sequences:')
-        sequences = SequenceRegister().get_sequences()
-        for seq in sequences:
-            print(seq.sequence_name)
         exit(1)
