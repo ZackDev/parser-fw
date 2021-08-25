@@ -28,6 +28,6 @@ def strToInteger(input, sign='*'):
             else:
                 raise ValueError(f'input: {input} sign: {sign} does not match criteria.')
         else:
-            raise Exception(f'sign: {sign} not supported.')
+            raise ValueError(f'sign: {sign} not supported.')
     else:
         raise TypeError('input is not a string.')

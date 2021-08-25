@@ -8,7 +8,9 @@ class ValidatorsTest(unittest.TestCase):
 
         self.assertEqual(strToInteger('-123', '-'), -123)
 
-        with self.assertRaises(Exception):
+        self.assertEqual(strToInteger('999999999'), 999999999)
+
+        with self.assertRaises(ValueError):
             strToInteger('123', '-')
 
         with self.assertRaises(TypeError):
