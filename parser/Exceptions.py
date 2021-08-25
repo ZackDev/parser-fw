@@ -3,3 +3,6 @@ class DataLengthUnequalError(Exception):
 
 class DataLengthZeroError(Exception):
     pass
+
+class ParserException(Exception):
+    pass

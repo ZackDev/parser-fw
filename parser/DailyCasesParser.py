@@ -2,6 +2,8 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Exceptions import ParserException
+from parser.Validators import strToInteger
 from io import StringIO
 import csv
 
@@ -48,12 +50,12 @@ class DailyCasesParser(AbstractParser):
                     date_array = raw_date.split('/')
                     day, month, year = None, None, None
                     if len(date_array) == 3:
-                        if date_array[0].isdecimal() and date_array[1].isdecimal() and date_array[2].isdecimal():
-                            day = int(date_array[1])
-                            month = int(date_array[0])
-                            year = int(date_array[2])
-                        else:
-                            raise TypeError("day, month and year aren't decimals.")
+                        try:
+                            day = strToInteger(date_array[1], '+')
+                            month = strToInteger(date_array[0], '+')
+                            year = strToInteger(date_array[2], '+')
+                        except Exception as e:
+                            raise ParserException(e)
                     else:
                         raise ValueError('raw_date array length is not 3.')
 
@@ -76,14 +78,11 @@ class DailyCasesParser(AbstractParser):
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
-                    if raw_case.isdecimal():
-                        case = int(raw_case)
-                        if case >= 0:
-                            cases.append(case)
-                        else:
-                            raise ValueError('case is negative.')
-                    else:
-                        raise TypeError('case is not numeric.')
+                    try:
+                        case = strToInteger(raw_case, '+')
+                        cases.append(case)
+                    except Exception as e:
+                        raise ParserException(e)
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0
