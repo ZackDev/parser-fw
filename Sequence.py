@@ -1,7 +1,6 @@
-from abstract.AbstractSource import AbstractSource
-from abstract.AbstractSink import AbstractSink
-from abstract.AbstractParser import AbstractParser
-
+from abstract.AbstractSource import AbstractSource, SourceError
+from abstract.AbstractParser import AbstractParser, ParserError
+from abstract.AbstractSink import AbstractSink, SinkError
 
 '''
 singleton register for adding and retrieving Sequence objects
@@ -55,7 +54,16 @@ class Sequence:
             self.source.run()
             self.parser.run()
             self.sink.run()
+        except SourceError as e:
+            print(f'SourceError: {e}')
+            exit(1)
+        except ParserError as e:
+            print(f'ParserError {e}')
+            exit(1)
+        except SinkError as e:
+            print(f'SinkError {e}')
+            exit(1)
         except Exception as e:
-            print(f'exception {e}')
+            print(f'Exception {e}')
             exit(1)
         exit(0)
