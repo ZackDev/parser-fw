@@ -17,11 +17,7 @@ class JSONTest(unittest.TestCase):
             self.assertEqual(json.dumps(None), 'null')
 
         with self.subTest():
-            self.assertEqual(json.dumps('"{/}"'), '""')
+            self.assertEqual(json.dumps('null'), '"null"')
 
         with self.subTest():
-            self.assertEqual(json.dumps('"{/}"'), '""')
-
-        with self.subTest():
-            with self.assertRaises(json.JSONDecodeError):
-                json.loads('"{/}"')
+            self.assertNotEqual(json.dumps('"{/}"'), '""')
