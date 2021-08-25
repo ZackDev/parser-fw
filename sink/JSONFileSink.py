@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractSink import AbstractSink
+from abstract.AbstractSink import AbstractSink, SinkError
 import json
 
 class JSONFileSink(AbstractSink):
@@ -17,6 +17,6 @@ class JSONFileSink(AbstractSink):
                 with open(self.target, 'w') as file:
                     file.write(json_data)
             except Exception as e:
-                raise Exception(e)
+                raise SinkError(e)
         else:
             raise Exception('JSONFileSink: json_data is None')
