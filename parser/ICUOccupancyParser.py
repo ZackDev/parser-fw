@@ -2,6 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Validators import strToInteger
 import logging
 from io import StringIO
 import csv
@@ -29,21 +30,8 @@ class ICUOccupancyParser(AbstractParser):
                     temp_icou_covid = line[6]
                     temp_icou_free = line[7]
 
-                    try:
-                        temp_icou_covid = int(temp_icou_covid)
-                    except:
-                        raise TypeError(f'error casting temp_icou_covid to integer: {temp_icou_covid}')
-
-                    try:
-                        temp_icou_free = int(temp_icou_free)
-                    except:
-                        raise TypeError(f'error casting temp_icou_free to integer: {temp_icou_free}')
-
-                    if temp_icou_covid <= -1:
-                        raise ValueError(f'temp_icou_covid is negative')
-
-                    if temp_icou_free <= -1:
-                        raise ValueError(f'temp_icou_free is negative')
+                    temp_icou_covid = strToInteger(temp_icou_covid, '+')
+                    temp_icou_free = strToInteger(temp_icou_free, '+')
 
                     if date == '':
                         date = temp_date
