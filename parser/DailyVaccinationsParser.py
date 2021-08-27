@@ -1,6 +1,7 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Validators import strToInteger
 import logging
 from io import BytesIO
 from openpyxl import load_workbook
@@ -11,7 +12,7 @@ class DailyVaccinationsParser(AbstractParser):
         logger = logging.getLogger(__name__)
         logger.info('_parse() called.')
         logger.debug(f'with xmldata: {xmldata}')
-        
+
         with BytesIO(xmldata) as daily_vaccinations:
             wb = load_workbook(daily_vaccinations)
             if wb.sheetnames.count('Impfungen_proTag') != 1:
@@ -44,25 +45,23 @@ class DailyVaccinationsParser(AbstractParser):
                             raw_date = raw_date_str.split(' ')[0]
                             raw_date_array = raw_date.split('.')
                             if len(raw_date_array) == 3:
-                                if raw_date_array[0].isdecimal() and raw_date_array[1].isdecimal() and raw_date_array[2].isdecimal():
-                                    raw_day = int(raw_date_array[0])
-                                    raw_month = int(raw_date_array[1])
-                                    raw_year = int(raw_date_array[2])
-                                    if (2020 <= raw_year) and (1 <= raw_month <= 12) and (1 <= raw_day <= 31):
-                                        if raw_day < 10:
-                                            day = f'0{raw_day}'
-                                        else:
-                                            day = str(raw_day)
-                                        if raw_month < 10:
-                                            month = f'0{raw_month}'
-                                        else:
-                                            month = str(raw_month)
-                                        year = str(raw_year)
-                                        dates.append(f'{year}-{month}-{day}')
+                                raw_day = strToInteger(raw_date_array[0], '+')
+                                raw_month = strToInteger(raw_date_array[1], '+')
+                                raw_year = strToInteger(raw_date_array[2], '+')
+                                if (2020 <= raw_year) and (1 <= raw_month <= 12) and (1 <= raw_day <= 31):
+                                    if raw_day < 10:
+                                        day = f'0{raw_day}'
                                     else:
-                                        raise ValueError('day, month or year not in expected range.')
+                                        day = str(raw_day)
+                                    if raw_month < 10:
+                                        month = f'0{raw_month}'
+                                    else:
+                                        month = str(raw_month)
+                                    year = str(raw_year)
+                                    dates.append(f'{year}-{month}-{day}')
+                                    logger.debug(f'appended date: {date}')
                                 else:
-                                    raise TypeError('day, month or year not numeric.')
+                                    raise ValueError('day, month or year not in expected range.')
                             elif raw_date_array[0] == 'Gesamt':
                                 parsed_all_dates = True
                                 break
@@ -72,28 +71,22 @@ class DailyVaccinationsParser(AbstractParser):
                         # the primary vaccinations column
                         elif col_index == 1:
                             raw_p_vacc = str(col.value)
-                            if raw_p_vacc.isdecimal():
-                                p_vacc = int(raw_p_vacc)
-                                if p_vacc >= 0:
-                                    primary_vaccinations.append(p_vacc)
-                                else:
-                                    raise ValueError('primary vaccinations negative.')
-                            else:
-                                raise TypeError('primary vaccinations not numeric.')
+                            p_vacc = strToInteger(raw_p_vacc, '+')
+                            primary_vaccinations.append(p_vacc)
+                            logger.debug(f'appended p_vacc: {p_vacc}')
 
                         # the secondary vaccinations column
                         elif col_index == 2:
                             raw_s_vacc = str(col.value)
-                            if raw_s_vacc.isdecimal():
-                                s_vacc = int(raw_s_vacc)
-                                if s_vacc >= 0:
-                                    secondary_vaccinations.append(s_vacc)
-                                else:
-                                    raise TypeError('secondary vaccinations not numeric.')
-                            elif raw_s_vacc is None or raw_s_vacc == 'None':
-                                secondary_vaccinations.append(int(0))
+                            # for dates without secondary vaccinations cell
+                            if raw_s_vacc is None or raw_s_vacc == 'None':
+                                s_vacc = 0
+                                secondary_vaccinations.append(s_vacc)
+                                logger.debug(f'appended s_vacc: {s_vac}')
                             else:
-                                raise ValueError('secondary vaccinations not numeric nor default zero.')
+                                s_vacc = strToInteger(raw_s_vacc, '+')
+                                secondary_vaccinations.append(s_vacc)
+                                logger.debug(f'appended s_vacc: {s_vac}')
                         col_index +=1
                 row_index +=1
 
