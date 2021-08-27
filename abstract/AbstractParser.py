@@ -1,6 +1,6 @@
-import logging
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import logging
 
 class ParserError(Exception):
     pass
@@ -15,19 +15,21 @@ the abstract parser, where all concrete parser classes should be derived from
 '''
 class AbstractParser(ABC):
     def __init__(self, source):
-        logging.debug('AbstractParser: __init__() called.')
-        logging.debug(f'with parameter source: {source}')
+        logger = logging.getLogger(__name__)
+        logger.debug('__init__() called.')
+        logger.debug(f'with parameter source: {source}')
         self.source = source
 
     def run(self):
-        logging.debug('AbstractParser: run() called.')
+        logger = logging.getLogger(__name__)
+        logger.debug('AbstractParser: run() called.')
         try:
-            logging.debug('AbstractParser: _parse() called.')
-            logging.debug(f'with parameter data: {self.source.data}')
+            logger.debug('AbstractParser: _parse() called.')
+            logger.debug(f'with parameter data: {self.source.data}')
             self._parse(self.source.data)
         except Exception as e:
             raise ParserError(e)
-        logging.debug('AbstractParser: run() finished.')
+        logger.debug('AbstractParser: run() finished.')
 
     @abstractmethod
     def _parse(self, data):

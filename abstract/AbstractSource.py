@@ -1,6 +1,6 @@
-import logging
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import logging
 
 class SourceError(Exception):
     pass
@@ -14,17 +14,19 @@ the abstract source, where all concrete sources should be derived from
 '''
 class AbstractSource(ABC):
     def __init__(self, source):
-        logging.debug('AbstractSource: __init__() called.')
-        logging.debug(f'with parameter source: {source}')
+        logger = logging.getLogger(__name__)
+        logger.debug('AbstractSource: __init__() called.')
+        logger.debug(f'with parameter source: {source}')
         self.source = source
 
     def run(self):
-        logging.debug('AbstractSource: run() called.')
+        logger = logging.getLogger(__name__)
+        logger.debug('AbstractSource: run() called.')
         try:
             self._get_data()
         except Exception as e:
             raise SourceError(e)
-        logging.debug('AbstractSource: run() finished.')
+        logger.debug('AbstractSource: run() finished.')
 
     @abstractmethod
     def _get_data(self):

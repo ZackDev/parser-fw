@@ -1,6 +1,6 @@
-import logging
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import logging
 
 class SinkError(Exception):
     pass
@@ -15,21 +15,23 @@ the abstract sink, where all concrete sinks should be derived from
 '''
 class AbstractSink(ABC):
     def __init__(self, parser, target):
-        logging.debug('AbstractSink: __init__() called.')
-        logging.debug(f'with parameter parser: {parser}')
-        logging.debug(f'with parameter target: {target}')
+        logger = logging.getLogger(__name__)
+        logger.debug('__init__() called.')
+        logger.debug(f'with parameter parser: {parser}')
+        logger.debug(f'with parameter target: {target}')
         self.parser = parser
         self.target = target
 
     def run(self):
-        logging.debug('AbstractSink: run() called.')
+        logger = logging.getLogger(__name__)
+        logger.debug('AbstractSink: run() called.')
         try:
-            logging.debug(f'with data: {self.data}')
+            logger.debug(f'with data: {self.parser.parsed_data}')
             self.data = self.parser.parsed_data
             self._store()
         except Exception as e:
             raise SinkError(e)
-        logging.debug('AbstractSink: run() finished.')
+        logger.debug('AbstractSink: run() finished.')
 
     @abstractmethod
     def _store(self):

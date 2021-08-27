@@ -1,3 +1,4 @@
+import logging
 from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
@@ -9,10 +10,17 @@ import csv
 
 class DailyCasesParser(AbstractParser):
     def __init__(self, source, strict):
+        logger = logging.getLogger(__name__)
+        logger.debug('__init__() called.')
+        logger.debug(f'with parameter source: {source}')
+        logger.debug(f'with parameter strict: {strict}')
         AbstractParser.__init__(self, source)
         self.strict = strict
 
     def _parse(self, data):
+        logger = logging.getLogger(__name__)
+        logger.debug('DailyCasesParser: _parse() called.')
+        logger.debug(f'with parameter data: {data}')
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
             raw_dates = None
             raw_cases = None
