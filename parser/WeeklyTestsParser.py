@@ -1,6 +1,7 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Validators import strToInteger
 from io import BytesIO
 from openpyxl import load_workbook
 
@@ -10,7 +11,7 @@ class WeeklyTestsParser(AbstractParser):
         logger = logging.getLogger(__name__)
         logger.info('_parse() called.')
         logger.debug(f'with xmldata: {xmldata}')
-        
+
         with BytesIO(xmldata) as weekly_tests:
             wb = load_workbook(weekly_tests)
             if wb.sheetnames.count('1_Testzahlerfassung') != 1:
@@ -33,11 +34,10 @@ class WeeklyTestsParser(AbstractParser):
                     break
                 if row_index == 1:
                     calendar_weeks.append(f'2020-W10')
-                    if str(row[2].value).isdecimal():
-                        weekly_tests.append(int(row[2].value))
-                    else:
-                        parse_error = True
-                        raise TypeError('expected decimal not found.')
+                    test_count = row[2].value
+                    test_count = strToInteger(test_count, '+')
+                    weekly_tests.append(test_count)
+                    logger.debug(f'appended {test_count}')
                 elif row_index >= 2:
                     if row[0].value == 'Summe' or row[0].value is None:
                         break
