@@ -13,13 +13,17 @@ the abstract source, where all concrete sources should be derived from
 '''
 class AbstractSource(ABC):
     def __init__(self, source):
+        logging.debug('AbstractSource: __init__() called.')
+        logging.debug(f'with parameter source: {source}')
         self.source = source
 
     def run(self):
+        logging.debug('AbstractSource: run() called.')
         try:
             self._get_data()
         except Exception as e:
             raise SourceError(e)
+        logging.debug('AbstractSource: run() finished.')
 
     @abstractmethod
     def _get_data(self):
