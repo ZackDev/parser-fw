@@ -41,8 +41,9 @@ if __name__ == '__main__':
         available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
         cnt = available_loglevels.count(loglevel*10)
         if cnt == 1:
-            logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s parser-fw: %(message)s')
-            logging.info(f'called with loglevel: {loglevel}')
+            logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
+            logger = logging.getLogger(__name__)
+            logger.info(f'program started.')
         else:
             print(f'provided loglevel not recognized.')
     else:
