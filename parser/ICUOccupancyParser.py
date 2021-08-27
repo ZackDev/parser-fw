@@ -2,11 +2,16 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+import logging
 from io import StringIO
 import csv
 
 class ICUOccupancyParser(AbstractParser):
     def _parse(self, data):
+        logger = logging.getLogger(__name__)
+        logger.info('_parse() called.')
+        logger.debug(f'with data: {data}')
+
         dict = None
         dates = []
         icou_free_array = []

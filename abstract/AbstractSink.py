@@ -19,18 +19,21 @@ class AbstractSink(ABC):
         logger.debug('__init__() called.')
         logger.debug(f'with parameter parser: {parser}')
         logger.debug(f'with parameter target: {target}')
+
         self.parser = parser
         self.target = target
 
     def run(self):
         logger = logging.getLogger(__name__)
         logger.debug('AbstractSink: run() called.')
+
         try:
             logger.debug(f'with data: {self.parser.parsed_data}')
             self.data = self.parser.parsed_data
             self._store()
         except Exception as e:
             raise SinkError(e)
+
         logger.debug('AbstractSink: run() finished.')
 
     @abstractmethod

@@ -1,12 +1,17 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+import logging
 from io import BytesIO
 from openpyxl import load_workbook
 
 class DailyVaccinationsParser(AbstractParser):
 
     def _parse(self, xmldata):
+        logger = logging.getLogger(__name__)
+        logger.info('_parse() called.')
+        logger.debug(f'with xmldata: {xmldata}')
+        
         with BytesIO(xmldata) as daily_vaccinations:
             wb = load_workbook(daily_vaccinations)
             if wb.sheetnames.count('Impfungen_proTag') != 1:

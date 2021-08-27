@@ -7,6 +7,10 @@ from openpyxl import load_workbook
 class WeeklyTestsParser(AbstractParser):
 
     def _parse(self, xmldata):
+        logger = logging.getLogger(__name__)
+        logger.info('_parse() called.')
+        logger.debug(f'with xmldata: {xmldata}')
+        
         with BytesIO(xmldata) as weekly_tests:
             wb = load_workbook(weekly_tests)
             if wb.sheetnames.count('1_Testzahlerfassung') != 1:

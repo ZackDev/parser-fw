@@ -17,15 +17,18 @@ class AbstractSource(ABC):
         logger = logging.getLogger(__name__)
         logger.debug('AbstractSource: __init__() called.')
         logger.debug(f'with parameter source: {source}')
+
         self.source = source
 
     def run(self):
         logger = logging.getLogger(__name__)
         logger.debug('AbstractSource: run() called.')
+
         try:
             self._get_data()
         except Exception as e:
             raise SourceError(e)
+            
         logger.debug('AbstractSource: run() finished.')
 
     @abstractmethod
