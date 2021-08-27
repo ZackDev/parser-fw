@@ -2,7 +2,6 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Exceptions import ParserException
 from parser.Validators import strToInteger
 from io import StringIO
 import logging
@@ -22,7 +21,7 @@ class DailyCasesParser(AbstractParser):
         logger = logging.getLogger(__name__)
         logger.info('_parse() called.')
         logger.debug(f'with parameter data: {data}')
-        
+
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
             raw_dates = None
             raw_cases = None
@@ -60,12 +59,9 @@ class DailyCasesParser(AbstractParser):
                     date_array = raw_date.split('/')
                     day, month, year = None, None, None
                     if len(date_array) == 3:
-                        try:
-                            day = strToInteger(date_array[1], '+')
-                            month = strToInteger(date_array[0], '+')
-                            year = strToInteger(date_array[2], '+')
-                        except Exception as e:
-                            raise ParserException(e)
+                        day = strToInteger(date_array[1], '+')
+                        month = strToInteger(date_array[0], '+')
+                        year = strToInteger(date_array[2], '+')
                     else:
                         raise ValueError('raw_date array length is not 3.')
 
@@ -88,11 +84,8 @@ class DailyCasesParser(AbstractParser):
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
-                    try:
-                        case = strToInteger(raw_case, '+')
-                        cases.append(case)
-                    except Exception as e:
-                        raise ParserException(e)
+                    case = strToInteger(raw_case, '+')
+                    cases.append(case)
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0
