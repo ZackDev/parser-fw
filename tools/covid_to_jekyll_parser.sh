@@ -6,9 +6,12 @@ target_dir="/assets/json/"
 
 num_args=$#
 
-if [ $num_args -eq 2 ]; then
+if [ $num_args -eq 3 ]; then
+  #1 - name of sequence
+  #2 - name of output file
+  #3 - log level
   cd $script_base_dir
-  python3 InfoGetSetPrototype.py -s $1
+  python3 InfoGetSetPrototype.py -s $1 -l $3
   ecode=$?
   if [ $ecode -eq 0 ]; then
     if [ -f $2 ]; then
