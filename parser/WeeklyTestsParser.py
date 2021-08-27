@@ -48,9 +48,9 @@ class WeeklyTestsParser(AbstractParser):
                             raw_week_array = raw_calendar_week.split('/')
                             raw_week = None
                             raw_year = None
-                            if str(raw_week_array[0]).isdecimal() and str(raw_week_array[1]).isdecimal() and len(raw_week_array) == 2:
-                                raw_week = int(raw_week_array[0])
-                                raw_year = int(raw_week_array[1])
+                            if len(raw_week_array) == 2:
+                                raw_week = strToInteger(raw_week_array[0], '+')
+                                raw_year = strToInteger(raw_week_array[1], '+')
                             else:
                                 parse_error = True
                                 print('error: parsing raw_week_array.')
@@ -67,28 +67,23 @@ class WeeklyTestsParser(AbstractParser):
                             if raw_year is not None and raw_year >= 2020 and raw_year <= 9999:
                                 calendar_week = f'{raw_year}-W{week}'
                                 calendar_weeks.append(calendar_week)
+                                logger.debug(f'appended {calendar_week}')
                             else:
                                 parse_error = True
                                 print('error: parsing raw_year.')
                                 break
 
                         elif col_index == 1:
-                            tests = None
-                            if str(col.value).isdecimal():
-                                tests = int(col.value)
-                            else:
-                                parse_error = True
-                                print('error: parsing tests.')
-                                break
-                            if tests is not None and tests >= 0:
-                                weekly_tests.append(tests)
+                            tests = strToInteger(col.value, '+')
+                            weekly_tests.append(tests)
+                            logger.debug(f'appended {tests}')
                         col_index +=1
                 row_index +=1
 
             if parse_error is False:
                 ''' data consistency check, length calendar_weeks equals length weekly_tests '''
                 if len(calendar_weeks) != len(weekly_tests):
-                    raise DataLengthUnequalError('calendar_weeks and weekly_tests array length not equal.')
+                    raise DataLengthUnequalError(f'calendar_weeks and weekly_tests array length not equal. {len(calendar_weeks)} != {len(weekly_tests)}')
 
                 if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
                     print('no data extracted. ending programm.')
