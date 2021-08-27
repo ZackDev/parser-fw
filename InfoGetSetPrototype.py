@@ -1,4 +1,5 @@
 import argparse
+import logging
 from Sequence import Sequence
 from Sequence import SequenceRegister
 from source.HTTPResponseSource import HTTPResponseSource
@@ -33,7 +34,20 @@ def init_sequences():
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("-s", "--sequence", type=str)
+    arg_parser.add_argument("-l", "--loglevel", type=int)
     args = arg_parser.parse_args()
+    if (args.loglevel):
+        loglevel = args.loglevel
+        available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
+        cnt = available_loglevels.count(loglevel*10)
+        if cnt == 1:
+            logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s parser-fw: %(message)s')
+            logging.info(f'called with loglevel: {loglevel}')
+        else:
+            print(f'provided loglevel not recognized.')
+    else:
+        arg_parser.print_help()
+        exit(1)
     if (args.sequence):
         init_sequences()
         if SequenceRegister().has_sequence(args.sequence):

@@ -1,3 +1,4 @@
+import logging
 from abstract.AbstractSource import AbstractSource, SourceError
 from abstract.AbstractParser import AbstractParser, ParserError
 from abstract.AbstractSink import AbstractSink, SinkError
@@ -48,22 +49,25 @@ class Sequence:
         self.parser = parser
         self.sink = sink
         SequenceRegister().register_sequence(self)
+        logging.info(f'created sequence: {self.sequence_name}')
 
     def run(self):
         try:
+            logging.info(f'running sequence: {self.sequence_name}')
             self.source.run()
             self.parser.run()
             self.sink.run()
+            logging.info(f'finished sequence: {self.sequence_name}')
         except SourceError as e:
-            print(f'SourceError: {e}')
+            logging.critical(f'SourceError: {e}')
             exit(1)
         except ParserError as e:
-            print(f'ParserError {e}')
+            logging.critical(f'ParserError {e}')
             exit(1)
         except SinkError as e:
-            print(f'SinkError {e}')
+            logging.critical(f'SinkError {e}')
             exit(1)
         except Exception as e:
-            print(f'Exception {e}')
+            logging.critical(f'Exception {e}')
             exit(1)
         exit(0)
