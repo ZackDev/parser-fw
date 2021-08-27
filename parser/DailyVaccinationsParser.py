@@ -7,11 +7,13 @@ from io import BytesIO
 from openpyxl import load_workbook
 
 class DailyVaccinationsParser(AbstractParser):
+    def __init__(self, source):
+        self.logger = logging.getLogger(__name__)
+        super().__init__(self, source)
 
     def _parse(self, xmldata):
-        logger = logging.getLogger(__name__)
-        logger.info('_parse() called.')
-        logger.debug(f'with xmldata: {xmldata}')
+        self.logger.info('_parse() called.')
+        self.logger.debug(f'with xmldata: {xmldata}')
 
         with BytesIO(xmldata) as daily_vaccinations:
             wb = load_workbook(daily_vaccinations)
@@ -59,7 +61,7 @@ class DailyVaccinationsParser(AbstractParser):
                                         month = str(raw_month)
                                     year = str(raw_year)
                                     dates.append(f'{year}-{month}-{day}')
-                                    logger.debug(f'appended date: {date}')
+                                    self.logger.debug(f'appended date: {date}')
                                 else:
                                     raise ValueError('day, month or year not in expected range.')
                             elif raw_date_array[0] == 'Gesamt':
@@ -73,7 +75,7 @@ class DailyVaccinationsParser(AbstractParser):
                             raw_p_vacc = str(col.value)
                             p_vacc = strToInteger(raw_p_vacc, '+')
                             primary_vaccinations.append(p_vacc)
-                            logger.debug(f'appended p_vacc: {p_vacc}')
+                            self.logger.debug(f'appended p_vacc: {p_vacc}')
 
                         # the secondary vaccinations column
                         elif col_index == 2:
@@ -82,11 +84,11 @@ class DailyVaccinationsParser(AbstractParser):
                             if raw_s_vacc is None or raw_s_vacc == 'None':
                                 s_vacc = 0
                                 secondary_vaccinations.append(s_vacc)
-                                logger.debug(f'appended s_vacc: {s_vac}')
+                                self.logger.debug(f'appended s_vacc: {s_vac}')
                             else:
                                 s_vacc = strToInteger(raw_s_vacc, '+')
                                 secondary_vaccinations.append(s_vacc)
-                                logger.debug(f'appended s_vacc: {s_vac}')
+                                self.logger.debug(f'appended s_vacc: {s_vac}')
                         col_index +=1
                 row_index +=1
 

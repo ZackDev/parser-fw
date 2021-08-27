@@ -8,10 +8,13 @@ from io import StringIO
 import csv
 
 class ICUOccupancyParser(AbstractParser):
+    def __init__(self, source):
+        self.logger = logging.getLogger(__name__)
+        super().__init__(self, source)
+
     def _parse(self, data):
-        logger = logging.getLogger(__name__)
-        logger.info('_parse() called.')
-        logger.debug(f'with data: {data}')
+        self.logger.info('_parse() called.')
+        self.logger.debug(f'with data: {data}')
 
         dict = None
         dates = []

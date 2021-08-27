@@ -6,11 +6,14 @@ from io import BytesIO
 from openpyxl import load_workbook
 
 class WeeklyTestsParser(AbstractParser):
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        super().__init__(self, source)
 
     def _parse(self, xmldata):
-        logger = logging.getLogger(__name__)
-        logger.info('_parse() called.')
-        logger.debug(f'with xmldata: {xmldata}')
+
+        self.logger.info('_parse() called.')
+        self.logger.debug(f'with xmldata: {xmldata}')
 
         with BytesIO(xmldata) as weekly_tests:
             wb = load_workbook(weekly_tests)
@@ -37,7 +40,7 @@ class WeeklyTestsParser(AbstractParser):
                     test_count = row[2].value
                     test_count = strToInteger(test_count, '+')
                     weekly_tests.append(test_count)
-                    logger.debug(f'appended {test_count}')
+                    self.logger.debug(f'appended {test_count}')
                 elif row_index >= 2:
                     if row[0].value == 'Summe' or row[0].value is None:
                         break
@@ -67,7 +70,7 @@ class WeeklyTestsParser(AbstractParser):
                             if raw_year is not None and raw_year >= 2020 and raw_year <= 9999:
                                 calendar_week = f'{raw_year}-W{week}'
                                 calendar_weeks.append(calendar_week)
-                                logger.debug(f'appended {calendar_week}')
+                                self.logger.debug(f'appended {calendar_week}')
                             else:
                                 parse_error = True
                                 print('error: parsing raw_year.')
@@ -76,7 +79,7 @@ class WeeklyTestsParser(AbstractParser):
                         elif col_index == 1:
                             tests = strToInteger(col.value, '+')
                             weekly_tests.append(tests)
-                            logger.debug(f'appended {tests}')
+                            self.logger.debug(f'appended {tests}')
                         col_index +=1
                 row_index +=1
 
