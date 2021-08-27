@@ -1,9 +1,12 @@
-import logging
 from abc import ABC
 from abstract.AbstractSource import AbstractSource
+import logging
 import requests
 
 class HTTPResponseSource(AbstractSource):
+    def __init__(self, source):
+        self.logger = logging.getLogger(__name__)
+        super().__init__(self, source)
 
     def _get_data(self):
         logging.debug('AbstractSource: _get_data() called.')

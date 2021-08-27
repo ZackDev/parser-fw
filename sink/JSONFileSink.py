@@ -1,14 +1,16 @@
 from abc import ABC
 from abstract.AbstractSink import AbstractSink, SinkError
-import logging
 import json
+import logging
 
 class JSONFileSink(AbstractSink):
+    def __init__(self, parser, target):
+        self.logger = logging.getLogger(__name__)
+        super().__init__(parser, target)
 
     def _store(self):
-        logger = logging.getLogger(__name__)
-        logger.debug('_store() called.')
-        logger.debug(f'with data: {self.data}')
+        self.logger.debug('_store() called.')
+        self.logger.debug(f'with data: {self.data}')
         json_data = None
 
         json_data = json.dumps(self.data)
