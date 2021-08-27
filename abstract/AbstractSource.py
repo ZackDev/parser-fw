@@ -15,7 +15,7 @@ the abstract source, where all concrete sources should be derived from
 class AbstractSource(ABC):
     def __init__(self, source):
         logger = logging.getLogger(__name__)
-        logger.debug('AbstractSource: __init__() called.')
+        logger.debug('__init__() called.')
         logger.debug(f'with parameter source: {source}')
 
         self.source = source
@@ -28,8 +28,8 @@ class AbstractSource(ABC):
             self._get_data()
         except Exception as e:
             raise SourceError(e)
-            
-        logger.debug('AbstractSource: run() finished.')
+
+        logger.debug('run() finished.')
 
     @abstractmethod
     def _get_data(self):

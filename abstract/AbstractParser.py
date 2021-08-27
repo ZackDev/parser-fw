@@ -29,8 +29,8 @@ class AbstractParser(ABC):
             self._parse(self.source.data)
         except Exception as e:
             raise ParserError(e)
-            
-        logger.info('AbstractParser: run() finished.')
+
+        logger.info('run() finished.')
 
     @abstractmethod
     def _parse(self, data):
