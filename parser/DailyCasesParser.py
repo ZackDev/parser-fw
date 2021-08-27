@@ -36,9 +36,11 @@ class DailyCasesParser(AbstractParser):
             for line in csv_reader:
                 if index == 0:
                     raw_dates = line[4:]
+                    logger.debug(f'raw_dates: {raw_dates}')
                 elif index > 0:
                     if line[1] == 'Germany':
                         raw_cases = line[4:]
+                        logger.debug(f'raw_cases: {raw_cases}')
                         break
                 index+=1
 
@@ -80,12 +82,15 @@ class DailyCasesParser(AbstractParser):
                         raise ValueError('month not in expected range.')
 
                     year = f'20{year}'
-                    dates.append(f"{year}-{month}-{day}")
+                    date = f'{year}-{month}-{day}'
+                    dates.append(date)
+                    logger.debug(f'appended date: {date}')
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
                     case = strToInteger(raw_case, '+')
                     cases.append(case)
+                    logger.debug(f'appended case: {case}')
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0
