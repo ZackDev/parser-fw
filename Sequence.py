@@ -1,7 +1,7 @@
-import logging
 from abstract.AbstractSource import AbstractSource, SourceError
 from abstract.AbstractParser import AbstractParser, ParserError
 from abstract.AbstractSink import AbstractSink, SinkError
+import logging
 
 '''
 singleton register for adding and retrieving Sequence objects
@@ -44,35 +44,46 @@ registers the provided sequence name at the SequenceRegister
 '''
 class Sequence:
     def __init__(self, source, parser, sink, sequence_name):
+        logger = logging.getLogger(__name__)
+        logger.info('__init__() called.')
+        logger.debug(f'with parameter source: {source}')
+        logger.debug(f'with parameter parser: {parser}')
+        logger.debug(f'with parameter sink: {sink}')
+        logger.debug(f'with parameter sequence_name: {sequence_name}')
+
         self.sequence_name = sequence_name
         self.source = source
         self.parser = parser
         self.sink = sink
         SequenceRegister().register_sequence(self)
+
         logging.info(f'created sequence: {self.sequence_name}')
 
     def run(self):
+        logger = logging.getLogger(__name__)
+        logger.info('run() called.')
+
         try:
-            logging.info(f'running sequence: {self.sequence_name}')
+            logger.info(f'running sequence: {self.sequence_name}')
             self.source.run()
             self.parser.run()
             self.sink.run()
-            logging.info(f'finished sequence: {self.sequence_name}')
+            logger.info(f'finished sequence: {self.sequence_name}')
         except SourceError as e:
-            logging.critical(f'SourceError: {e}')
-            logging.critical('exiting program due to critical error.')
+            logger.critical(f'SourceError: {e}')
+            logger.critical('exiting program due to critical error.')
             exit(1)
         except ParserError as e:
-            logging.critical(f'ParserError {e}')
-            logging.critical('exiting program due to critical error.')
+            logger.critical(f'ParserError {e}')
+            logger.critical('exiting program due to critical error.')
             exit(1)
         except SinkError as e:
-            logging.critical(f'SinkError {e}')
-            logging.critical('exiting program due to critical error.')
+            logger.critical(f'SinkError {e}')
+            logger.critical('exiting program due to critical error.')
             exit(1)
         except Exception as e:
-            logging.critical(f'Exception {e}')
-            logging.critical('exiting program due to critical error.')
+            logger.critical(f'Exception {e}')
+            logger.critical('exiting program due to critical error.')
             exit(1)
-        logging.info('program finished normally, exiting program.')
+        logger.info('program finished normally, exiting program.')
         exit(0)
