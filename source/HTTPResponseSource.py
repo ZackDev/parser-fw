@@ -9,20 +9,20 @@ class HTTPResponseSource(AbstractSource):
         super().__init__(self, source)
 
     def _get_data(self):
-        logging.debug('AbstractSource: _get_data() called.')
+        self.logger.debug('AbstractSource: _get_data() called.')
         try:
-            logging.debug(f'calling requests.get() with {self.source}')
+            self.logger.debug(f'calling requests.get() with {self.source}')
             rsp = requests.get(self.source)
             if rsp.status_code == 200:
-                logging.debug(f'call to requests.get() finished.')
-                logging.debug(f'status code: {rsp.status_code}')
-                logging.debug(f'content: {rsp.content}')
+                self.logger.debug(f'call to requests.get() finished.')
+                self.logger.debug(f'status code: {rsp.status_code}')
+                self.logger.debug(f'content: {rsp.content}')
                 self.data = rsp.content
             else:
-                logging.critical('call to requests.get() failed.')
-                logging.critical(f'status code: {rsp.status_code}')
-                logging.critical(f'content: {rsp.content}')
+                self.logger.critical('call to requests.get() failed.')
+                self.logger.critical(f'status code: {rsp.status_code}')
+                self.logger.critical(f'content: {rsp.content}')
                 raise ConnectionError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
-            logging.critical('call to requests.get() failed. Raising ConnectionError.')
+            self.logger.critical('call to requests.get() failed. Raising ConnectionError.')
             raise ConnectionError(e)
