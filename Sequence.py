@@ -60,14 +60,19 @@ class Sequence:
             logging.info(f'finished sequence: {self.sequence_name}')
         except SourceError as e:
             logging.critical(f'SourceError: {e}')
+            logging.critical('exiting program due to critical error.')
             exit(1)
         except ParserError as e:
             logging.critical(f'ParserError {e}')
+            logging.critical('exiting program due to critical error.')
             exit(1)
         except SinkError as e:
             logging.critical(f'SinkError {e}')
+            logging.critical('exiting program due to critical error.')
             exit(1)
         except Exception as e:
             logging.critical(f'Exception {e}')
+            logging.critical('exiting program due to critical error.')
             exit(1)
+        logging.info('program finished normally, exiting program.')
         exit(0)
