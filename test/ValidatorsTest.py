@@ -24,3 +24,11 @@ class ValidatorsTest(unittest.TestCase):
         with self.subTest():
             with self.assertRaises(ValueError):
                 strToInteger('abcd')
+
+        with self.subTest():
+            with self.assertRaises(TypeError):
+                strToInteger(0.23)
+
+        with self.subTest():
+            with self.assertRaises(TypeError):
+                strToInteger(-1.0)
