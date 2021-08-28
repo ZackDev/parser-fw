@@ -1,26 +1,46 @@
-# parser-fw requires python 3.9.1 at least
-# to install a new python version get the corresponding archive file from
-# python.org
+# readme Document for the parser framework
 
-# before continuing, parser-fw also requires the python modules 'requests' and
-# 'openpyxl'
+# requirements
+parser-fw is built for python3.9.1 and further uses the additional python modules
+'requests' and 'openpyxl'
 
-# for the requests module, python requires the 'zlib1g-dev' debian package
-# the openpyxl module requires the libssl-dev package
+## how to check if those requirements are met
+check your python version with:
 
-# install both with
-apt-get install zlib1g-dev libssl-dev
+`python3 --version`
 
-# now go to the python source directory and run
-./configure
-make
-make test
+run the python3 interpreter with:
 
-# and as root do
-make install
+`python3`
 
-# to install requests do as root
-pip3 install requests -t /usr/local/lib/python3.9
+run those with the interpreter to see if the modules get loaded:
 
-# and for openpyxl do also as root
-pip3 install openpyxl -t /usr/local/lib/3.9
+`import requests`
+
+`import openpyxl`
+
+if nothing shows up after typing the commands, you're fine.
+
+## how to install python3
+there are multiple ways, depending on your OS and preferred style to install the python programming language. sources to install python can be obtained from
+
+[https://python.org](https://python.org)
+
+### compile python3 from source on debian
+the modules above require the following packages to compile, install them with:
+
+`apt-get install zlib1g-dev libssl-dev`
+
+switch to the directory of the python3 source files and type:
+
+`./configure`
+
+`make`
+
+`make test`
+
+`make install`
+
+### install additional modules
+
+`pip3 install <module_name> [-t <target_dir>]`
