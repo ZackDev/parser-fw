@@ -39,7 +39,12 @@ class WeeklyTestsParser(AbstractParser):
                 if row_index == 1:
                     calendar_weeks.append(f'2020-W10')
                     test_count = row[2].value
-                    test_count = strToInteger(test_count, '+')
+                    if isinstance(test_count, str):
+                        test_count = strToInteger(test_count, '+')
+                    elif isinstance(test_count, int):
+                        test_count = test_count
+                    else:
+                        raise TypeError()
                     weekly_tests.append(test_count)
                     self.logger.debug(f'appended {test_count}')
                 elif row_index >= 2:
@@ -53,8 +58,14 @@ class WeeklyTestsParser(AbstractParser):
                             raw_week = None
                             raw_year = None
                             if len(raw_week_array) == 2:
-                                raw_week = strToInteger(raw_week_array[0], '+')
-                                raw_year = strToInteger(raw_week_array[1], '+')
+                                if isinstance(raw_week_array[0], str) and isinstance(raw_week_array[1], str):
+                                    raw_week = strToInteger(raw_week_array[0], '+')
+                                    raw_year = strToInteger(raw_week_array[1], '+')
+                                elif isinstance(raw_week_array[0], int) and isintance(raw_week[1]_array, int):
+                                    raw_week = raw_week_array[0]
+                                    raw_year = raw_week_array[1]
+                                else:
+                                    raise TypeError()
                             else:
                                 parse_error = True
                                 print('error: parsing raw_week_array.')
@@ -78,9 +89,19 @@ class WeeklyTestsParser(AbstractParser):
                                 break
 
                         elif col_index == 1:
-                            tests = strToInteger(col.value, '+')
-                            weekly_tests.append(tests)
-                            self.logger.debug(f'appended {tests}')
+                            tests = None
+                            if isinstance(col.value, str):
+                                tests = strToInteger(col.value, '+')
+                            elif isinstance(col.value, int):
+                                tests = col.value
+                            else:
+                                raise TypeError()
+                            if tests != None:
+                                weekly_tests.append(tests)
+                                self.logger.debug(f'appended {tests}')
+                            else:
+                                raise ValueError()
+
                         col_index +=1
                 row_index +=1
 
