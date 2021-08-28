@@ -85,11 +85,11 @@ class DailyVaccinationsParser(AbstractParser):
                             if raw_s_vacc is None or raw_s_vacc == 'None':
                                 s_vacc = 0
                                 secondary_vaccinations.append(s_vacc)
-                                self.logger.debug(f'appended s_vacc: {s_vac}')
+                                self.logger.debug(f'appended s_vacc: {s_vacc}')
                             else:
                                 s_vacc = strToInteger(raw_s_vacc, '+')
                                 secondary_vaccinations.append(s_vacc)
-                                self.logger.debug(f'appended s_vacc: {s_vac}')
+                                self.logger.debug(f'appended s_vacc: {s_vacc}')
                         col_index +=1
                 row_index +=1
 
