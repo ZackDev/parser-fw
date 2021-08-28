@@ -21,7 +21,5 @@ class HTTPResponseSourceTest(unittest.TestCase):
         url = 'not-a-valid-url'
         source = HTTPResponseSource(url)
 
-        request_successfull = False
-
         with self.assertRaises(ConnectionError):
             source._get_data()
