@@ -6,10 +6,10 @@ import requests
 class HTTPResponseSource(AbstractSource):
     def __init__(self, source):
         self.logger = logging.getLogger(__name__)
-        super().__init__(self, source)
+        super().__init__(source)
 
     def _get_data(self):
-        self.logger.debug('AbstractSource: _get_data() called.')
+        self.logger.debug('_get_data() called.')
         try:
             self.logger.debug(f'calling requests.get() with {self.source}')
             rsp = requests.get(self.source)
