@@ -43,7 +43,7 @@ if __name__ == '__main__':
         if cnt == 1:
             logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
             logger = logging.getLogger(__name__)
-            logger.info(f'program started with sequence: {sequence} and loglevel: {loglevel}')
+            logger.info(f'program started with loglevel: {loglevel}')
         else:
             print(f'provided loglevel not recognized.')
     else:
