@@ -60,7 +60,8 @@ class DailyVaccinationsParser(AbstractParser):
                                     else:
                                         month = str(raw_month)
                                     year = str(raw_year)
-                                    dates.append(f'{year}-{month}-{day}')
+                                    date = f'{year}-{month}-{day}'
+                                    dates.append(date)
                                     self.logger.debug(f'appended date: {date}')
                                 else:
                                     raise ValueError('day, month or year not in expected range.')
