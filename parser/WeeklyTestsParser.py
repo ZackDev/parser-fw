@@ -6,7 +6,7 @@ from io import BytesIO
 from openpyxl import load_workbook
 
 class WeeklyTestsParser(AbstractParser):
-    def __init__(self):
+    def __init__(self, source):
         self.logger = logging.getLogger(__name__)
         super().__init__(source)
 
