@@ -61,7 +61,7 @@ class WeeklyTestsParser(AbstractParser):
                                 if isinstance(raw_week_array[0], str) and isinstance(raw_week_array[1], str):
                                     raw_week = strToInteger(raw_week_array[0], '+')
                                     raw_year = strToInteger(raw_week_array[1], '+')
-                                elif isinstance(raw_week_array[0], int) and isintance(raw_week[1]_array, int):
+                                elif isinstance(raw_week_array[0], int) and isintance(raw_week_array[1], int):
                                     raw_week = raw_week_array[0]
                                     raw_year = raw_week_array[1]
                                 else:
