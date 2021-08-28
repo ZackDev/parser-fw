@@ -18,11 +18,10 @@ class HTTPResponseSourceTest(unittest.TestCase):
 
 
     def test_url_response_failure(self):
-        def test_url_response_success(self):
-            url = 'not-a-valid-url'
-            source = HTTPResponseSource(url)
+        url = 'not-a-valid-url'
+        source = HTTPResponseSource(url)
 
-            request_successfull = False
-            
-            with self.assertRaises(ConnectionError):
-                source._get_data()
+        request_successfull = False
+
+        with self.assertRaises(ConnectionError):
+            source._get_data()
