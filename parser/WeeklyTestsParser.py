@@ -4,6 +4,7 @@ from parser.Exceptions import DataLengthUnequalError
 from parser.Validators import strToInteger
 from io import BytesIO
 from openpyxl import load_workbook
+import logging
 
 class WeeklyTestsParser(AbstractParser):
     def __init__(self, source):
