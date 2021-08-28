@@ -35,11 +35,11 @@ class DailyCasesParser(AbstractParser):
             for line in csv_reader:
                 if index == 0:
                     raw_dates = line[4:]
-                    logger.debug(f'raw_dates: {raw_dates}')
+                    self.logger.debug(f'raw_dates: {raw_dates}')
                 elif index > 0:
                     if line[1] == 'Germany':
                         raw_cases = line[4:]
-                        logger.debug(f'raw_cases: {raw_cases}')
+                        self.logger.debug(f'raw_cases: {raw_cases}')
                         break
                 index+=1
 
