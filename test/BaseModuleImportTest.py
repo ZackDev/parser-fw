@@ -47,7 +47,7 @@ class FrameworkModuleImportTest(unittest.TestCase):
         self.assertEqual(import_success, True)
 
 
-    def test_sequence_register_import(self):
+    def test_sequence_import(self):
         import_success = True
         try:
             from Sequence import Sequence
