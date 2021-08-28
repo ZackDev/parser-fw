@@ -8,7 +8,7 @@ from openpyxl import load_workbook
 class WeeklyTestsParser(AbstractParser):
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        super().__init__(self, source)
+        super().__init__(source)
 
     def _parse(self, xmldata):
 

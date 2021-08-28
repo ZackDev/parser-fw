@@ -14,7 +14,7 @@ class DailyCasesParser(AbstractParser):
         self.logger.debug(f'with parameter source: {source}')
         self.logger.debug(f'with parameter strict: {strict}')
 
-        super().__init__(self, source)
+        super().__init__(source)
         self.strict = strict
 
     def _parse(self, data):

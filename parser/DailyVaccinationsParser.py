@@ -9,7 +9,7 @@ from openpyxl import load_workbook
 class DailyVaccinationsParser(AbstractParser):
     def __init__(self, source):
         self.logger = logging.getLogger(__name__)
-        super().__init__(self, source)
+        super().__init__(source)
 
     def _parse(self, xmldata):
         self.logger.info('_parse() called.')

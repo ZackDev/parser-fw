@@ -10,7 +10,7 @@ import csv
 class ICUOccupancyParser(AbstractParser):
     def __init__(self, source):
         self.logger = logging.getLogger(__name__)
-        super().__init__(self, source)
+        super().__init__(source)
 
     def _parse(self, data):
         self.logger.info('_parse() called.')
