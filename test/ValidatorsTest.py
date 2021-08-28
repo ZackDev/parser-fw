@@ -32,3 +32,15 @@ class ValidatorsTest(unittest.TestCase):
         with self.subTest():
             with self.assertRaises(TypeError):
                 strToInteger(-1.0)
+
+        for i in range(0, 99):
+            with self.subTest():
+                self.assertEqual(strToInteger(str(i), '+'), i)
+
+        for i in range(-99, 0):
+            with self.subTest():
+                self.assertEqual(strToInteger(str(i), '-'), i)
+
+        for i in range(-49, 49):
+            with self.subTest():
+                self.assertEqual(strToInteger(str(i), '*'), i)
