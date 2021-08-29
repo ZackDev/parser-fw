@@ -3,7 +3,7 @@ from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
 from test.ValidatorsTest import ValidatorsTest
-from test.CustomModuleTest import HTTPResponseSourceTest
+from test.CustomModuleTest import HTTPResponseSourceTest, DailyCasesParserTest
 from test.JSONTest import JSONTest
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import unittest
 from source.HTTPResponseSource import HTTPResponseSource
+from parser.DailyCasesParser import DailyCasesParser
 
 class HTTPResponseSourceTest(unittest.TestCase):
     def test_url_response_success(self):
@@ -23,3 +24,23 @@ class HTTPResponseSourceTest(unittest.TestCase):
 
         with self.assertRaises(ConnectionError):
             source._get_data()
+
+
+class DailyCasesParserTest(unittest.TestCase):
+    def test_daily_cases_parser(self):
+        with self.subTest(self):
+            parser = DailyCasesParser(None, False)
+            with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
+                parser._parse(csv.read())
+
+        with self.subTest(self):
+            parser = DailyCasesParser(None, False)
+            with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
+                with self.assertRaises(ValueError):
+                    parser._parse(csv.read())
+
+        with self.subTest(self):
+            parser = DailyCasesParser(None, False)
+            with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
+                with self.assertRaises(ValueError):
+                    parser._parse(csv.read())
