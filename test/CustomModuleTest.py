@@ -29,18 +29,24 @@ class HTTPResponseSourceTest(unittest.TestCase):
 class DailyCasesParserTest(unittest.TestCase):
     def test_daily_cases_parser(self):
         with self.subTest(self):
-            parser = DailyCasesParser(None, False)
+            parser = DailyCasesParser(None, 'Germany', False)
             with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 parser._parse(csv.read())
 
         with self.subTest(self):
-            parser = DailyCasesParser(None, False)
+            parser = DailyCasesParser(None, 'Germany', False)
             with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
                 with self.assertRaises(ValueError):
                     parser._parse(csv.read())
 
         with self.subTest(self):
-            parser = DailyCasesParser(None, False)
+            parser = DailyCasesParser(None, 'Germany', False)
             with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
+                with self.assertRaises(ValueError):
+                    parser._parse(csv.read())
+
+        with self.subTest(self):
+            parser = DailyCasesParser(None, 'not-a-country', False)
+            with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 with self.assertRaises(ValueError):
                     parser._parse(csv.read())
