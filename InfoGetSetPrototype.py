@@ -11,7 +11,7 @@ from sink.JSONFileSink import JSONFileSink
 
 def init_sequences():
     source = HTTPResponseSource('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
-    parser = DailyCasesParser(source, False)
+    parser = DailyCasesParser(source, 'Germany', False)
     sink = JSONFileSink(parser, 'corona_germany_daily_cases.json')
     Sequence(source, parser, sink, 'daily_cases')
 

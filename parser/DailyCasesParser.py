@@ -8,13 +8,14 @@ import logging
 import csv
 
 class DailyCasesParser(AbstractParser):
-    def __init__(self, source, strict):
+    def __init__(self, source, country, strict):
         self.logger = logging.getLogger(__name__)
         self.logger.info('__init__() called.')
         self.logger.debug(f'with parameter source: {source}')
         self.logger.debug(f'with parameter strict: {strict}')
 
         super().__init__(source)
+        self.country = country
         self.strict = strict
 
     def _parse(self, data):
@@ -22,6 +23,7 @@ class DailyCasesParser(AbstractParser):
         self.logger.debug(f'with parameter data: {data}')
 
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
+            country_found = False
             raw_dates = None
             raw_cases = None
             dates = None
@@ -37,11 +39,15 @@ class DailyCasesParser(AbstractParser):
                     raw_dates = line[4:]
                     self.logger.debug(f'raw_dates: {raw_dates}')
                 elif index > 0:
-                    if line[1] == 'Germany':
+                    if line[1] == self.country:
+                        country_found = True
                         raw_cases = line[4:]
                         self.logger.debug(f'raw_cases: {raw_cases}')
                         break
                 index+=1
+
+            if country_found == False:
+                raise ValueError()
 
             if raw_dates and raw_cases:
                 dates = []
