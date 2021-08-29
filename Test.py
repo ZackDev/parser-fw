@@ -1,7 +1,7 @@
 import unittest
 from test.ToolsTest import ToolsExistTest
-from test.BaseModuleImportTest import ThirdPartyModuleImportTest
-from test.BaseModuleImportTest import FrameworkModuleImportTest
+from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
+from test.FrameworkModuleImportTest import FrameworkModuleImportTest
 from test.ValidatorsTest import ValidatorsTest
 from test.CustomModuleTest import HTTPResponseSourceTest
 from test.JSONTest import JSONTest
