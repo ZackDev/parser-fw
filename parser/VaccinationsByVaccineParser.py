@@ -46,5 +46,5 @@ class VaccinationsByVaccineParser(AbstractParser):
                     else:
                         self.logger.info(f'unknown vaccine: {vacc_name}')
                 index+=1
-            dict = {'Moderna':moderna_count, 'AstraZeneca':astrazeneca_count, 'Jansen':janssen_count, 'Comirnaty':comirnaty_count}
+            dict = {'Moderna':moderna_count, 'AstraZeneca':astrazeneca_count, 'Janssen':janssen_count, 'Comirnaty':comirnaty_count}
             self.parsed_data = dict
