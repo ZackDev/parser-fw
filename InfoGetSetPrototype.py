@@ -7,6 +7,7 @@ from parser.DailyCasesParser import DailyCasesParser
 from parser.DailyVaccinationsParser import DailyVaccinationsParser
 from parser.WeeklyTestsParser import WeeklyTestsParser
 from parser.ICUOccupancyParser import ICUOccupancyParser
+from parser.VaccinationsByVaccineParser import VaccinationsByVaccineParser
 from sink.JSONFileSink import JSONFileSink
 
 def init_sequences():
@@ -19,6 +20,11 @@ def init_sequences():
     parser = DailyVaccinationsParser(source)
     sink = JSONFileSink(parser, 'corona_germany_daily_vaccinations.json')
     Sequence(source, parser, sink, 'daily_vaccinations')
+
+    source = HTTPResponseSource('https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv')
+    parser = VaccinationsByVaccineParser(source)
+    sink= JSONFileSink(parser, 'corona_germany_vaccinations_by_vaccine.json')
+    Sequence(source, parser, sink, 'vaccinations_by_vaccine')
 
     source = HTTPResponseSource('https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile')
     parser = WeeklyTestsParser(source)
