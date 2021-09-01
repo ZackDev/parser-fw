@@ -11,7 +11,7 @@ if [ $num_args -eq 3 ]; then
   #2 - name of output file
   #3 - log level
   cd $script_base_dir
-  python3.9 InfoGetSetPrototype.py -s $1 -l $3
+  python3.9 Seshat.py -s $1 -l $3
   ecode=$?
   moved_file=false
   if [ $ecode -eq 0 ]; then
@@ -48,7 +48,7 @@ if [ $num_args -eq 3 ]; then
       exit 1
     fi
   else
-    echo "InfoGetSetPrototype.py exited with" $ecode
+    echo "Seshat.py exited with" $ecode
     exit 1
   fi
 else

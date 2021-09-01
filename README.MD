@@ -1,4 +1,4 @@
-# readme Document for the parser framework
+# readme Document for the `Seshat` parser framework
 
 ## what can it do
 in simple terms: fetch data, parse and store it
@@ -27,13 +27,13 @@ the sequence combines the above. additionally it gets a name so it can be identi
 
 the framework takes two arguments, the name of the sequence and the loglevel which ranges from 1 to 5, DEBUG to CRITICAL
 
-`python3 InfoGetSetPrototype.py -s <sequence_name> -l <loglevel>`
+`python3 Seshat.py -s <sequence_name> -l <loglevel>`
 
 in this example a sequence named `river-watermark` is already defined.
 
 so running the sequence looks like this:
 
-`python3 InfoGetSetPrototype.py -s river-watermark -l 3`
+`python3 Seshat.py -s river-watermark -l 3`
 
 ## requirements
 parser-fw is built for python3.9.1 and further uses the additional python modules
