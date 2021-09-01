@@ -13,7 +13,7 @@ class WeeklyTestsParser(AbstractParser):
 
     def _parse(self, xmldata):
 
-        self.logger.info('_parse() called.')
+        self.logger.debug('_parse() called.')
         self.logger.debug(f'with xmldata: {xmldata}')
 
         with BytesIO(xmldata) as weekly_tests:

@@ -24,7 +24,7 @@ class AbstractSink(ABC):
         self.target = target
 
     def run(self):
-        self.logger.info('run() called.')
+        self.logger.debug('run() called.')
         self.logger.debug(f'with data: {self.parser.parsed_data}')
 
         try:
@@ -33,7 +33,7 @@ class AbstractSink(ABC):
         except Exception as e:
             raise SinkError(e)
 
-        self.logger.info('run() finished.')
+        self.logger.debug('run() finished.')
 
     @abstractmethod
     def _store(self):

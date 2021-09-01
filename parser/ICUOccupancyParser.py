@@ -13,7 +13,7 @@ class ICUOccupancyParser(AbstractParser):
         super().__init__(source)
 
     def _parse(self, data):
-        self.logger.info('_parse() called.')
+        self.logger.debug('_parse() called.')
         self.logger.debug(f'with data: {data}')
 
         dict = None

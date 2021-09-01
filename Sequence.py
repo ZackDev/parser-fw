@@ -45,7 +45,7 @@ registers the provided sequence name at the SequenceRegister
 class Sequence:
     def __init__(self, source, parser, sink, sequence_name):
         logger = logging.getLogger(__name__)
-        logger.info('__init__() called.')
+        logger.debug('__init__() called.')
         logger.debug(f'with parameter source: {source}')
         logger.debug(f'with parameter parser: {parser}')
         logger.debug(f'with parameter sink: {sink}')
@@ -57,18 +57,20 @@ class Sequence:
         self.sink = sink
         SequenceRegister().register_sequence(self)
 
-        logging.info(f'created sequence: {self.sequence_name}')
+        logging.debug(f'created sequence: {self.sequence_name}')
 
     def run(self):
         logger = logging.getLogger(__name__)
-        logger.info('run() called.')
+        logger.debug('run() called.')
 
         try:
             logger.info(f'running sequence: {self.sequence_name}')
             self.source.run()
             self.parser.run()
             self.sink.run()
-            logger.info(f'finished sequence: {self.sequence_name}')
+            logger.info(f'finished sequence: {self.sequence_name}. exiting program.')
+            logger.info('program finished normally, exiting program.')
+            exit(0)
         except SourceError as e:
             logger.critical(f'SourceError: {e}')
             logger.critical('exiting program due to critical error.')
@@ -85,5 +87,3 @@ class Sequence:
             logger.critical(f'Exception {e}')
             logger.critical('exiting program due to critical error.')
             exit(1)
-        logger.info('program finished normally, exiting program.')
-        exit(0)

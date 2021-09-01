@@ -10,7 +10,7 @@ import csv
 class DailyCasesParser(AbstractParser):
     def __init__(self, source, country, strict):
         self.logger = logging.getLogger(__name__)
-        self.logger.info('__init__() called.')
+        self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameter source: {source}')
         self.logger.debug(f'with parameter strict: {strict}')
 
@@ -19,7 +19,7 @@ class DailyCasesParser(AbstractParser):
         self.strict = strict
 
     def _parse(self, data):
-        self.logger.info('_parse() called.')
+        self.logger.debug('_parse() called.')
         self.logger.debug(f'with parameter data: {data}')
 
         with StringIO(data.decode('utf-8')) as daily_cases_csv:

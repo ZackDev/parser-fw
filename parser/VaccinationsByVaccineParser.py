@@ -10,13 +10,13 @@ import csv
 class VaccinationsByVaccineParser(AbstractParser):
     def __init__(self, source):
         self.logger = logging.getLogger(__name__)
-        self.logger.info('__init__() called.')
+        self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameter source: {source}')
 
         super().__init__(source)
 
     def _parse(self, data):
-        self.logger.info('_parse() called.')
+        self.logger.debug('_parse() called.')
         self.logger.debug(f'with parameter data: {data}')
 
         with StringIO(data.decode('utf-8')) as vaccine_csv:
