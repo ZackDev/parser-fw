@@ -69,7 +69,6 @@ class Sequence:
             self.parser.run()
             self.sink.run()
             logger.info(f'finished sequence: {self.sequence_name}. exiting program.')
-            logger.info('program finished normally, exiting program.')
             exit(0)
         except SourceError as e:
             logger.critical(f'SourceError: {e}')
