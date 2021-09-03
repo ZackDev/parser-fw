@@ -1,6 +1,7 @@
 import argparse
 import logging
 import importlib
+from seqconf.ClassLoader import get_class
 from seqconf.ConfigReader import get_config
 from Sequence import Sequence
 
@@ -13,12 +14,9 @@ def init_sequence(sequence):
         try:
             class_name = cfg['source']['name']
         except KeyError as e:
-            logger.critical('Source classname not found in config.')
+            logger.critical('source classname not found in config.')
         try:
-            source_m = importlib.import_module(f'source.{class_name}')
-            source = getattr(source_m, class_name)
-        except KeyError as e:
-            logger.critical(f'module/class not found.')
+            source = get_class(f'source.{class_name}', class_name)
         except Exception as e:
             logger.critical(f'{e}')
         so_params = {}
@@ -32,12 +30,9 @@ def init_sequence(sequence):
         try:
             class_name = cfg['parser']['name']
         except KeyError as e:
-            logger.critical('Parser classname not found in config.')
+            logger.critical('parser classname not found in config.')
         try:
-            parser_m = importlib.import_module(f'parser.{class_name}')
-            parser = getattr(parser_m, class_name)
-        except KeyError as e:
-            logger.critical(f'module/class not found.')
+            parser = get_class(f'parser.{class_name}', class_name)
         except Exception as e:
             logger.critical(f'{e}')
         pa_params = {}
@@ -52,12 +47,9 @@ def init_sequence(sequence):
         try:
             class_name = cfg['sink']['name']
         except KeyError as e:
-            logger.critical('Sink classname not found in config.')
+            logger.critical('sink classname not found in config.')
         try:
-            sink_m = importlib.import_module(f'sink.{class_name}')
-            sink = getattr(sink_m, class_name)
-        except KeyError as e:
-            logger.critical(f'module/class not found.')
+            sink = get_class(f'sink.{class_name}', class_name)
         except Exception as e:
             logger.critical(f'{e}')
         si_params = {}
@@ -77,6 +69,7 @@ if __name__ == '__main__':
     args = arg_parser.parse_args()
     if (args.loglevel and args.sequence):
         loglevel = args.loglevel*10
+        # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
         available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
         cnt = available_loglevels.count(loglevel)
         if cnt == 1:
