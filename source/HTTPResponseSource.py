@@ -4,9 +4,12 @@ import logging
 import requests
 
 class HTTPResponseSource(AbstractSource):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
-        super().__init__(source)
+        for key, value in kwargs.items():
+            if key == "source":
+                super().__init__(value)
+
 
     def _get_data(self):
         self.logger.debug('_get_data() called.')

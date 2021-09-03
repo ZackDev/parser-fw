@@ -14,7 +14,6 @@ def framework_module_import_test_suite():
     suite.addTest(FrameworkModuleImportTest('test_abstract_parser_import'))
     suite.addTest(FrameworkModuleImportTest('test_abstract_sink_import'))
     suite.addTest(FrameworkModuleImportTest('test_sequence_import'))
-    suite.addTest(FrameworkModuleImportTest('test_sequence_register_import'))
     return suite
 
 def third_party_module_import_test_suite():

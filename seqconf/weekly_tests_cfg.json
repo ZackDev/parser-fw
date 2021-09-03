@@ -1,0 +1,27 @@
+{
+  "type": "sequence",
+  "name": "weekly_tests",
+  "source": {
+    "name": "HTTPResponseSource",
+    "parameters": [
+      {
+        "name": "source",
+        "type": "str",
+        "value": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile"
+      }
+    ]
+  },
+  "parser": {
+    "name": "WeeklyTestsParser"
+  },
+  "sink": {
+    "name": "JSONFileSink",
+    "parameters": [
+      {
+        "name": "target",
+        "type": "str",
+        "value": "corona_germany_weekly_tests.json"
+      }
+    ]
+  }
+}

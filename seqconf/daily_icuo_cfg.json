@@ -1,0 +1,27 @@
+{
+  "type": "sequence",
+  "name": "daily_icuo",
+  "source": {
+    "name": "HTTPResponseSource",
+    "parameters": [
+      {
+        "name": "source",
+        "type": "str",
+        "value": "https://diviexchange.blob.core.windows.net/%24web/zeitreihe-tagesdaten.csv"
+      }
+    ]
+  },
+  "parser": {
+    "name": "ICUOccupancyParser"
+  },
+  "sink": {
+    "name": "JSONFileSink",
+    "parameters": [
+      {
+        "name": "target",
+        "type": "str",
+        "value": "corona_germany_daily_icuo.json"
+      }
+    ]
+  }
+}

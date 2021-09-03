@@ -8,15 +8,18 @@ import logging
 import csv
 
 class DailyCasesParser(AbstractParser):
-    def __init__(self, source, country, strict):
+    def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameter source: {source}')
-        self.logger.debug(f'with parameter strict: {strict}')
+        self.logger.debug(f'with parameters: {kwargs}')
+        for key, value in kwargs.items():
+            if key == 'source':
+                super().__init__(value)
+            elif key == 'country':
+                self.country = value
+            elif key == 'strict':
+                self.strict = value
 
-        super().__init__(source)
-        self.country = country
-        self.strict = strict
 
     def _parse(self, data):
         self.logger.debug('_parse() called.')

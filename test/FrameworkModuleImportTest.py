@@ -35,12 +35,3 @@ class FrameworkModuleImportTest(unittest.TestCase):
         except Exception:
             import_success = False
         self.assertEqual(import_success, True)
-
-
-    def test_sequence_register_import(self):
-        import_success = True
-        try:
-            from Sequence import SequenceRegister
-        except Exception:
-            import_success = False
-        self.assertEqual(import_success, True)
