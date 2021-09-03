@@ -1,14 +1,9 @@
 import argparse
 import logging
+import importlib
 from seqconf.ConfigReader import get_config
 from Sequence import Sequence
-from source.HTTPResponseSource import HTTPResponseSource
-from parser.DailyCasesParser import DailyCasesParser
-from parser.DailyVaccinationsParser import DailyVaccinationsParser
-from parser.WeeklyTestsParser import WeeklyTestsParser
-from parser.ICUOccupancyParser import ICUOccupancyParser
-from parser.VaccinationsByVaccineParser import VaccinationsByVaccineParser
-from sink.JSONFileSink import JSONFileSink
+
 
 def init_sequence(sequence):
     cfg = get_config(sequence)
@@ -20,9 +15,12 @@ def init_sequence(sequence):
         except KeyError as e:
             logger.critical('Source classname not found in config.')
         try:
-            source = globals()[class_name]
+            source_m = importlib.import_module(f'source.{class_name}')
+            source = getattr(source_m, class_name)
         except KeyError as e:
             logger.critical(f'class {class_name} not found in globals().')
+        except Exception as e:
+            logger.critical(f'{e}')
         so_params = {}
         try:
             so_params.update({p['name']:p['value'] for p in cfg['source']['parameters']})
@@ -36,9 +34,12 @@ def init_sequence(sequence):
         except KeyError as e:
             logger.critical('Parser classname not found in config.')
         try:
-            parser = globals()[class_name]
+            parser_m = importlib.import_module(f'parser.{class_name}')
+            parser = getattr(parser_m, class_name)
         except KeyError as e:
             logger.critical(f'class: {class_name} not found in globals().')
+        except Exception as e:
+            logger.critical(f'{e}')
         pa_params = {}
         try:
             pa_params.update({p['name']:p['value'] for p in cfg['parser']['parameters']})
@@ -53,9 +54,12 @@ def init_sequence(sequence):
         except KeyError as e:
             logger.critical('Sink classname not found in config.')
         try:
-            sink = globals()[class_name]
+            sink_m = importlib.import_module(f'sink.{class_name}')
+            sink = getattr(sink_m, class_name)
         except KeyError as e:
             logger.critical(f'class: {class_name} not found in globals()')
+        except Exception as e:
+            logger.critical(f'{e}')
         si_params = {}
         try:
             si_params.update({p['name']:p['value'] for p in cfg['sink']['parameters']})
