@@ -6,7 +6,8 @@ from parser.VaccinationsByVaccineParser import VaccinationsByVaccineParser
 class HTTPResponseSourceTest(unittest.TestCase):
     def test_url_response_success(self):
         url = 'https://istandischeuernochimamt.de/'
-        source = HTTPResponseSource(url)
+        cfg = {"source":url}
+        source = HTTPResponseSource(**cfg)
 
         request_successfull = False
 
@@ -21,7 +22,8 @@ class HTTPResponseSourceTest(unittest.TestCase):
 
     def test_url_response_failure(self):
         url = 'not-a-valid-url'
-        source = HTTPResponseSource(url)
+        cfg = {"source":url}
+        source = HTTPResponseSource(**cfg)
 
         with self.assertRaises(ConnectionError):
             source._get_data()
@@ -30,7 +32,8 @@ class HTTPResponseSourceTest(unittest.TestCase):
 class DailyCasesParserTest(unittest.TestCase):
     def test_daily_cases_parser(self):
         with self.subTest():
-            parser = DailyCasesParser(None, 'Germany', False)
+            cfg = {"source":None, "country":"Germany", "strict":False}
+            parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 parser._parse(csv.read())
             dates = parser.parsed_data['dates']
@@ -66,20 +69,16 @@ class DailyCasesParserTest(unittest.TestCase):
 
 
         with self.subTest():
-            parser = DailyCasesParser(None, 'Germany', False)
+            cfg = {"source":None, "country":"Germany", "strict":False}
+            parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
                 with self.assertRaises(ValueError):
                     parser._parse(csv.read())
 
         with self.subTest():
-            parser = DailyCasesParser(None, 'Germany', False)
+            cfg = {"source":None, "country":"Germany", "strict":False}
+            parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
-                with self.assertRaises(ValueError):
-                    parser._parse(csv.read())
-
-        with self.subTest():
-            parser = DailyCasesParser(None, 'not-a-country', False)
-            with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 with self.assertRaises(ValueError):
                     parser._parse(csv.read())
 
@@ -87,7 +86,8 @@ class DailyCasesParserTest(unittest.TestCase):
 class VaccinationsByVaccineParserTest(unittest.TestCase):
     def test_vaccinations_by_vaccine_parser(self):
         with self.subTest():
-            parser = VaccinationsByVaccineParser(None)
+            cfg = {"source":None}
+            parser = VaccinationsByVaccineParser(**cfg)
             with open('test/files/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen_valid.csv', 'rb') as csv:
                 parser._parse(csv.read())
             self.assertEqual(parser.parsed_data['Comirnaty'], 1250)
