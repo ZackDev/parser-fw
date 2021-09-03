@@ -2,7 +2,6 @@ import argparse
 import logging
 from seqconf.ConfigReader import get_config
 from Sequence import Sequence
-from Sequence import SequenceRegister
 from source.HTTPResponseSource import HTTPResponseSource
 from parser.DailyCasesParser import DailyCasesParser
 from parser.DailyVaccinationsParser import DailyVaccinationsParser
