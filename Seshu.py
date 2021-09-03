@@ -18,7 +18,7 @@ def init_sequence(sequence):
             source_m = importlib.import_module(f'source.{class_name}')
             source = getattr(source_m, class_name)
         except KeyError as e:
-            logger.critical(f'class {class_name} not found in globals().')
+            logger.critical(f'module/class not found.')
         except Exception as e:
             logger.critical(f'{e}')
         so_params = {}
@@ -37,7 +37,7 @@ def init_sequence(sequence):
             parser_m = importlib.import_module(f'parser.{class_name}')
             parser = getattr(parser_m, class_name)
         except KeyError as e:
-            logger.critical(f'class: {class_name} not found in globals().')
+            logger.critical(f'module/class not found.')
         except Exception as e:
             logger.critical(f'{e}')
         pa_params = {}
@@ -57,7 +57,7 @@ def init_sequence(sequence):
             sink_m = importlib.import_module(f'sink.{class_name}')
             sink = getattr(sink_m, class_name)
         except KeyError as e:
-            logger.critical(f'class: {class_name} not found in globals()')
+            logger.critical(f'module/class not found.')
         except Exception as e:
             logger.critical(f'{e}')
         si_params = {}
