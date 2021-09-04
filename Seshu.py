@@ -2,7 +2,7 @@ import argparse
 import logging
 import importlib
 from seqconf.ClassLoader import get_class
-from seqconf.ConfigReader import get_config
+from seqconf.ConfigReader import get_config, get_config_names
 from Sequence import Sequence
 
 
@@ -61,6 +61,8 @@ def init_sequence(sequence):
         si = sink(**si_params)
 
         Sequence(so, pa, si, cfg['name']).run()
+    else:
+        print(f'sequence: {sequence} not found.\navailable sequences:\n{", ".join(get_config_names())}')
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
