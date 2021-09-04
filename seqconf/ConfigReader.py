@@ -5,7 +5,11 @@ import json
 _DIRECTORY = './seqconf/'
 
 def _get_config_files():
-    config_files = [f for f in listdir(_DIRECTORY) if (isfile(join(_DIRECTORY, f)) and f != 'ConfigReader.py' and f != '__init__.py')]
+    config_files = [f for f in listdir(_DIRECTORY)
+                        if (isfile(join(_DIRECTORY, f))
+                        and f != 'ConfigReader.py'
+                        and f != '__init__.py'
+                        and f != 'ClassLoader.py')]
     return config_files
 
 def get_config(name):
