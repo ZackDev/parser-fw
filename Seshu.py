@@ -10,15 +10,26 @@ def init_sequence(sequence):
     cfg = get_config(sequence)
     logger = logging.getLogger(__name__)
     if cfg:
-        # create source object from cfg
+        '''
+        create source object from cfg
+        - get class_name from cfg
+        '''
         try:
             class_name = cfg['source']['name']
         except KeyError as e:
             logger.critical('source classname not found in config.')
+
+        '''
+        - dynamic import of <class> from <package>.<module>
+        '''
         try:
             source = get_class(f'source.{class_name}', class_name)
         except Exception as e:
             logger.critical(f'{e}')
+
+        '''
+        - populate source object kwargs (keyword arguments) with parameters from cfg
+        '''
         so_params = {}
         try:
             so_params.update({p['name']:p['value'] for p in cfg['source']['parameters']})
@@ -26,7 +37,9 @@ def init_sequence(sequence):
             pass
         so = source(**so_params)
 
-        # create parser object from cfg
+        '''
+        create parser object from cfg
+        '''
         try:
             class_name = cfg['parser']['name']
         except KeyError as e:
@@ -43,7 +56,9 @@ def init_sequence(sequence):
         pa_params.update({"source":so})
         pa = parser(**pa_params)
 
-        # create sink object from cfg
+        '''
+        create sink object from cfg
+        '''
         try:
             class_name = cfg['sink']['name']
         except KeyError as e:
