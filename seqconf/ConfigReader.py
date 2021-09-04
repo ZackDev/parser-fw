@@ -16,7 +16,7 @@ def get_config(name):
     config_files = _get_config_files()
     for file in config_files:
         try:
-            with open('./seqconf/' + file, 'r') as f:
+            with open(join(_DIRECTORY, file), 'r') as f:
                 js = json.loads(f.read())
                 if js['name'] != None and js['name'] == name:
                     return js
@@ -29,7 +29,7 @@ def get_config_names():
     config_files = _get_config_files()
     for file in config_files:
         try:
-            with open('./seqconf/' + file, 'r') as f:
+            with open(join(_DIRECTORY, file), 'r') as f:
                 js = json.loads(f.read())
                 if js['name']:
                     names.append(js['name'])
