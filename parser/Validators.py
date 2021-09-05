@@ -14,15 +14,13 @@ def strToInteger(input, sign='*'):
     if isinstance(input, str):
         tmp = int(input)
         if sign == '*':
-            return int(input)
+            return tmp
         elif sign == '+':
-            tmp = int(input)
             if tmp >= 0:
                 return tmp
             else:
                 raise ValueError(f'input: {input} sign: {sign} does not match criteria.')
         elif sign == '-':
-            tmp = int(input)
             if tmp <= 0:
                 return tmp
             else:
