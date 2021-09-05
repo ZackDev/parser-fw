@@ -15,21 +15,21 @@ the abstract parser, where all concrete parser classes should be derived from
 '''
 class AbstractParser(ABC):
     def __init__(self, source):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameter source: {source}')
+        self.abs_logger = logging.getLogger(__name__)
+        self.abs_logger.debug('__init__() called.')
+        self.abs_logger.debug(f'with parameter source: {source}')
 
         self.source = source
 
     def run(self):
-        self.logger.debug('run() called.')
+        self.abs_logger.debug('run() called.')
 
         try:
             self._parse(self.source.data)
         except Exception as e:
             raise ParserError(e)
 
-        self.logger.debug('run() finished.')
+        self.abs_logger.debug('run() finished.')
 
     @abstractmethod
     def _parse(self, data):
