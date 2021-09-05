@@ -17,9 +17,9 @@ def get_config(name):
     for file in config_files:
         try:
             with open(join(_DIRECTORY, file), 'r') as f:
-                js = json.loads(f.read())
-                if js['name'] != None and js['name'] == name:
-                    return js
+                cfg = json.loads(f.read())
+                if cfg['name'] != None and cfg['name'] == name:
+                    return cfg
         except Exception as e:
             print(f'{file}: {e}')
     return None
@@ -30,9 +30,9 @@ def get_config_names():
     for file in config_files:
         try:
             with open(join(_DIRECTORY, file), 'r') as f:
-                js = json.loads(f.read())
-                if js['name']:
-                    names.append(js['name'])
+                cfg = json.loads(f.read())
+                if cfg['name']:
+                    names.append(cfg['name'])
         except Exception as e:
             print(f'{file}: {e}')
     return names
