@@ -114,7 +114,10 @@ if __name__ == '__main__':
             logger.info(f'program started with loglevel: {loglevel}')
             init_sequence(args.sequence)
         else:
-            print(f'provided loglevel not recognized.')
+            logging.basicConfig(filename='parser-fw.log', encoding='utf-8', format='%(asctime)s %(name)s %(levelname)s : %(message)s')
+            logger = logging.getLogger(__name__)
+            logger.warning(f'provided loglevel: {loglevel} not supported. running Seshu with default loglevel.')
+            init_sequence(args.sequence)
     else:
         arg_parser.print_help()
         exit(1)
