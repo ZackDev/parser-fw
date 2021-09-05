@@ -14,18 +14,31 @@ def init_sequence(sequence):
         create source object from cfg
         - get class_name from cfg
         '''
+        package_name, module_name, class_name = None, None, None
         try:
-            class_name = cfg['source']['name']
+            package_name = cfg['source']['package']
+            module_name = cfg['source']['module']
+            class_name = cfg['source']['class']
         except KeyError as e:
-            logger.critical('source classname not found in config.')
+            logger.critical('class info (package, module, class) not found in config.')
+        except Exception as e:
+            logger.critical(f'unexpected error: {e}')
 
         '''
         - dynamic import of <class> from <package>.<module>
         '''
-        try:
-            source = get_class(f'source.{class_name}', class_name)
-        except Exception as e:
-            logger.critical(f'{e}')
+        if package_name and module_name and class_name:
+            try:
+                source = get_class(f'{package_name}.{module_name}', class_name)
+            except Exception as e:
+                logger.critical(f'unable to dynamically load class {class_name} from {package_name}.{module_name}.')
+        else:
+            if not package_name:
+                logger.critical('failed to get package_name from cfg.')
+            if not module_name:
+                logger.critical('falied to get module_name from cfg.')
+            if not class_name:
+                logger.critical('failed to get class_name from cfg.')
 
         '''
         - populate source object kwargs (keyword arguments) with parameters from cfg
@@ -40,14 +53,17 @@ def init_sequence(sequence):
         '''
         create parser object from cfg
         '''
+        package_name, module_name, class_name = None, None, None
         try:
-            class_name = cfg['parser']['name']
+            package_name = cfg['parser']['package']
+            module_name = cfg['parser']['module']
+            class_name = cfg['parser']['class']
         except KeyError as e:
-            logger.critical('parser classname not found in config.')
+            logger.critical('class info (package, module, class) not found in config.')
         try:
-            parser = get_class(f'parser.{class_name}', class_name)
+            parser = get_class(f'{package_name}.{module_name}', class_name)
         except Exception as e:
-            logger.critical(f'{e}')
+            logger.critical(f'unable to dynamically load class {class_name} from {package_name}.{module_name}.')
         pa_params = {}
         try:
             pa_params.update({p['name']:p['value'] for p in cfg['parser']['parameters']})
@@ -59,14 +75,17 @@ def init_sequence(sequence):
         '''
         create sink object from cfg
         '''
+        package_name, module_name, class_name = None, None, None
         try:
-            class_name = cfg['sink']['name']
+            package_name = cfg['sink']['package']
+            module_name = cfg['sink']['module']
+            class_name = cfg['sink']['class']
         except KeyError as e:
             logger.critical('sink classname not found in config.')
         try:
-            sink = get_class(f'sink.{class_name}', class_name)
+            sink = get_class(f'{package_name}.{module_name}', class_name)
         except Exception as e:
-            logger.critical(f'{e}')
+            logger.critical(f'unable to dynamically load class {class_name} from {package_name}.{module_name}.')
         si_params = {}
         try:
             si_params.update({p['name']:p['value'] for p in cfg['sink']['parameters']})

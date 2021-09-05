@@ -2,7 +2,9 @@
   "type": "sequence",
   "name": "weekly_tests",
   "source": {
-    "name": "HTTPResponseSource",
+    "package": "source",
+    "module": "HTTPResponseSource",
+    "class": "HTTPResponseSource",
     "parameters": [
       {
         "name": "source",
@@ -12,10 +14,14 @@
     ]
   },
   "parser": {
-    "name": "WeeklyTestsParser"
+    "package": "parser",
+    "module": "WeeklyTestsParser",
+    "class": "WeeklyTestsParser"
   },
   "sink": {
-    "name": "JSONFileSink",
+    "package": "sink",
+    "module": "JSONFileSink",
+    "class": "JSONFileSink",
     "parameters": [
       {
         "name": "target",

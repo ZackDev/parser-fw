@@ -2,7 +2,9 @@
   "type": "sequence",
   "name": "vaccinations_by_vaccine",
   "source": {
-    "name": "HTTPResponseSource",
+    "package": "source",
+    "module": "HTTPResponseSource",
+    "class": "HTTPResponseSource",
     "parameters": [
       {
         "name": "source",
@@ -12,10 +14,14 @@
     ]
   },
   "parser": {
-    "name": "VaccinationsByVaccineParser"
+    "package": "parser",
+    "module": "VaccinationsByVaccineParser",
+    "class": "VaccinationsByVaccineParser"
   },
   "sink": {
-    "name": "JSONFileSink",
+    "package": "sink",
+    "module": "JSONFileSink",
+    "class": "JSONFileSink",
     "parameters": [
       {
         "name": "target",

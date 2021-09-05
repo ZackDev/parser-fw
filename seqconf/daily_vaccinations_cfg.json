@@ -2,7 +2,9 @@
   "type": "sequence",
   "name": "daily_vaccinations",
   "source": {
-    "name": "HTTPResponseSource",
+    "package": "source",
+    "module": "HTTPResponseSource",
+    "class": "HTTPResponseSource",
     "parameters": [
       {
         "name": "source",
@@ -12,10 +14,14 @@
     ]
   },
   "parser": {
-    "name": "DailyVaccinationsParser"
+    "package": "parser",
+    "module": "DailyVaccinationsParser",
+    "class": "DailyVaccinationsParser"
   },
   "sink": {
-    "name": "JSONFileSink",
+    "package": "sink",
+    "module": "JSONFileSink",
+    "class": "JSONFileSink",
     "parameters": [
       {
         "name": "target",
