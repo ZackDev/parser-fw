@@ -1,15 +1,34 @@
 import argparse
 import logging
 import importlib
-from seqconf.ClassLoader import get_class
-from seqconf.ConfigReader import get_config, get_config_names
+from ConfigProvider import ConfigProvider
 from Sequence import Sequence
 
 
-def init_sequence(sequence):
-    cfg = get_config(sequence)
+def init_sequence(sequence_name):
     logger = logging.getLogger(__name__)
-    if cfg:
+    test = False
+
+    cfg_provider = ConfigProvider(sequence_name)
+
+    source_cls = cfg_provider.get_source_class()
+    source_params = cfg_provider.get_source_parameters()
+    source = source_cls(**source_params)
+
+    parser_cls = cfg_provider.get_parser_class()
+    parser_params = cfg_provider.get_parser_parameters()
+    parser_params.update({"source":source})
+    parser = parser_cls(**parser_params)
+
+    sink_cls = cfg_provider.get_sink_class()
+    sink_params = cfg_provider.get_sink_parameters()
+    sink_params.update({"parser":parser})
+    sink = sink_cls(**sink_params)
+
+    s = Sequence(source, parser, sink, sequence_name)
+    s.run()
+
+    if cfg and test == True:
         '''
         create source object from cfg
         - get class_name from cfg
