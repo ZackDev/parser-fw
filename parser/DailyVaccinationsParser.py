@@ -6,6 +6,8 @@ import logging
 from io import BytesIO
 from openpyxl import load_workbook
 
+# NOTE: deprecated as of 2021-09-06, replaced by DailyVaccinationsGithubParser
+
 class DailyVaccinationsParser(AbstractParser):
     def __init__(self, source):
         self.logger = logging.getLogger(__name__)
