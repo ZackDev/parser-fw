@@ -5,6 +5,8 @@ import json
 import importlib
 import logging
 
+_CONFIG_DIRECTORY = './config/'
+
 class ConfigProvider(AbstractConfigProvider):
     def __init__(self, config_name):
         super().__init__(config_name)
@@ -52,7 +54,7 @@ def get_class(module_name, class_name):
             logger.critical(f'{e}')
     return cls
 
-_CONFIG_DIRECTORY = './seqconf/'
+
 
 def _get_config_files():
     config_files = [f for f in listdir(_CONFIG_DIRECTORY)
