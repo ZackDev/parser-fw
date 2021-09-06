@@ -5,6 +5,7 @@ import json
 import importlib
 import logging
 
+logger = logging.getLogger(__name__)
 _CONFIG_DIRECTORY = './config/'
 
 class ConfigProvider(AbstractConfigProvider):
@@ -36,9 +37,11 @@ class ConfigProvider(AbstractConfigProvider):
         sink_params = get_parameters(self.cfg, 'sink')
         return sink_params
 
+
 def _load_module(module_name):
     module = importlib.import_module(module_name)
     return module
+
 
 def get_class(module_name, class_name):
     module = None
@@ -55,7 +58,6 @@ def get_class(module_name, class_name):
     return cls
 
 
-
 def _get_config_files():
     config_files = [f for f in listdir(_CONFIG_DIRECTORY)
                         if (isfile(join(_CONFIG_DIRECTORY, f))
@@ -63,6 +65,7 @@ def _get_config_files():
                         and f != '__init__.py'
                         and f != 'ClassLoader.py')]
     return config_files
+
 
 def get_config(name):
     config_files = _get_config_files()
@@ -76,6 +79,7 @@ def get_config(name):
             print(f'{file}: {e}')
     return None
 
+
 def get_config_names():
     names = []
     config_files = _get_config_files()
@@ -88,6 +92,7 @@ def get_config_names():
         except Exception as e:
             print(f'{file}: {e}')
     return names
+
 
 def get_parameters(cfg, sequence_part):
     params = {}
