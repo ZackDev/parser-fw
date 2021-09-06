@@ -79,3 +79,9 @@ switch to the directory of the python3 source files and type:
 #### install additional modules
 
 `pip3 install <module_name> [-t <target_dir>]`
+
+
+## thoughts on features
+reading the config from json files, dynamic import of classes and the class-object creation with parameters from said files works fine. another feature or level of abstraction is to read configs from any source, like xml files, databases. a way to implements this would require a class, lets call it `AbstractConfigProvider` which concrete implementation would act as an interface between the sequence creation and the data-source.
+the question is, besides the learning-experience, is it worth the effort? for me probably not as I'm fine with it as it is.
+another question is how it fits into the current architecture. does the `ConcreteConfigProvider` get passed to the `Sequence` object which calls the provider's methods? Where is the place the user can switch the `ConcreteConfigProvider`? best place IMHO would be in `Seshu.py`.
