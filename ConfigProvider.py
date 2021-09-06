@@ -155,11 +155,13 @@ def get_config_names():
 
 '''
 returns the parameters specified by <cfg> and <sequence_part> as a dict
+- returns empty dict if config doesn't contain [<sequence_part>][parameters key]
 '''
 def get_parameters(cfg, sequence_part):
-    params = {}
     try:
+        params = {}
+        cfg[sequence_part]['parameters']
         params.update({p['name']:p['value'] for p in cfg[sequence_part]['parameters']})
     except:
-        pass
+        params = {}
     return params
