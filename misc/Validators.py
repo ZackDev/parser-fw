@@ -87,9 +87,14 @@ def _build_date_array(start_date, length):
     length-=1
 
     while (length > 0):
-        
+        # TODO
+        date_array.append(_get_next_date())
         length-=1
     return date_array
+
+def _get_next_date(date):
+    # TODO
+    pass
 
 def _is_leap_year(year_string):
     tmp_year = int(year_string)
