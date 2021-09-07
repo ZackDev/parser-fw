@@ -12,8 +12,67 @@ class ConfigProviderError(Exception):
 
 class ConfigProvider(AbstractConfigProvider):
 
+    ''' BEGIN static '''
+
     logger = logging.getLogger(__name__)
     _CONFIG_DIRECTORY = './config/'
+
+    '''
+    imports and returns the module specified by <module_name>
+    raises ModuleNotFoundError
+    '''
+    def _load_module(module_name):
+        module = importlib.import_module(module_name)
+        return module
+
+
+    '''
+    returns the class identified by <module_name> and <class_name>
+    raises AttributeError
+    '''
+    def get_class(module_name, class_name):
+        module = ConfigProvider._load_module(module_name)
+        cls = getattr(module, class_name)
+        return cls
+
+
+    '''
+    returns a list of all files in the directory specified by _CONFIG_DIRECTORY
+    '''
+    def _get_config_files():
+        config_files = [f for f in listdir(ConfigProvider._CONFIG_DIRECTORY)
+                            if isfile(join(ConfigProvider._CONFIG_DIRECTORY, f))]
+        return config_files
+
+
+    '''
+    returns the config's file content specified by <name>
+    '''
+    def get_config(name):
+        config_files = ConfigProvider._get_config_files()
+        for file in config_files:
+            with open(join(ConfigProvider._CONFIG_DIRECTORY, file), 'r') as f:
+                cfg = json.loads(f.read())
+                if cfg['name'] != None and cfg['name'] == name:
+                    return cfg
+
+    '''
+    returns the json names field of all config files
+    '''
+    def get_config_names():
+        names = []
+        config_files = ConfigProvider._get_config_files()
+        for file in config_files:
+            with open(join(ConfigProvider._CONFIG_DIRECTORY, file), 'r') as f:
+                cfg = json.loads(f.read())
+                if cfg['name']:
+                    names.append(cfg['name'])
+        return names
+
+    ''' END static '''
+
+
+    ''' BEGIN object '''
 
     def __init__(self, config_name):
         super().__init__(config_name)
@@ -28,13 +87,13 @@ class ConfigProvider(AbstractConfigProvider):
             return source_cls
         except ModuleNotFoundError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except AttributeError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
 
 
     def get_parser_class(self):
@@ -43,13 +102,13 @@ class ConfigProvider(AbstractConfigProvider):
             return parser_cls
         except ModuleNotFoundError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except AttributeError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
 
 
     def get_sink_class(self):
@@ -58,13 +117,13 @@ class ConfigProvider(AbstractConfigProvider):
             return sink_cls
         except ModuleNotFoundError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except AttributeError as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'{e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
 
 
     def get_source_parameters(self):
@@ -73,10 +132,10 @@ class ConfigProvider(AbstractConfigProvider):
             return source_params
         except AttributeError as e:
             ConfigProvider.logger.debug(f'get_source_parameters(): {e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'get_source_parameters(): {e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
 
 
     def get_parser_parameters(self):
@@ -85,10 +144,10 @@ class ConfigProvider(AbstractConfigProvider):
             return parser_params
         except AttributeError as e:
             ConfigProvider.logger.debug(f'get_parser_parameters(): {e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'get_parser_parameters(): {e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
 
 
     def get_sink_parameters(self):
@@ -97,68 +156,10 @@ class ConfigProvider(AbstractConfigProvider):
             return sink_params
         except AttributeError as e:
             ConfigProvider.logger.debug(f'get_sink_parameters(): {e}')
-            raise ConfigProviderError(e)
+            raise ConfigProviderError from e
         except Exception as e:
             ConfigProvider.logger.debug(f'get_sink_parameters(): {e}')
-            raise ConfigProviderError(e)
-
-
-    '''
-    static
-    imports and returns the module specified by <module_name>
-    raises ModuleNotFoundError
-    '''
-    def _load_module(module_name):
-        module = importlib.import_module(module_name)
-        return module
-
-
-    '''
-    static
-    returns the class identified by <module_name> and <class_name>
-    raises AttributeError
-    '''
-    def get_class(module_name, class_name):
-        module = ConfigProvider._load_module(module_name)
-        cls = getattr(module, class_name)
-        return cls
-
-
-    '''
-    static
-    returns a list of all files in the directory specified by _CONFIG_DIRECTORY
-    '''
-    def _get_config_files():
-        config_files = [f for f in listdir(ConfigProvider._CONFIG_DIRECTORY)
-                            if isfile(join(ConfigProvider._CONFIG_DIRECTORY, f))]
-        return config_files
-
-
-    '''
-    static
-    returns the config's file content specified by <name>
-    '''
-    def get_config(name):
-        config_files = ConfigProvider._get_config_files()
-        for file in config_files:
-            with open(join(ConfigProvider._CONFIG_DIRECTORY, file), 'r') as f:
-                cfg = json.loads(f.read())
-                if cfg['name'] != None and cfg['name'] == name:
-                    return cfg
-
-    '''
-    static
-    returns the json names field of all config files
-    '''
-    def get_config_names():
-        names = []
-        config_files = ConfigProvider._get_config_files()
-        for file in config_files:
-            with open(join(ConfigProvider._CONFIG_DIRECTORY, file), 'r') as f:
-                cfg = json.loads(f.read())
-                if cfg['name']:
-                    names.append(cfg['name'])
-        return names
+            raise ConfigProviderError from e
 
 
     '''
@@ -173,3 +174,5 @@ class ConfigProvider(AbstractConfigProvider):
         except:
             params = {}
         return params
+
+    ''' END static '''
