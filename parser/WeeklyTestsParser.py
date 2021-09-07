@@ -1,7 +1,7 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 from io import BytesIO
 from openpyxl import load_workbook
 import logging
@@ -40,7 +40,7 @@ class WeeklyTestsParser(AbstractParser):
                     calendar_weeks.append(f'2020-W10')
                     test_count = row[2].value
                     if isinstance(test_count, str):
-                        test_count = strToInteger(test_count, '+')
+                        test_count = str_to_integer(test_count, '+')
                     elif isinstance(test_count, int):
                         test_count = test_count
                     else:
@@ -59,8 +59,8 @@ class WeeklyTestsParser(AbstractParser):
                             raw_year = None
                             if len(raw_week_array) == 2:
                                 if isinstance(raw_week_array[0], str) and isinstance(raw_week_array[1], str):
-                                    raw_week = strToInteger(raw_week_array[0], '+')
-                                    raw_year = strToInteger(raw_week_array[1], '+')
+                                    raw_week = str_to_integer(raw_week_array[0], '+')
+                                    raw_year = str_to_integer(raw_week_array[1], '+')
                                 elif isinstance(raw_week_array[0], int) and isintance(raw_week_array[1], int):
                                     raw_week = raw_week_array[0]
                                     raw_year = raw_week_array[1]
@@ -91,7 +91,7 @@ class WeeklyTestsParser(AbstractParser):
                         elif col_index == 1:
                             tests = None
                             if isinstance(col.value, str):
-                                tests = strToInteger(col.value, '+')
+                                tests = str_to_integer(col.value, '+')
                             elif isinstance(col.value, int):
                                 tests = col.value
                             else:

@@ -1,7 +1,7 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 import logging
 import csv
 from io import StringIO
@@ -45,13 +45,13 @@ class DailyVaccinationsGithubParser(AbstractParser):
                         tmp_sec_vacc = 0
                         tmp_booster_vacc = 0
                     else:
-                        vacc_series = strToInteger(line[3], '+')
+                        vacc_series = str_to_integer(line[3], '+')
                         if vacc_series == 1:
-                            tmp_pri_vacc += strToInteger(line[4], '+')
+                            tmp_pri_vacc += str_to_integer(line[4], '+')
                         elif vacc_series == 2:
-                            tmp_sec_vacc += strToInteger(line[4], '+')
+                            tmp_sec_vacc += str_to_integer(line[4], '+')
                         elif vacc_series == 3:
-                            tmp_booster_vacc += strToInteger(line[4], '+')
+                            tmp_booster_vacc += str_to_integer(line[4], '+')
                         else:
                             self.logger.warn(f'unknown vacc_series: {vacc_series}')
                 index+=1

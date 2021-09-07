@@ -2,7 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 import logging
 from io import StringIO
 import csv
@@ -33,8 +33,8 @@ class ICUOccupancyParser(AbstractParser):
                     temp_icou_covid = line[6]
                     temp_icou_free = line[7]
 
-                    temp_icou_covid = strToInteger(temp_icou_covid, '+')
-                    temp_icou_free = strToInteger(temp_icou_free, '+')
+                    temp_icou_covid = str_to_integer(temp_icou_covid, '+')
+                    temp_icou_free = str_to_integer(temp_icou_free, '+')
 
                     if date == '':
                         date = temp_date

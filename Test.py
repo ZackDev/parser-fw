@@ -30,7 +30,7 @@ def tools_test_suite():
 
 def validators_test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(ValidatorsTest('test_strToInteger'))
+    suite.addTest(ValidatorsTest('test_str_to_integer'))
     return suite
 
 def json_test_suite():

@@ -2,7 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 from io import StringIO
 import logging
 import csv
@@ -33,7 +33,7 @@ class VaccinationsByVaccineParser(AbstractParser):
                 if index > 0:
                     vacc_name = line[2]
                     vacc_count = line[4]
-                    vacc_count = strToInteger(vacc_count, '+')
+                    vacc_count = str_to_integer(vacc_count, '+')
 
                     if vacc_name == 'Moderna':
                         moderna_count += vacc_count

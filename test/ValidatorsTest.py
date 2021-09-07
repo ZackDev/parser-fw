@@ -1,46 +1,46 @@
 import unittest
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 
 class ValidatorsTest(unittest.TestCase):
 
-    def test_strToInteger(self):
+    def test_str_to_integer(self):
         with self.subTest():
-            self.assertEqual(strToInteger('123'), 123)
+            self.assertEqual(str_to_integer('123'), 123)
 
         with self.subTest():
-            self.assertEqual(strToInteger('-123', '-'), -123)
+            self.assertEqual(str_to_integer('-123', '-'), -123)
 
         with self.subTest():
-            self.assertEqual(strToInteger('999999999'), 999999999)
-
-        with self.subTest():
-            with self.assertRaises(ValueError):
-                strToInteger('123', '-')
-
-        with self.subTest():
-            with self.assertRaises(TypeError):
-                strToInteger(123)
+            self.assertEqual(str_to_integer('999999999'), 999999999)
 
         with self.subTest():
             with self.assertRaises(ValueError):
-                strToInteger('abcd')
+                str_to_integer('123', '-')
 
         with self.subTest():
             with self.assertRaises(TypeError):
-                strToInteger(0.23)
+                str_to_integer(123)
+
+        with self.subTest():
+            with self.assertRaises(ValueError):
+                str_to_integer('abcd')
 
         with self.subTest():
             with self.assertRaises(TypeError):
-                strToInteger(-1.0)
+                str_to_integer(0.23)
+
+        with self.subTest():
+            with self.assertRaises(TypeError):
+                str_to_integer(-1.0)
 
         for i in range(0, 99):
             with self.subTest():
-                self.assertEqual(strToInteger(str(i), '+'), i)
+                self.assertEqual(str_to_integer(str(i), '+'), i)
 
         for i in range(-99, 0):
             with self.subTest():
-                self.assertEqual(strToInteger(str(i), '-'), i)
+                self.assertEqual(str_to_integer(str(i), '-'), i)
 
         for i in range(-49, 49):
             with self.subTest():
-                self.assertEqual(strToInteger(str(i), '*'), i)
+                self.assertEqual(str_to_integer(str(i), '*'), i)

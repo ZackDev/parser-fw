@@ -1,7 +1,7 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 import logging
 from io import BytesIO
 from openpyxl import load_workbook
@@ -49,9 +49,9 @@ class DailyVaccinationsParser(AbstractParser):
                             raw_date = raw_date_str.split(' ')[0]
                             raw_date_array = raw_date.split('.')
                             if len(raw_date_array) == 3:
-                                raw_day = strToInteger(raw_date_array[0], '+')
-                                raw_month = strToInteger(raw_date_array[1], '+')
-                                raw_year = strToInteger(raw_date_array[2], '+')
+                                raw_day = str_to_integer(raw_date_array[0], '+')
+                                raw_month = str_to_integer(raw_date_array[1], '+')
+                                raw_year = str_to_integer(raw_date_array[2], '+')
                                 if (2020 <= raw_year) and (1 <= raw_month <= 12) and (1 <= raw_day <= 31):
                                     if raw_day < 10:
                                         day = f'0{raw_day}'
@@ -76,7 +76,7 @@ class DailyVaccinationsParser(AbstractParser):
                         # the primary vaccinations column
                         elif col_index == 1:
                             raw_p_vacc = str(col.value)
-                            p_vacc = strToInteger(raw_p_vacc, '+')
+                            p_vacc = str_to_integer(raw_p_vacc, '+')
                             primary_vaccinations.append(p_vacc)
                             self.logger.debug(f'appended p_vacc: {p_vacc}')
 
@@ -89,7 +89,7 @@ class DailyVaccinationsParser(AbstractParser):
                                 secondary_vaccinations.append(s_vacc)
                                 self.logger.debug(f'appended s_vacc: {s_vacc}')
                             else:
-                                s_vacc = strToInteger(raw_s_vacc, '+')
+                                s_vacc = str_to_integer(raw_s_vacc, '+')
                                 secondary_vaccinations.append(s_vacc)
                                 self.logger.debug(f'appended s_vacc: {s_vacc}')
                         col_index +=1

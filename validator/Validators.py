@@ -1,4 +1,4 @@
-def strToInteger(input, sign='*'):
+def str_to_integer(input, sign='*'):
     """
     converts the str input to int, checks its sign and returns the int.
 
@@ -29,3 +29,13 @@ def strToInteger(input, sign='*'):
             raise ValueError(f'sign: {sign} not supported.')
     else:
         raise TypeError('input is not a string.')
+
+
+def isValidISO8601Date(date_string):
+    """
+    takes <date_string> and checks if the format is valid according to ISO 8601
+    standard.
+    see https://en.wikipedia.org/wiki/ISO_8601 for further information
+    date_string is checked against Date format as specified in ISO 8601 (YYYY-MM-DD)
+    """
+    raise NotImplementedError

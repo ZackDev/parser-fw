@@ -2,7 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from parser.Validators import strToInteger
+from validator.Validators import str_to_integer
 from io import StringIO
 import logging
 import csv
@@ -69,9 +69,9 @@ class DailyCasesParser(AbstractParser):
                     date_array = raw_date.split('/')
                     day, month, year = None, None, None
                     if len(date_array) == 3:
-                        day = strToInteger(date_array[1], '+')
-                        month = strToInteger(date_array[0], '+')
-                        year = strToInteger(date_array[2], '+')
+                        day = str_to_integer(date_array[1], '+')
+                        month = str_to_integer(date_array[0], '+')
+                        year = str_to_integer(date_array[2], '+')
                     else:
                         raise ValueError('raw_date array length is not 3.')
 
@@ -96,7 +96,7 @@ class DailyCasesParser(AbstractParser):
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
-                    case = strToInteger(raw_case, '+')
+                    case = str_to_integer(raw_case, '+')
                     cases.append(case)
                     self.logger.debug(f'appended case: {case}')
 
