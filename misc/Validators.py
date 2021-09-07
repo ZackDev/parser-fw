@@ -58,6 +58,15 @@ def is_valid_ISO8601_date(date_string):
 
 
 def is_valid_ISO8601_date_array(date_array, strict=False):
+    if len(date_array) == 0:
+        return False
+    if strict == False:
+        for date in date_array:
+            if is_valid_ISO8601_date(date) == False:
+                return False
+        return True
+    if strict == True:
+        raise NotImplementedError
     """
     takes <date_array>, an string array of dates and checks if the dates in it are
     valid ISO8601 dates.
@@ -65,7 +74,6 @@ def is_valid_ISO8601_date_array(date_array, strict=False):
         if set to True, checks if dates are ascending without gaps
         if set to False, only the specific date at <date_array[n]> is checked
     """
-    raise NotImplementedError
 
 
 def _is_leap_year(year_string):
@@ -83,6 +91,8 @@ if __name__ == '__main__':
     print(months)
 
     print(is_valid_ISO8601_date("2021-13-7"))
+
+    print(is_valid_ISO8601_date_array(["2021-11-05", "2031-12-04"]))
 
 #    for i in range(1600, 2401):
 #        if _is_leap_year(i) == True:
