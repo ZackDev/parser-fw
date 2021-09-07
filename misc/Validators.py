@@ -66,6 +66,7 @@ def is_valid_ISO8601_date_array(date_array, strict=False):
                 return False
         return True
     if strict == True:
+        # TODO: build expected array from <date_array[0]> to len(<date_array>)
         raise NotImplementedError
     """
     takes <date_array>, an string array of dates and checks if the dates in it are
@@ -75,6 +76,20 @@ def is_valid_ISO8601_date_array(date_array, strict=False):
         if set to False, only the specific date at <date_array[n]> is checked
     """
 
+def _build_date_array(start_date, length):
+    start_day_parts = start_date.split('-')
+    year_int = (start_day_parts[0])
+    month_int = (start_day_parts[1])
+    day_int = int(start_day_parts[2])
+
+    date_array = []
+    date_array.append(start_date)
+    length-=1
+
+    while (length > 0):
+        
+        length-=1
+    return date_array
 
 def _is_leap_year(year_string):
     tmp_year = int(year_string)
