@@ -32,4 +32,4 @@ class AbstractSource(ABC):
 
     @abstractmethod
     def _get_data(self):
-        pass
+        raise NotImplementedError

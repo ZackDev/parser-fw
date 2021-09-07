@@ -37,4 +37,4 @@ class AbstractSink(ABC):
 
     @abstractmethod
     def _store(self):
-        pass
+        raise NotImplementedError

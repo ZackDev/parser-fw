@@ -33,4 +33,4 @@ class AbstractParser(ABC):
 
     @abstractmethod
     def _parse(self, data):
-        pass
+        raise NotImplementedError
