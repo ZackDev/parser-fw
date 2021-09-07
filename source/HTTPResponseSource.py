@@ -28,4 +28,4 @@ class HTTPResponseSource(AbstractSource):
                 raise ConnectionError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
             self.logger.critical('call to requests.get() failed. Raising ConnectionError.')
-            raise ConnectionError(e)
+            raise ConnectionError from e
