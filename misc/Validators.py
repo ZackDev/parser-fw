@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 months = [f'{m:02}' for m in range(1, 13)]
 days_per_month = {  "01":31,
                     "02":28,
@@ -85,16 +87,15 @@ def _build_date_array(start_date, length):
     date_array = []
     date_array.append(start_date)
     length-=1
-
+    current_date = start_date
     while (length > 0):
         # TODO
-        date_array.append(_get_next_date())
+        next_date = (date.fromisoformat(current_date) + timedelta(days=1)).isoformat()
+        date_array.append(next_date)
+        current_date = next_date
         length-=1
     return date_array
 
-def _get_next_date(date):
-    # TODO
-    pass
 
 def _is_leap_year(year_string):
     tmp_year = int(year_string)
@@ -113,6 +114,8 @@ if __name__ == '__main__':
     print(is_valid_ISO8601_date("2021-13-7"))
 
     print(is_valid_ISO8601_date_array(["2021-11-05", "2031-12-04"]))
+
+    print(_build_date_array("2021-11-05", 233))
 
 #    for i in range(1600, 2401):
 #        if _is_leap_year(i) == True:
