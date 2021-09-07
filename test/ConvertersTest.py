@@ -1,7 +1,7 @@
 import unittest
-from validator.Validators import str_to_integer
+from misc.Converters import str_to_integer
 
-class ValidatorsTest(unittest.TestCase):
+class ConvertersTest(unittest.TestCase):
 
     def test_str_to_integer(self):
         with self.subTest():

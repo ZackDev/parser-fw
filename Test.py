@@ -2,7 +2,7 @@ import unittest
 from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
-from test.ValidatorsTest import ValidatorsTest
+from test.ConvertersTest import ConvertersTest
 from test.CustomModuleTest import HTTPResponseSourceTest
 from test.CustomModuleTest import DailyCasesParserTest
 from test.CustomModuleTest import VaccinationsByVaccineParserTest
@@ -28,9 +28,9 @@ def tools_test_suite():
     suite.addTest(ToolsExistTest('test_diff_files'))
     return suite
 
-def validators_test_suite():
+def miscs_test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(ValidatorsTest('test_str_to_integer'))
+    suite.addTest(ConvertersTest('test_str_to_integer'))
     return suite
 
 def json_test_suite():
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     print('\n')
 
     print('Validators Test:')
-    runner.run(validators_test_suite())
+    runner.run(miscs_test_suite())
     print('\n')
 
     print('JSON Test:')

@@ -2,7 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
-from validator.Validators import str_to_integer
+from misc.Converters import str_to_integer
 import logging
 from io import StringIO
 import csv
