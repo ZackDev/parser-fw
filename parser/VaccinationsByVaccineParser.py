@@ -8,12 +8,16 @@ import logging
 import csv
 
 class VaccinationsByVaccineParser(AbstractParser):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameter source: {source}')
+        self.logger.debug(f'with parameter source: {kwargs}')
 
-        super().__init__(source)
+        for key, value in kwargs.items():
+            if key == "source":
+                super().__init__(value)
+            else:
+                setattr(VaccinationsByVaccineParser, key, value)
 
     def _parse(self, data):
         self.logger.debug('_parse() called.')

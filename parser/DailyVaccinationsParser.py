@@ -9,9 +9,16 @@ from openpyxl import load_workbook
 # NOTE: deprecated as of 2021-09-06, replaced by DailyVaccinationsGithubParser
 
 class DailyVaccinationsParser(AbstractParser):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
-        super().__init__(source)
+        self.logger.debug('__init__() called.')
+        self.logger.debug(f'with parameters: {kwargs}')
+
+        for key, value in kwargs.items():
+            if key == "source":
+                super().__init__(value)
+            else:
+                setattr(DailyVaccinationsParser, key, value)
 
     def _parse(self, xmldata):
         self.logger.debug('_parse() called.')

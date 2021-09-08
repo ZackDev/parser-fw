@@ -10,9 +10,16 @@ from io import StringIO
 import csv
 
 class ICUOccupancyParser(AbstractParser):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
-        super().__init__(source)
+        self.logger.debug('__init__() called.')
+        self.logger.debug(f'with parameters: {kwargs}')
+
+        for key, value in kwargs.items():
+            if key == "source":
+                super().__init__(value)
+            else:
+                setattr(ICUOccupancyParser, key, value)
 
     def _parse(self, data):
         self.logger.debug('_parse() called.')
