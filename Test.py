@@ -98,3 +98,12 @@ if __name__ == '__main__':
 
     print('Vaccinations By Vaccine Test:')
     test_results.append(runner.run(vaccinations_by_vaccine_test_suite()))
+
+    total_runs = 0
+    errors = 0
+    failures = 0
+    for result in test_results:
+        total_runs += result.testsRun
+        errors += len(result.errors)
+        failures += len(result.failures)
+    print(f'Total:{total_runs} Errors:{errors} Failures:{failures}')
