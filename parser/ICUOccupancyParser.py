@@ -2,7 +2,9 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Exceptions import DateArrayError
 from misc.Converters import str_to_integer
+from misc.Validators import is_valid_ISO8601_date_array
 import logging
 from io import StringIO
 import csv
@@ -52,11 +54,15 @@ class ICUOccupancyParser(AbstractParser):
                 index+=1
 
 
-        if 0 == len(dates) == len(icou_free) == len(icou_covid_array):
+        if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise DataLengthUnequalError()
 
-        elif len(dates) == len(icou_free_array) == len(icou_covid_array):
+        if 0 == len(dates) == len(icou_free_array) == len(icou_covid_array):
             raise DataLengthZeroError()
+
+        dates_is_valid = is_valid_ISO8601_date_array(dates, True)
+        if dates_is_valid == False:
+            raise DateArrayError('date array is inconsistent.')
 
         else:
             dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }

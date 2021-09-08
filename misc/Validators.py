@@ -30,8 +30,12 @@ def _build_date_array(start_date, length):
     date_array.append(start_date)
     temp_date = start_date
     for i in range(length-1):
-        temp_date = date.fromisoformat(temp_date) + timedelta(days=1)
-        date_array.append(temp_date.isoformat())
+        '''
+        convert to date object, add timedelta of 1 day, convert to iso formatted
+        string and add it to the date_darray
+        '''
+        temp_date = (date.fromisoformat(temp_date) + timedelta(days=1)).isoformat()
+        date_array.append(temp_date)
     return date_array
 
 if __name__ == '__main__':

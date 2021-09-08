@@ -1,7 +1,9 @@
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Exceptions import DateArrayError
 from misc.Converters import str_to_integer
+from misc.Validators import is_valid_ISO8601_date_array
 import logging
 import csv
 from io import StringIO
@@ -62,6 +64,11 @@ class DailyVaccinationsGithubParser(AbstractParser):
 
             if len(dates) < 1 and len(primary_vaccinations) < 1 and len(secondary_vaccinations) and len(booster_vaccinations) < 1:
                 raise DataLengthZeroError('dates, primary_vaccinations and secondary_vaccinations array length is zero.')
+
+            dates_is_valid = is_valid_ISO8601_date_array(dates, True)
+            if dates_is_valid == False:
+                raise DateArrayError('date array is inconsistent.')
+
 
             dict = { 'dates':dates, 'primary_vaccinations':primary_vaccinations, 'secondary_vaccinations':secondary_vaccinations, 'booster_vaccinations':booster_vaccinations }
             self.parsed_data = dict

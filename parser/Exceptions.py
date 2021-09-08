@@ -3,3 +3,6 @@ class DataLengthUnequalError(Exception):
 
 class DataLengthZeroError(Exception):
     pass
+
+class DateArrayError(Exception):
+    pass

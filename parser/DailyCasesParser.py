@@ -2,6 +2,7 @@ from abc import ABC
 from abstract.AbstractParser import AbstractParser
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
+from parser.Exceptions import DateArrayError
 from misc.Converters import str_to_integer
 from io import StringIO
 import logging
@@ -120,6 +121,10 @@ class DailyCasesParser(AbstractParser):
 
             if len(dates) < 1 and len(cases) < 1:
                 raise DataLengthZeroError('dates and cases array length is zero.')
+
+            dates_is_valid = is_valid_ISO8601_date_array(dates, True)
+            if dates_is_valid == False:
+                raise DateArrayError('date array is inconsistent.')
 
             dict = { 'dates':dates, 'cases':cases}
             self.parsed_data = dict
