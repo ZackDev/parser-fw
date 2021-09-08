@@ -29,3 +29,6 @@ class ValidatorsTest(unittest.TestCase):
 
         built_array = _build_date_array("2021-05-06", 3)
         self.assertNotEqual(ValidatorsTest._TEST_GAP_ARRAY, built_array)
+
+        with self.assertRaises(ValueError):
+            _build_date_array("not-a-start_date", 4)
