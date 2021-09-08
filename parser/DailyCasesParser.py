@@ -4,6 +4,7 @@ from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from parser.Exceptions import DateArrayError
 from misc.Converters import str_to_integer
+from misc.Validators import is_valid_ISO8601_date_array
 from io import StringIO
 import logging
 import csv
