@@ -111,4 +111,4 @@ if __name__ == '__main__':
         errors += len(result.errors)
         failures += len(result.failures)
     end_time = time.monotonic() - start_time
-    print(f'Total:{total_runs}\t Errors:{errors}\t Failures:{failures}\ŧ Duration:{end_time}s')
+    print(f'Total:{total_runs}\t Errors:{errors}\t Failures:{failures}\t Duration:{end_time}s')
