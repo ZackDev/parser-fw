@@ -37,16 +37,3 @@ def _build_date_array(start_date, length):
         temp_date = (date.fromisoformat(temp_date) + timedelta(days=1)).isoformat()
         date_array.append(temp_date)
     return date_array
-
-if __name__ == '__main__':
-    # yields True
-    print(is_valid_ISO8601_date_array(["2021-12-11", "2021-12-12"]))
-
-    # yields True
-    print(is_valid_ISO8601_date_array(["2021-12-11", "2021-12-12"], True))
-
-    # yields False
-    print(is_valid_ISO8601_date_array(["2021-12-11", "2021-12-13"], True))
-
-    # yields True
-    print(is_valid_ISO8601_date_array(["2021-12-11", "2021-12-13"], False))

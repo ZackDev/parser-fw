@@ -2,6 +2,7 @@ import unittest
 from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
+from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
 from test.CustomModuleTest import HTTPResponseSourceTest
 from test.CustomModuleTest import DailyCasesParserTest
@@ -28,9 +29,14 @@ def tools_test_suite():
     suite.addTest(ToolsExistTest('test_diff_files'))
     return suite
 
-def miscs_test_suite():
+def converters_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(ConvertersTest('test_str_to_integer'))
+    return suite
+
+def validators_test_suite():
+    suite = unittest.TestSuite()
+    suite.addTest(ValidatorsTest('test_is_valid_ISO8601_date'))
     return suite
 
 def json_test_suite():
@@ -57,33 +63,38 @@ def vaccinations_by_vaccine_test_suite():
 if __name__ == '__main__':
     # verbosity determines the output of a test run, 2 seems to be the highest
     runner = unittest.TextTestRunner(verbosity=2)
+    test_results = []
     print('Framework Module Import Test:')
-    runner.run(framework_module_import_test_suite())
+    test_results.append(runner.run(framework_module_import_test_suite()))
     print('\n')
 
     print('Third Party Module Import Test:')
-    runner.run(third_party_module_import_test_suite())
+    test_results.append(runner.run(third_party_module_import_test_suite()))
     print('\n')
 
     print('Tools Test:')
-    runner.run(tools_test_suite())
+    test_results.append(runner.run(tools_test_suite()))
+    print('\n')
+
+    print('Converters Test:')
+    test_results.append(runner.run(converters_test_suite()))
     print('\n')
 
     print('Validators Test:')
-    runner.run(miscs_test_suite())
+    test_results.append(runner.run(validators_test_suite()))
     print('\n')
 
     print('JSON Test:')
-    runner.run(json_test_suite())
+    test_results.append(runner.run(json_test_suite()))
     print('\n')
 
     print('HTTP Source Test:')
-    runner.run(http_source_test_suite())
+    test_results.append(runner.run(http_source_test_suite()))
     print('\n')
 
     print('Daily Cases Parser Test:')
-    runner.run(daily_cases_parser_test_suite())
+    test_results.append(runner.run(daily_cases_parser_test_suite()))
     print('\n')
 
     print('Vaccinations By Vaccine Test:')
-    runner.run(vaccinations_by_vaccine_test_suite())
+    test_results.append(runner.run(vaccinations_by_vaccine_test_suite()))
