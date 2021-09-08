@@ -1,4 +1,5 @@
 import unittest
+import time
 from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
@@ -64,6 +65,7 @@ def vaccinations_by_vaccine_test_suite():
 
 if __name__ == '__main__':
     # verbosity determines the output of a test run, 2 seems to be the highest
+    start_time = time.monotonic()
     runner = unittest.TextTestRunner(verbosity=2)
     test_results = []
     print('Framework Module Import Test:')
@@ -108,4 +110,5 @@ if __name__ == '__main__':
         total_runs += result.testsRun
         errors += len(result.errors)
         failures += len(result.failures)
-    print(f'Total:{total_runs} Errors:{errors} Failures:{failures}')
+    end_time = time.monotonic() - start_time
+    print(f'Total:{total_runs}\t Errors:{errors}\t Failures:{failures}\ŧ Duration:{end_time}s')
