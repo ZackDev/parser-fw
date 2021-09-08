@@ -37,6 +37,8 @@ def converters_test_suite():
 def validators_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(ValidatorsTest('test_is_valid_ISO8601_date'))
+    suite.addTest(ValidatorsTest('test_is_valid_ISO8601_date_array'))
+    suite.addTest(ValidatorsTest('test__build_date_array'))
     return suite
 
 def json_test_suite():
