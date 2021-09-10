@@ -21,7 +21,73 @@ the sink is the last step in the sequence process. it takes the parsed data from
 
 ### the sequence
 
-the sequence combines the above. additionally it gets a name so it can be identified later when running the parser-fw from the command line. sequences themselves therefor register with the `SequenceRegister` which is checked at start if the wanted sequence is available.
+the sequence combines the above. additionally it gets a name so it can be identified later when running the parser-fw from the command line. creating a sequence is easy and requires the following steps:
+* create your custom `source` `parser` and `sink` classes and make sure they inherit from their specific abstract classes
+* create a corresponding `.json` file in the `./config` folder
+
+### the sequence config file
+
+config files define a sequence. the following is a schema of it.
+
+```json
+{
+  "type": "sequence",
+  "name": <name>,
+  "source": {
+    "package": <package_name>,
+    "module": <module_name>,
+    "class": <class_name>,
+    "parameters": [
+      {
+        "name": <parameter_name>,
+        "type": <type>,
+        "value": <value>
+      },
+      {
+        ...
+      }
+    ]
+  },
+  "parser": {
+    ...
+  },
+  "sink": {
+    ...
+  }
+}
+```
+
+here you can define:
+* the sequence's `name` which `Sehsu` can be started with from command line
+* the source, parser and sink definitions which include:
+  * `package`: the name of the package
+  * `module`: the name of the module
+  * `class`: the name of the class
+  * `parameters`: and array of parameters to instantiate the class with
+
+for example, if your sequence reads from a file, the source would expect a filename to read from. lets call it `file_to_parse.txt`.
+
+your source class is named `LocalFileSource` and is located in the folder `custom_sources` where you have a module named `LocalSources`.
+
+the corresponding entry in the config file looks like this:
+
+```json
+{
+  "source": {
+    "package": "custom_sources",
+    "module": "LocalSources",
+    "class": "LocalFileSource",
+    "parameters": [
+      {
+        "name": "filename",
+        "type": "str",
+        "value": "file_to_parse.txt"
+      }
+    ]
+  }
+}
+```
+
 
 ### running the framework
 
