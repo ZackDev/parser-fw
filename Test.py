@@ -3,6 +3,7 @@ import time
 from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
+from test.FrameworkSourceTest import FrameworkSourceTest
 from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
 from test.CustomModuleTest import HTTPResponseSourceTest
@@ -22,6 +23,11 @@ def third_party_module_import_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(ThirdPartyModuleImportTest('test_requests_import'))
     suite.addTest(ThirdPartyModuleImportTest('test_openpyxl_import'))
+    return suite
+
+def framework_source_test_suite():
+    suite = unittest.TestSuite()
+    suite.addTest(FrameworkSourceTest('test_source'))
     return suite
 
 def tools_test_suite():
@@ -74,6 +80,10 @@ if __name__ == '__main__':
 
     print('Third Party Module Import Test:')
     test_results.append(runner.run(third_party_module_import_test_suite()))
+    print('\n')
+
+    print('Framework Source Test:')
+    test_results.append(runner.run(framework_source_test_suite()))
     print('\n')
 
     print('Tools Test:')
