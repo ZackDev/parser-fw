@@ -4,6 +4,7 @@ import importlib
 from ConfigProvider import ConfigProvider, ConfigProviderError
 from Sequence import Sequence
 
+_DEFAULT_LOGLEVEL = 2
 
 def init_sequence(sequence_name):
     logger = logging.getLogger(__name__)
@@ -42,25 +43,22 @@ def init_sequence(sequence_name):
         exit(1)
 
 
-def init_logger(loglevel=2):
+def init_logger(loglevel=_DEFAULT_LOGLEVEL):
     loglevel = loglevel*10
     # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
     available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
     cnt = available_loglevels.count(loglevel)
-    if cnt == 1:
-        logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
-        logger = logging.getLogger(__name__)
-        logger.info(f'program started with loglevel: {loglevel}')
-    else:
-        logging.basicConfig(filename='parser-fw.log', encoding='utf-8', format='%(asctime)s %(name)s %(levelname)s : %(message)s')
-        logger = logging.getLogger(__name__)
-        logger.warning(f'provided loglevel: {loglevel} not supported. running Seshu with default loglevel.')
+    if cnt != 1:
+        loglevel = logging.INFO
+    logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
+    logger = logging.getLogger(__name__)
+    logger.info(f'program started with loglevel: {loglevel}')
 
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("-s", "--sequence", type=str)
-    arg_parser.add_argument("-l", "--loglevel", type=int, default=2)
+    arg_parser.add_argument("-l", "--loglevel", type=int, default=_DEFAULT_LOGLEVEL)
     args = arg_parser.parse_args()
     if (args.loglevel and args.sequence):
         init_logger(args.loglevel)
