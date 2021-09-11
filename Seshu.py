@@ -9,6 +9,9 @@ from Sequence import Sequence
 
 _DEFAULT_LOGLEVEL = 2
 
+class SeshuError:
+    pass
+
 def init_sequence(sequence_name):
     logger = logging.getLogger(__name__)
 
@@ -18,7 +21,8 @@ def init_sequence(sequence_name):
     except ConfigProviderError as cpe:
         logger.critical(f'error creating ConfigProvider object: {cpe}')
     except Exception as e:
-        logger.critical(f'unexpecter error creating ConfigProvider object: {e}')
+        logger.critical(f'unexpected error creating ConfigProvider object: {e}')
+
 
     """ SOURCE """
     """ get source class """
@@ -29,6 +33,7 @@ def init_sequence(sequence_name):
     except Exception as e:
         logger.critical(f'unecpected error getting source class from ConfigProvider: {e}')
 
+
     """ get source parameters """
     try:
         source_params = cfg_provider.get_source_parameters()
@@ -36,6 +41,7 @@ def init_sequence(sequence_name):
         logger.critical(f'error getting source parameters from ConfigProvider: {cpe}')
     except Exception as e:
         logger.critical(f'unecpected error getting source parameters from ConfigProvider: {e}')
+
 
     """ create source object """
     try:
@@ -106,7 +112,8 @@ def init_sequence(sequence_name):
     except Exception as e:
         logger.critical(f'error during creation/running of sequence: {e}')
         logger.critical('exiting program due to critical error.')
-        exit(1)
+    finally:
+        exit(0)
 
 
 def init_logger(loglevel=_DEFAULT_LOGLEVEL):
