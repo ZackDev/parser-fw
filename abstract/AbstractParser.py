@@ -30,7 +30,7 @@ class AbstractParser(ABC):
         try:
             self._parse(self.source.data)
         except Exception as e:
-            raise ParserError from e
+            raise ParserError(f'{e}')
 
         self.logger.debug('run() finished.')
 
