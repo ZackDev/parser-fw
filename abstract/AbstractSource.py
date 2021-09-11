@@ -13,12 +13,15 @@ the abstract source, where all concrete sources should be derived from
                 source object
 '''
 class AbstractSource(ABC):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.abs_logger = logging.getLogger(__name__)
         self.abs_logger.debug('__init__() called.')
-        self.abs_logger.debug(f'with parameter source: {source}')
-
-        self.source = source
+        self.abs_logger.debug(f'with parameter source: {kwargs}')
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        except Exception as e:
+            raise SourceError(f'error setattr() {key} {value}') from e
 
     def run(self):
         self.abs_logger.debug('run() called.')

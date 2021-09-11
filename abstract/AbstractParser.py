@@ -14,12 +14,15 @@ the abstract parser, where all concrete parser classes should be derived from
 - _parse(): gets implemented in the specific Parser object
 '''
 class AbstractParser(ABC):
-    def __init__(self, source):
+    def __init__(self, **kwargs):
         self.abs_logger = logging.getLogger(__name__)
         self.abs_logger.debug('__init__() called.')
-        self.abs_logger.debug(f'with parameter source: {source}')
-
-        self.source = source
+        self.abs_logger.debug(f'with parameter kwargs: {kwargs}')
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        except Exception as e:
+            raise ParserError(f'error setattr(): {key} {value}') from e
 
     def run(self):
         self.abs_logger.debug('run() called.')

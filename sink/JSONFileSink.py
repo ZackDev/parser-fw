@@ -6,13 +6,10 @@ import logging
 class JSONFileSink(AbstractSink):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
-        parser, target = None, None
-        for key, value in kwargs.items():
-            if key == 'parser':
-                parser = value
-            elif key == 'target':
-                target = value
-        super().__init__(parser, target)
+        self.logger.debug('__init__() called.')
+        self.logger.debug(f'with parameters: {kwargs}')
+        super().__init__(**kwargs)
+
 
     def _store(self):
         self.logger.debug('_store() called.')

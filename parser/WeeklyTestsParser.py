@@ -11,12 +11,8 @@ class WeeklyTestsParser(AbstractParser):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameters: {kwargs}')
-        
-        for key, value in kwargs.items():
-            if key == "source":
-                super().__init__(value)
-            else:
-                setattr(WeeklyTestsParser, key, value)
+        super().__init__(**kwargs)
+
 
     def _parse(self, xmldata):
 

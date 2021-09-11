@@ -6,9 +6,9 @@ import requests
 class HTTPResponseSource(AbstractSource):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
-        for key, value in kwargs.items():
-            if key == "source":
-                super().__init__(value)
+        self.logger.debug('__init__() called.')
+        self.logger.debug(f'with parameters: {kwargs}')
+        super().__init__(**kwargs)
 
 
     def _get_data(self):
@@ -24,7 +24,6 @@ class HTTPResponseSource(AbstractSource):
             else:
                 self.logger.critical('call to requests.get() failed.')
                 self.logger.critical(f'status code: {rsp.status_code}')
-                self.logger.critical(f'content: {rsp.content}')
                 raise ConnectionError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
             self.logger.critical('call to requests.get() failed. Raising ConnectionError.')

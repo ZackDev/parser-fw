@@ -14,14 +14,15 @@ the abstract sink, where all concrete sinks should be derived from
 - _store(): gets implemented in the specific Sink object
 '''
 class AbstractSink(ABC):
-    def __init__(self, parser, target):
+    def __init__(self, **kwargs):
         self.abs_logger = logging.getLogger(__name__)
         self.abs_logger.debug('__init__() called.')
-        self.abs_logger.debug(f'with parameter parser: {parser}')
-        self.abs_logger.debug(f'with parameter target: {target}')
-
-        self.parser = parser
-        self.target = target
+        self.abs_logger.debug(f'with parameter kwargs: {kwargs}')
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        except Exception as e:
+            raise SinkError(f'error setattr(): {key} {value}') from e
 
     def run(self):
         self.abs_logger.debug('run() called.')

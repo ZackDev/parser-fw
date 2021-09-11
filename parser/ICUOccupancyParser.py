@@ -14,12 +14,8 @@ class ICUOccupancyParser(AbstractParser):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameters: {kwargs}')
+        super().__init__(**kwargs)
 
-        for key, value in kwargs.items():
-            if key == "source":
-                super().__init__(value)
-            else:
-                setattr(ICUOccupancyParser, key, value)
 
     def _parse(self, data):
         self.logger.debug('_parse() called.')
