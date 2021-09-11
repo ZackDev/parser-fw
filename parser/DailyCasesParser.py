@@ -10,13 +10,6 @@ import logging
 import csv
 
 class DailyCasesParser(AbstractParser):
-    def __init__(self, **kwargs):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameters: {kwargs}')
-        super().__init__(**kwargs)
-
-
     def _parse(self, data):
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with parameter data: {data}')

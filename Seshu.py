@@ -57,6 +57,7 @@ def init_sequence(sequence_name):
     """ get parser parameters """
     try:
         parser_params = cfg_provider.get_parser_parameters()
+        parser_params.update({"source":source})
     except ConfigProviderError as cpe:
         logger.critical(f'error getting parser parameters from ConfigProvider: {cpe}')
     except Exception as e:
@@ -83,6 +84,7 @@ def init_sequence(sequence_name):
     """ get sink parameters """
     try:
         sink_params = cfg_provider.get_sink_parameters()
+        sink_params.update({"parser":parser})
     except ConfigProviderError as cpe:
         logger.critical(f'error getting sink parameters from ConfigProvider: {cpe}')
     except Exception as e:

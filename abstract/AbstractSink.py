@@ -15,9 +15,9 @@ the abstract sink, where all concrete sinks should be derived from
 '''
 class AbstractSink(ABC):
     def __init__(self, **kwargs):
-        self.abs_logger = logging.getLogger(__name__)
-        self.abs_logger.debug('__init__() called.')
-        self.abs_logger.debug(f'with parameter kwargs: {kwargs}')
+        self.logger = logging.getLogger(__name__)
+        self.logger.debug('__init__() called.')
+        self.logger.debug(f'with parameter kwargs: {kwargs}')
         try:
             for key, value in kwargs.items():
                 setattr(self, key, value)
@@ -25,16 +25,16 @@ class AbstractSink(ABC):
             raise SinkError(f'error setattr(): {key} {value}') from e
 
     def run(self):
-        self.abs_logger.debug('run() called.')
-        self.abs_logger.debug(f'with data: {self.parser.parsed_data}')
+        self.logger.debug('run() called.')
+        self.logger.debug(f'with data: {self.parser.parsed_data}')
 
         try:
             self.data = self.parser.parsed_data
             self._store()
         except Exception as e:
-            raise SinkError(e)
+            raise SinkError from e
 
-        self.abs_logger.debug('run() finished.')
+        self.logger.debug('run() finished.')
 
     @abstractmethod
     def _store(self):

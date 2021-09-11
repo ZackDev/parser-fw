@@ -4,13 +4,6 @@ import logging
 import requests
 
 class HTTPResponseSource(AbstractSource):
-    def __init__(self, **kwargs):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameters: {kwargs}')
-        super().__init__(**kwargs)
-
-
     def _get_data(self):
         self.logger.debug('_get_data() called.')
         try:
