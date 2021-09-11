@@ -41,7 +41,8 @@ class ConfigProvider(AbstractConfigProvider):
     '''
     def _get_config_files():
         config_files = [f for f in listdir(ConfigProvider._CONFIG_DIRECTORY)
-                            if isfile(join(ConfigProvider._CONFIG_DIRECTORY, f))]
+                            if isfile(join(ConfigProvider._CONFIG_DIRECTORY, f))
+                            and f != '.gitignore']
         return config_files
 
 
