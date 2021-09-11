@@ -28,6 +28,7 @@ def third_party_module_import_test_suite():
 def framework_source_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(FrameworkSourceTest('test_source'))
+    suite.addTest(FrameworkSourceTest('test_source_init'))
     return suite
 
 def tools_test_suite():
