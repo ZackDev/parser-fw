@@ -38,20 +38,15 @@ class Sequence:
             self.parser.run()
             self.sink.run()
             logger.info(f'finished sequence: {self.sequence_name}. exiting program.')
-            exit(0)
         except SourceError as e:
             logger.critical(f'SourceError: {e}')
             logger.critical('exiting program due to critical error.')
-            exit(1)
         except ParserError as e:
             logger.critical(f'ParserError {e}')
             logger.critical('exiting program due to critical error.')
-            exit(1)
         except SinkError as e:
             logger.critical(f'SinkError {e}')
             logger.critical('exiting program due to critical error.')
-            exit(1)
         except Exception as e:
             logger.critical(f'Exception {e}')
             logger.critical('exiting program due to critical error.')
-            exit(1)

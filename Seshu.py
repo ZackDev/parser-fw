@@ -131,4 +131,3 @@ if __name__ == '__main__':
         init_sequence(args.sequence)
     else:
         arg_parser.print_help()
-        exit(1)
