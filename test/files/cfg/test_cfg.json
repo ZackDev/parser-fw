@@ -1,0 +1,30 @@
+{
+  "type": "sequence",
+  "name": "test",
+  "source": {
+    "package": "test.files",
+    "module": "TestSource",
+    "class": "TestSource",
+    "parameters": [
+      {
+        "source": "hello"
+      }
+    ]
+  },
+  "parser": {
+    "package": "test.files",
+    "module": "TestParser",
+    "class": "TestParser"
+  },
+  "sink": {
+    "package": "test.files",
+    "module": "TestSink",
+    "class": "TestSink",
+    "parameters": [
+      {
+        "name": "target",
+        "value": "world"
+      }
+    ]
+  }
+}

@@ -32,7 +32,7 @@ class AbstractSink(ABC):
             self.data = self.parser.parsed_data
             self._store()
         except Exception as e:
-            raise SinkError from e
+            raise SinkError(f'{e}') from e
 
         self.logger.debug('run() finished.')
 

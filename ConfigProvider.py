@@ -52,6 +52,7 @@ class ConfigProvider(AbstractConfigProvider):
     def get_config(name):
         config_files = ConfigProvider._get_config_files()
         for file in config_files:
+            ConfigProvider.logger.debug(f'{file}')
             with open(join(ConfigProvider._CONFIG_DIRECTORY, file), 'r') as f:
                 cfg = json.loads(f.read())
                 if cfg['name'] != None and cfg['name'] == name:

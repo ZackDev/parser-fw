@@ -3,7 +3,7 @@ import time
 from test.ToolsTest import ToolsExistTest
 from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
 from test.FrameworkModuleImportTest import FrameworkModuleImportTest
-from test.FrameworkSourceTest import FrameworkSourceTest
+from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
 from test.CustomModuleTest import HTTPResponseSourceTest
@@ -27,8 +27,10 @@ def third_party_module_import_test_suite():
 
 def framework_source_test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(FrameworkSourceTest('test_source'))
-    suite.addTest(FrameworkSourceTest('test_source_init'))
+    suite.addTest(FrameworkTest('test_source_implementation'))
+    suite.addTest(FrameworkTest('test_parser_implementation'))
+    suite.addTest(FrameworkTest('test_sink_implementation'))
+    suite.addTest(FrameworkTest('test_config_provider'))
     return suite
 
 def tools_test_suite():
