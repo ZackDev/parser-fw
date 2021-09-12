@@ -17,6 +17,12 @@ class AbstractSource(ABC):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameter source: {kwargs}')
+
+        if "source" in kwargs:
+            pass
+        else:
+            raise SourceError(f'error: source not kwargs.')
+
         try:
             for key, value in kwargs.items():
                 setattr(self, key, value)

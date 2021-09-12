@@ -18,6 +18,17 @@ class AbstractSink(ABC):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameter kwargs: {kwargs}')
+
+        if "parser" in kwargs:
+            pass
+        else:
+            raise SinkError(f'error: parser not in kwargs.')
+
+        if "target" in kwargs:
+            pass
+        else:
+            raise SinkError(f'error: target not in kwargs.')
+
         try:
             for key, value in kwargs.items():
                 setattr(self, key, value)

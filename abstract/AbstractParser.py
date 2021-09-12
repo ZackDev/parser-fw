@@ -18,6 +18,12 @@ class AbstractParser(ABC):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
         self.logger.debug(f'with parameter kwargs: {kwargs}')
+
+        if "source" in kwargs:
+            pass
+        else:
+            raise ParserError(f'error: source not in kwargs.')
+
         try:
             for key, value in kwargs.items():
                 setattr(self, key, value)

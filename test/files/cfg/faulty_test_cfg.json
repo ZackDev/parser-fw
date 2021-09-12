@@ -1,16 +1,10 @@
 {
   "type": "sequence",
-  "name": "test",
+  "name": "faulty-test",
   "source": {
     "package": "test.files",
     "module": "TestSource",
-    "class": "TestSource",
-    "parameters": [
-      {
-        "name": "source",
-        "value": "hello"
-      }
-    ]
+    "class": "TestSource"
   },
   "parser": {
     "package": "test.files",
