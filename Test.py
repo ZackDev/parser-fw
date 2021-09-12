@@ -1,8 +1,6 @@
 import unittest
 import time
 from test.ToolsTest import ToolsExistTest
-from test.ThirdPartyModuleImportTest import ThirdPartyModuleImportTest
-from test.FrameworkModuleImportTest import FrameworkModuleImportTest
 from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
@@ -11,21 +9,8 @@ from test.CustomModuleTest import DailyCasesParserTest
 from test.CustomModuleTest import VaccinationsByVaccineParserTest
 from test.JSONTest import JSONTest
 
-def framework_module_import_test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(FrameworkModuleImportTest('test_abstract_source_import'))
-    suite.addTest(FrameworkModuleImportTest('test_abstract_parser_import'))
-    suite.addTest(FrameworkModuleImportTest('test_abstract_sink_import'))
-    suite.addTest(FrameworkModuleImportTest('test_sequence_import'))
-    return suite
 
-def third_party_module_import_test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(ThirdPartyModuleImportTest('test_requests_import'))
-    suite.addTest(ThirdPartyModuleImportTest('test_openpyxl_import'))
-    return suite
-
-def framework_source_test_suite():
+def framework_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(FrameworkTest('test_source_implementation'))
     suite.addTest(FrameworkTest('test_parser_implementation'))
@@ -77,16 +62,9 @@ if __name__ == '__main__':
     start_time = time.monotonic()
     runner = unittest.TextTestRunner(verbosity=2)
     test_results = []
-    print('Framework Module Import Test:')
-    test_results.append(runner.run(framework_module_import_test_suite()))
-    print('\n')
 
-    print('Third Party Module Import Test:')
-    test_results.append(runner.run(third_party_module_import_test_suite()))
-    print('\n')
-
-    print('Framework Source Test:')
-    test_results.append(runner.run(framework_source_test_suite()))
+    print('Framework Test:')
+    test_results.append(runner.run(framework_test_suite()))
     print('\n')
 
     print('Tools Test:')
