@@ -14,7 +14,7 @@ class WeeklyTestsParser(AbstractStep):
         super().__init__(**kwargs)
 
 
-    def _parse(self, xmldata):
+    def run(self, xmldata):
 
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with xmldata: {xmldata}')
