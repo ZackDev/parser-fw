@@ -2,6 +2,6 @@
   "type": "step",
   "name": "daily-icuo-parser",
   "package": "steps",
-  "module": "DailyCasesParser",
-  "class": "DailyCasesParser"
+  "module": "ICUOccupancyParser",
+  "class": "ICUOccupancyParser"
 }
