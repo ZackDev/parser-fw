@@ -1,7 +1,7 @@
 from abc import ABC
 from abstract.AbstractStep import AbstractStep
-from parser.Exceptions import DataLengthZeroError
-from parser.Exceptions import DataLengthUnequalError
+from Exceptions import DataLengthZeroError
+from Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
 from io import StringIO
 import logging

@@ -1,0 +1,13 @@
+{
+  "type": "step",
+  "name": "vbv-source",
+  "package": "steps",
+  "module": "HTTPResponseSource",
+  "class": "HTTPResponseSource",
+  "parameters": [
+    {
+      "name": "source",
+      "value": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv"
+    }
+  ]
+}

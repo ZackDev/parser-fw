@@ -1,0 +1,13 @@
+{
+  "type": "step",
+  "name": "daily-cases-sink",
+  "package": "steps",
+  "module": "JSONFileSink",
+  "class": "JSONFileSink",
+  "parameters": [
+    {
+      "name": "target",
+      "value": "corona_germany_daily_cases.json"
+    }
+  ]
+}

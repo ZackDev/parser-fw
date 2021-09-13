@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "daily-icuo",
+  "steps": ["daily-icuo-source", "daily-icuo-parser", "daily-icuo-sink"]
+}

@@ -1,7 +1,7 @@
 from abstract.AbstractStep import AbstractStep
-from parser.Exceptions import DataLengthZeroError
-from parser.Exceptions import DataLengthUnequalError
-from parser.Exceptions import DateArrayError
+from Exceptions import DataLengthZeroError
+from Exceptions import DataLengthUnequalError
+from Exceptions import DateArrayError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
 import logging
@@ -18,7 +18,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
 
     def run(self, data):
         self.logger.debug('_parse() called.')
-        self.logger.debug(f'with xmldata: {data}')
+        self.logger.debug(f'with data: {data}')
 
         with StringIO(data.decode('utf-8')) as daily_vaccinations_csv:
 

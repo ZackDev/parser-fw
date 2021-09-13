@@ -1,0 +1,13 @@
+{
+  "type": "step",
+  "name": "weekly-tests-source",
+  "package": "steps",
+  "module": "HTTPResponseSource",
+  "class": "HTTPResponseSource",
+  "parameters": [
+    {
+      "name": "source",
+      "value": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Testzahlen-gesamt.xlsx?__blob=publicationFile"
+    }
+  ]
+}

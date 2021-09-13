@@ -1,0 +1,17 @@
+{
+  "type": "step",
+  "name": "daily-cases-parser",
+  "package": "steps",
+  "module": "DailyCasesParser",
+  "class": "DailyCasesParser",
+  "parameters": [
+    {
+      "name": "strict",
+      "value": true
+    },
+    {
+      "name": "country",
+      "value": "Germany"
+    }
+  ]
+}

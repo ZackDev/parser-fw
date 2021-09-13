@@ -1,0 +1,7 @@
+{
+  "type": "step",
+  "name": "weekly-tests-parser",
+  "package": "steps",
+  "module": "WeeklyTestsParser",
+  "class": "WeeklyTestsParser"
+}

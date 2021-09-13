@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "weekly-tests"
+  "steps": ["weekly-tests", "weekly-tests", "weekly-tests"]
+}

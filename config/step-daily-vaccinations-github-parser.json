@@ -1,0 +1,7 @@
+{
+  "type": "step",
+  "name": "daily-vaccinations-github-parser",
+  "package": "steps",
+  "module": "DailyVaccinationsGithubParser",
+  "class": "DailyVaccinationsGithubParser"
+}

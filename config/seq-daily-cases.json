@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "daily-cases-github",
+  "steps": ["daily-cases-source", "daily-cases-parser", "daily-cases-sink"]
+}

@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "vaccinations-by-vaccine"
+  "steps": ["vbv-source", "vbv-parser", "vbv-sink"]
+}
