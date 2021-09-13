@@ -53,9 +53,12 @@ class SequenceProvider(AbstractSequenceProvider):
         config_files = SequenceProvider._get_config_files()
         for file in config_files:
             with open(join(SequenceProvider._CONFIG_DIRECTORY, file), 'r') as f:
-                cfg = json.loads(f.read())
-                if cfg['name'] != None and cfg['type'] == type and cfg['name'] == name:
-                    return cfg
+                try:
+                    cfg = json.loads(f.read())
+                    if cfg['name'] != None and cfg['type'] == type and cfg['name'] == name:
+                        return cfg
+                except Exception as exc:
+                    SequenceProvider.logger.critical(f'error reading config: {type} {name}')
 
     '''
     returns the parameters specified by <cfg> and <sequence_part> as a dict
