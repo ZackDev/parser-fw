@@ -1,0 +1,7 @@
+{
+  "type": "step",
+  "name": "s2",
+  "package": "test.files",
+  "module": "TestStep",
+  "class": "TestStep"
+}

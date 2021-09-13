@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "test",
+  "steps": ["s1", "s2", "s3"]
+}

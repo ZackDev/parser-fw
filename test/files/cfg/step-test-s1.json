@@ -1,0 +1,13 @@
+{
+  "type": "step",
+  "name": "s1",
+  "package": "test.files",
+  "module": "TestStep",
+  "class": "TestStep",
+  "parameters": [
+    {
+      "name": "initialvalue",
+      "value": 2
+    }
+  ]
+}
