@@ -54,7 +54,10 @@ class SequenceProvider(AbstractSequenceProvider):
 
 
     '''
-    returns the sequence config's file content specified by <sequence_name>
+    searches in all files in the directory specified by _CONFIG_DIRECTORY for a
+    json file which the <keys> name and type
+    returns the config specified by the function parameters <type> and <name>
+    - raises SequenceProviderError if any of the files cannot be loaded
     '''
     def _get_config(type, name):
         config_files = SequenceProvider._get_config_files()
@@ -68,8 +71,9 @@ class SequenceProvider(AbstractSequenceProvider):
                     raise SequenceProviderError(f'error reading config: {type} {name}') from exc
 
     '''
-    returns the parameters specified by <cfg> and <sequence_part> as a dict
-    - returns empty dict if config doesn't contain [<sequence_part>][parameters key]
+    returns the parameters specified by <config> and <parameter_name> as a dict
+    - returns empty dict if config doesn't contain a <name, value> pair
+      specified by <parameter_name>
     '''
     def _get_parameters(config, parameter_name):
         try:
@@ -81,6 +85,11 @@ class SequenceProvider(AbstractSequenceProvider):
         return params
 
 
+    '''
+    returns the value of the key steps of the sequence config provided as
+    function parameter
+    - raises SequenceProviderError if key steps is not present in sequence_config
+    '''
     def _get_steps(sequence_config):
         try:
             steps = sequence_config['steps']
@@ -89,6 +98,11 @@ class SequenceProvider(AbstractSequenceProvider):
             raise SequenceProviderError(f'steps not found in {sequence_config}')
 
 
+    '''
+    returns the class of the step provided with the step_config function parameter
+    - raises SequenceProviderError if package, module or class value is not present
+      in the step_config
+    '''
     def _get_step_class(step_config):
         try:
             module_name = f"{step_config['package']}.{step_config['module']}"
