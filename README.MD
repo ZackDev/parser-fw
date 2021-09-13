@@ -153,3 +153,27 @@ reading the config from json files, dynamic import of classes and the class-obje
 the question is, besides the learning-experience, is it worth the effort? for me probably not as I'm fine with it as it is.
 
 another question is how it fits into the current architecture. does the `ConcreteConfigProvider` get passed to the `Sequence` object which calls the provider's methods? Where is the place the framework user can switch the `ConcreteConfigProvider`? best place IMHO would be in `Seshu.py`.
+
+## sequence framework, the evolution of Seshu
+instead of having a predefined workflow that goes from concrete `source`, `parser` to `sink`, the sequence framework can have a unlimited set of instructions that attach to the data.
+
+the above mentioned `source`, `parser` and `sink` sequence is only a specific use-case which operates on a given data. imagine the following data-flow at the example of, let's say the `daily_cases` sequence of `Seshu`.
+
+### `daily_cases` translated to the view of the `sequence framework`
+* `EntrySequence`: data is a `string`
+* `HTTPResponceSource`: transforms data as a web resource `url`
+* `DailyCasesGithubParser`: interpretes data as a `csv`
+* `JSONFILESink`: interprets data as a
+* `ExitSequence`: indicates sequence end
+
+`EntrySequence` and `ExitSequence` are implicit, the fact that there is no sequence before `HTTPResponseSource` and none after `JSONFIleSink` if the `ExitSequence` is left out defines the start end end of the whole sequence.
+
+# rewrite `Seshu`
+* merge `AbstractSource`, `AbstractParser` and `AbstractSink` into one `Sequence` class
+* rewrite `ConfigProvider` so it can retrieve the sequence's parts step-by-step, rename it to `SequenceProvider`
+* rename `Sequence` to `SequenceRunner`, it is now responsible for sequentially run `Sequences` and pass the results along that chain
+
+
+this seems to be the logical evolution of `Seshu`, and would allow to extend the `daily_cases` use-case above with those additional sequences:
+* `GithubPublish`
+* `Backup`
