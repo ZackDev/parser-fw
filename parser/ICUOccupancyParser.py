@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from parser.Exceptions import DateArrayError
@@ -9,7 +9,7 @@ import logging
 from io import StringIO
 import csv
 
-class ICUOccupancyParser(AbstractParser):
+class ICUOccupancyParser(AbstractStep):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
@@ -17,7 +17,7 @@ class ICUOccupancyParser(AbstractParser):
         super().__init__(**kwargs)
 
 
-    def _parse(self, data):
+    def run(self, data):
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with data: {data}')
 
@@ -69,4 +69,4 @@ class ICUOccupancyParser(AbstractParser):
 
         else:
             dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }
-            self.parsed_data = dict
+            return dict

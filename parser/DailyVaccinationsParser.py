@@ -1,4 +1,4 @@
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
@@ -8,7 +8,7 @@ from openpyxl import load_workbook
 
 # NOTE: deprecated as of 2021-09-06, replaced by DailyVaccinationsGithubParser
 
-class DailyVaccinationsParser(AbstractParser):
+class DailyVaccinationsParser(AbstractStep):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
@@ -16,7 +16,7 @@ class DailyVaccinationsParser(AbstractParser):
         super().__init__(**kwargs)
 
 
-    def _parse(self, xmldata):
+    def run(self, xmldata):
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with xmldata: {xmldata}')
 
@@ -106,4 +106,4 @@ class DailyVaccinationsParser(AbstractParser):
                 raise DataLengthZeroError('dates, primary_vaccinations and secondary_vaccinations array length is zero.')
 
             dict = { 'dates':dates, 'primary_vaccinations':primary_vaccinations, 'secondary_vaccinations':secondary_vaccinations }
-            self.parsed_data = dict
+            return dict

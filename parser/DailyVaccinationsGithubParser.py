@@ -1,4 +1,4 @@
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from parser.Exceptions import DateArrayError
@@ -8,7 +8,7 @@ import logging
 import csv
 from io import StringIO
 
-class DailyVaccinationsGithubParser(AbstractParser):
+class DailyVaccinationsGithubParser(AbstractStep):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
@@ -16,7 +16,7 @@ class DailyVaccinationsGithubParser(AbstractParser):
         super().__init__(**kwargs)
 
 
-    def _parse(self, data):
+    def run(self, data):
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with xmldata: {data}')
 
@@ -74,4 +74,4 @@ class DailyVaccinationsGithubParser(AbstractParser):
 
 
             dict = { 'dates':dates, 'primary_vaccinations':primary_vaccinations, 'secondary_vaccinations':secondary_vaccinations, 'booster_vaccinations':booster_vaccinations }
-            self.parsed_data = dict
+            return dict

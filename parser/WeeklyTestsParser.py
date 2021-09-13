@@ -1,4 +1,4 @@
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
@@ -6,7 +6,7 @@ from io import BytesIO
 from openpyxl import load_workbook
 import logging
 
-class WeeklyTestsParser(AbstractParser):
+class WeeklyTestsParser(AbstractStep):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
@@ -118,7 +118,7 @@ class WeeklyTestsParser(AbstractParser):
                     raise DataLengthZeroError('calendar_weeks and weekly_tests array length is zero.')
 
                 dict = {'calendar_weeks':calendar_weeks, 'weekly_tests':weekly_tests}
-                self.parsed_data = dict
+                return dict
 
             else:
                 print('error parsing weekly tests xslx.')

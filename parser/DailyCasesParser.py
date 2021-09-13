@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from parser.Exceptions import DateArrayError
@@ -9,9 +9,9 @@ from io import StringIO
 import logging
 import csv
 
-class DailyCasesParser(AbstractParser):
-    def _parse(self, data):
-        self.logger.debug('_parse() called.')
+class DailyCasesParser(AbstractStep):
+    def run(self, data):
+        self.logger.debug('run called.')
         self.logger.debug(f'with parameter data: {data}')
 
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
@@ -115,4 +115,4 @@ class DailyCasesParser(AbstractParser):
                 raise DateArrayError('date array is inconsistent.')
 
             dict = { 'dates':dates, 'cases':cases}
-            self.parsed_data = dict
+            return dict

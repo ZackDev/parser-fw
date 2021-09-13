@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractParser import AbstractParser
+from abstract.AbstractStep import AbstractStep
 from parser.Exceptions import DataLengthZeroError
 from parser.Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
@@ -7,7 +7,7 @@ from io import StringIO
 import logging
 import csv
 
-class VaccinationsByVaccineParser(AbstractParser):
+class VaccinationsByVaccineParser(AbstractStep):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('__init__() called.')
@@ -15,7 +15,7 @@ class VaccinationsByVaccineParser(AbstractParser):
         super().__init__(**kwargs)
 
 
-    def _parse(self, data):
+    def run(self, data):
         self.logger.debug('_parse() called.')
         self.logger.debug(f'with parameter data: {data}')
 
@@ -47,4 +47,4 @@ class VaccinationsByVaccineParser(AbstractParser):
                         self.logger.info(f'unknown vaccine: {vacc_name}')
                 index+=1
             dict = {'Moderna':moderna_count, 'AstraZeneca':astrazeneca_count, 'Janssen':janssen_count, 'Comirnaty':comirnaty_count}
-            self.parsed_data = dict
+            return dict

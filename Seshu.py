@@ -1,11 +1,9 @@
 import argparse
 import logging
 import importlib
-from abstract.AbstractSource import SourceError
-from abstract.AbstractParser import ParserError
-from abstract.AbstractSink import SinkError
+from abstract.AbstractStep import StepError
 from ConfigProvider import ConfigProvider, ConfigProviderError
-from Sequence import Sequence
+from SequenceRunner import SequenceRunner
 
 _DEFAULT_LOGLEVEL = 2
 
@@ -46,7 +44,7 @@ def init_sequence(sequence_name):
     """ create source object """
     try:
         source = source_cls(**source_params)
-    except SourceError as se:
+    except StepError as se:
         logger.critical(f'error creating source object: {se}')
     except Exception as e:
         logger.critical(f'unexpected error creating source object: {e}')
@@ -63,7 +61,6 @@ def init_sequence(sequence_name):
     """ get parser parameters """
     try:
         parser_params = cfg_provider.get_parser_parameters()
-        parser_params.update({"source":source})
     except ConfigProviderError as cpe:
         logger.critical(f'error getting parser parameters from ConfigProvider: {cpe}')
     except Exception as e:
@@ -72,7 +69,7 @@ def init_sequence(sequence_name):
     """ create parser object """
     try:
         parser = parser_cls(**parser_params)
-    except SourceError as se:
+    except StepError as se:
         logger.critical(f'error creating parser object: {se}')
     except Exception as e:
         logger.critical(f'unexpected error creating parser object: {e}')
@@ -90,7 +87,6 @@ def init_sequence(sequence_name):
     """ get sink parameters """
     try:
         sink_params = cfg_provider.get_sink_parameters()
-        sink_params.update({"parser":parser})
     except ConfigProviderError as cpe:
         logger.critical(f'error getting sink parameters from ConfigProvider: {cpe}')
     except Exception as e:
@@ -99,7 +95,7 @@ def init_sequence(sequence_name):
     """ create sink object """
     try:
         sink = sink_cls(**sink_params)
-    except SinkError as se:
+    except StepError as se:
         logger.critical(f'error creating sink object: {se}')
     except Exception as e:
         logger.critical(f'unexpected error creating sink object: {e}')
@@ -107,7 +103,10 @@ def init_sequence(sequence_name):
     """ SEQUENCE """
     """ create sequence object and call it's run method """
     try:
-        s = Sequence(source, parser, sink, sequence_name)
+        s = SequenceRunner(sequence_name)
+        s.add_step(source)
+        s.add_step(parser)
+        s.add_step(sink)
         s.run()
     except Exception as e:
         logger.critical(f'error during creation/running of sequence: {e}')
