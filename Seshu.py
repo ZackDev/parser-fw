@@ -3,7 +3,7 @@ import logging
 import importlib
 from abstract.AbstractStep import StepError
 from SequenceProvider import SequenceProvider, SequenceProviderError
-from SequenceRunner import SequenceRunner
+from SequenceRunner import SequenceRunner, SequenceRunnerError
 
 _DEFAULT_LOGLEVEL = 2
 
@@ -23,8 +23,8 @@ def init_sequence(sequence_name):
         s.run()
     except SequenceProviderError as spe:
         logger.critical(f'error creating SequenceProvider object: {spe}')
-    except StepError as se:
-        logger.critical(f'error while running step: {se}')
+    except SequenceRunnerError as sre:
+        logger.critical(f'error running sequence: {sre}')
     except Exception as e:
         logger.critical(f'unexpected error creating SequenceProvider object: {e}')
     finally:

@@ -1,4 +1,4 @@
-from abstract.AbstractStep import AbstractStep
+from abstract.AbstractStep import AbstractStep, StepError
 from Exceptions import DataLengthZeroError
 from Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
@@ -22,7 +22,7 @@ class WeeklyTestsParser(AbstractStep):
         with BytesIO(xmldata) as weekly_tests:
             wb = load_workbook(weekly_tests)
             if wb.sheetnames.count('1_Testzahlerfassung') != 1:
-                raise ValueError('expected excel sheet not found.')
+                raise StepError() from ValueError('expected excel sheet not found.')
 
             wb.active = wb['1_Testzahlerfassung']
             ws = wb.active
@@ -43,11 +43,14 @@ class WeeklyTestsParser(AbstractStep):
                     calendar_weeks.append(f'2020-W10')
                     test_count = row[2].value
                     if isinstance(test_count, str):
-                        test_count = str_to_integer(test_count, '+')
+                        try:
+                            test_count = str_to_integer(test_count, '+')
+                        except Exception as e:
+                            raise StepError() from e
                     elif isinstance(test_count, int):
                         test_count = test_count
                     else:
-                        raise TypeError()
+                        raise StepError() from TypeError()
                     weekly_tests.append(test_count)
                     self.logger.debug(f'appended {test_count}')
                 elif row_index >= 2:
@@ -62,13 +65,19 @@ class WeeklyTestsParser(AbstractStep):
                             raw_year = None
                             if len(raw_week_array) == 2:
                                 if isinstance(raw_week_array[0], str) and isinstance(raw_week_array[1], str):
-                                    raw_week = str_to_integer(raw_week_array[0], '+')
-                                    raw_year = str_to_integer(raw_week_array[1], '+')
+                                    try:
+                                        raw_week = str_to_integer(raw_week_array[0], '+')
+                                    except Exception as e:
+                                        raise StepError() from e
+                                    try:
+                                        raw_year = str_to_integer(raw_week_array[1], '+')
+                                    except Exception as e:
+                                        raise StepError() from e
                                 elif isinstance(raw_week_array[0], int) and isintance(raw_week_array[1], int):
                                     raw_week = raw_week_array[0]
                                     raw_year = raw_week_array[1]
                                 else:
-                                    raise TypeError()
+                                    raise StepError() from TypeError()
                             else:
                                 parse_error = True
                                 print('error: parsing raw_week_array.')
@@ -94,16 +103,19 @@ class WeeklyTestsParser(AbstractStep):
                         elif col_index == 1:
                             tests = None
                             if isinstance(col.value, str):
-                                tests = str_to_integer(col.value, '+')
+                                try:
+                                    tests = str_to_integer(col.value, '+')
+                                except Exception as e:
+                                    raise StepError() from e
                             elif isinstance(col.value, int):
                                 tests = col.value
                             else:
-                                raise TypeError()
+                                raise StepError() from TypeError()
                             if tests != None:
                                 weekly_tests.append(tests)
                                 self.logger.debug(f'appended {tests}')
                             else:
-                                raise ValueError()
+                                raise StepError() from ValueError()
 
                         col_index +=1
                 row_index +=1
@@ -111,15 +123,15 @@ class WeeklyTestsParser(AbstractStep):
             if parse_error is False:
                 ''' data consistency check, length calendar_weeks equals length weekly_tests '''
                 if len(calendar_weeks) != len(weekly_tests):
-                    raise DataLengthUnequalError(f'calendar_weeks and weekly_tests array length not equal. {len(calendar_weeks)} != {len(weekly_tests)}')
+                    raise StepError() from DataLengthUnequalError(f'calendar_weeks and weekly_tests array length not equal. {len(calendar_weeks)} != {len(weekly_tests)}')
 
                 if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
                     print('no data extracted. ending programm.')
-                    raise DataLengthZeroError('calendar_weeks and weekly_tests array length is zero.')
+                    raise StepError() from DataLengthZeroError('calendar_weeks and weekly_tests array length is zero.')
 
                 dict = {'calendar_weeks':calendar_weeks, 'weekly_tests':weekly_tests}
                 return dict
 
             else:
                 print('error parsing weekly tests xslx.')
-                raise Exception()
+                raise StepError()

@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep
+from abstract.AbstractStep import AbstractStep, StepError
 from Exceptions import DataLengthZeroError
 from Exceptions import DataLengthUnequalError
 from Exceptions import DateArrayError
@@ -58,25 +58,28 @@ class DailyCasesParser(AbstractStep):
                     date_array = raw_date.split('/')
                     day, month, year = None, None, None
                     if len(date_array) == 3:
-                        day = str_to_integer(date_array[1], '+')
-                        month = str_to_integer(date_array[0], '+')
-                        year = str_to_integer(date_array[2], '+')
+                        try:
+                            day = str_to_integer(date_array[1], '+')
+                            month = str_to_integer(date_array[0], '+')
+                            year = str_to_integer(date_array[2], '+')
+                        except Exception as e:
+                            raise StepError() from e
                     else:
-                        raise ValueError('raw_date array length is not 3.')
+                        raise StepError() from ValueError('raw_date array length is not 3.')
 
                     if day >= 1 and day < 10:
                         day = f'0{day}'
                     elif day >=10 and day <= 31:
                         day = f'{day}'
                     else:
-                        raise ValueError('day not in expected range.')
+                        raise StepError() from ValueError('day not in expected range.')
 
                     if month >= 1 and month < 10:
                         month = f'0{month}'
                     elif month >= 10 and month <= 12:
                         month = f'{month}'
                     else:
-                        raise ValueError('month not in expected range.')
+                        raise StepError() from ValueError('month not in expected range.')
 
                     year = f'20{year}'
                     date = f'{year}-{month}-{day}'
@@ -85,7 +88,10 @@ class DailyCasesParser(AbstractStep):
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
-                    case = str_to_integer(raw_case, '+')
+                    try:
+                        case = str_to_integer(raw_case, '+')
+                    except Exception as e:
+                        raise StepError() from e
                     cases.append(case)
                     self.logger.debug(f'appended case: {case}')
 
@@ -96,7 +102,7 @@ class DailyCasesParser(AbstractStep):
                     if index > 0:
                         if case < last_case:
                             if self.strict == True:
-                                raise ValueError(f'cases are decreasing at index:cases {index}:{case}.')
+                                raise StepError() from ValueError(f'cases are decreasing at index:cases {index}:{case}.')
                             elif self.strict == False:
                                 cases[index] = last_case
                                 case = last_case
@@ -105,14 +111,14 @@ class DailyCasesParser(AbstractStep):
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
-                raise DataLengthUnequalError('dates and cases array length not equal.')
+                raise StepError() from DataLengthUnequalError('dates and cases array length not equal.')
 
             if len(dates) < 1 and len(cases) < 1:
-                raise DataLengthZeroError('dates and cases array length is zero.')
+                raise StepError() from DataLengthZeroError('dates and cases array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
             if dates_is_valid == False:
-                raise DateArrayError('date array is inconsistent.')
+                raise StepError() from DateArrayError('date array is inconsistent.')
 
             dict = { 'dates':dates, 'cases':cases}
             return dict

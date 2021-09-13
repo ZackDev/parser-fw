@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep
+from abstract.AbstractStep import AbstractStep, StepError
 from Exceptions import DataLengthZeroError
 from Exceptions import DataLengthUnequalError
 from Exceptions import DateArrayError
@@ -58,14 +58,14 @@ class ICUOccupancyParser(AbstractStep):
 
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
-            raise DataLengthUnequalError()
+            raise StepError() from DataLengthUnequalError()
 
         if 0 == len(dates) == len(icou_free_array) == len(icou_covid_array):
-            raise DataLengthZeroError()
+            raise StepError() from DataLengthZeroError()
 
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)
         if dates_is_valid == False:
-            raise DateArrayError('date array is inconsistent.')
+            raise StepError() from DateArrayError('date array is inconsistent.')
 
         else:
             dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }

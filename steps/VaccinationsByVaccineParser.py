@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep
+from abstract.AbstractStep import AbstractStep, StepError
 from Exceptions import DataLengthZeroError
 from Exceptions import DataLengthUnequalError
 from misc.Converters import str_to_integer
@@ -33,8 +33,10 @@ class VaccinationsByVaccineParser(AbstractStep):
                 if index > 0:
                     vacc_name = line[2]
                     vacc_count = line[4]
-                    vacc_count = str_to_integer(vacc_count, '+')
-
+                    try:
+                        vacc_count = str_to_integer(vacc_count, '+')
+                    except Exception as e:
+                        raise StepError() from e
                     if vacc_name == 'Moderna':
                         moderna_count += vacc_count
                     elif vacc_name == 'AstraZeneca':

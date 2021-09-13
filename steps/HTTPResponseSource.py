@@ -1,5 +1,5 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep
+from abstract.AbstractStep import AbstractStep, StepError
 import logging
 import requests
 
@@ -17,7 +17,7 @@ class HTTPResponseSource(AbstractStep):
             else:
                 self.logger.critical('call to requests.get() failed.')
                 self.logger.critical(f'status code: {rsp.status_code}')
-                raise ConnectionError(f'Connection failed with http status code {rsp.status_code}')
+                raise StepError() from ConnectionError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
             self.logger.critical('call to requests.get() failed. Raising ConnectionError.')
-            raise ConnectionError from e
+            raise StepError() from e

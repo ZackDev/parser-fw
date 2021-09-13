@@ -1,4 +1,5 @@
 import unittest
+from abstract.AbstractStep import StepError
 from steps.HTTPResponseSource import HTTPResponseSource
 from steps.DailyCasesParser import DailyCasesParser
 from steps.VaccinationsByVaccineParser import VaccinationsByVaccineParser
@@ -25,7 +26,7 @@ class HTTPResponseSourceTest(unittest.TestCase):
         cfg = {"source":url}
         source = HTTPResponseSource(**cfg)
 
-        with self.assertRaises(ConnectionError):
+        with self.assertRaises(StepError):
             source.run('')
 
 
@@ -72,14 +73,14 @@ class DailyCasesParserTest(unittest.TestCase):
             cfg = {"country":"Germany", "strict":False}
             parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
-                with self.assertRaises(ValueError):
+                with self.assertRaises(StepError):
                     parser.run(csv.read())
 
         with self.subTest():
             cfg = {"country":"Germany", "strict":False}
             parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
-                with self.assertRaises(ValueError):
+                with self.assertRaises(StepError):
                     parser.run(csv.read())
 
 
