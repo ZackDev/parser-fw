@@ -31,9 +31,16 @@ class SequenceProvider(AbstractSequenceProvider):
     raises AttributeError
     '''
     def _get_class(module_name, class_name):
-        module = SequenceProvider._load_module(module_name)
-        cls = getattr(module, class_name)
-        return cls
+        try:
+            module = SequenceProvider._load_module(module_name)
+            cls = getattr(module, class_name)
+            return cls
+        except ModuleNotFoundError as me:
+            raise SequenceProviderError(f'{me}') from me
+        except AttributeError as ae:
+            raise SequenceProviderError(f'{ae}') from ae
+        except Exception as e:
+            raise SequenceProviderError(f'{e}') from e
 
 
     '''
@@ -49,7 +56,7 @@ class SequenceProvider(AbstractSequenceProvider):
     '''
     returns the sequence config's file content specified by <sequence_name>
     '''
-    def get_config(type, name):
+    def _get_config(type, name):
         config_files = SequenceProvider._get_config_files()
         for file in config_files:
             with open(join(SequenceProvider._CONFIG_DIRECTORY, file), 'r') as f:
@@ -58,13 +65,13 @@ class SequenceProvider(AbstractSequenceProvider):
                     if cfg['name'] != None and cfg['type'] == type and cfg['name'] == name:
                         return cfg
                 except Exception as exc:
-                    SequenceProvider.logger.critical(f'error reading config: {type} {name}')
+                    raise SequenceProviderError(f'error reading config: {type} {name}') from exc
 
     '''
     returns the parameters specified by <cfg> and <sequence_part> as a dict
     - returns empty dict if config doesn't contain [<sequence_part>][parameters key]
     '''
-    def get_parameters(config, parameter_name):
+    def _get_parameters(config, parameter_name):
         try:
             params = {}
             config[parameter_name]
@@ -74,27 +81,24 @@ class SequenceProvider(AbstractSequenceProvider):
         return params
 
 
-    def get_steps(config):
+    def _get_steps(sequence_config):
         try:
-            steps = config['steps']
+            steps = sequence_config['steps']
             return steps
         except:
-            raise SequenceProviderError()
+            raise SequenceProviderError(f'steps not found in {sequence_config}')
 
 
-    def get_step_class(step_config):
+    def _get_step_class(step_config):
         try:
-            step_cls = SequenceProvider._get_class(f"{step_config['package']}.{step_config['module']}", step_config['class'])
-            return step_cls
-        except ModuleNotFoundError as e:
-            SequenceProvider.logger.debug(f'{e}')
-            raise SequenceProviderError from e
-        except AttributeError as e:
-            SequenceProvider.logger.debug(f'{e}')
-            raise SequenceProviderError from e
+            module_name = f"{step_config['package']}.{step_config['module']}"
+            class_name = step_config['class']
+        except KeyError as ke:
+            raise SequenceProviderError(f'{ke}') from ke
         except Exception as e:
-            SequenceProvider.logger.debug(f'{e}')
-            raise SequenceProviderError from e
+            raise SequenceProviderError(f'{e}') from e
+        step_cls = SequenceProvider._get_class(module_name, class_name)
+        return step_cls
     ''' END static '''
 
 
@@ -102,22 +106,25 @@ class SequenceProvider(AbstractSequenceProvider):
 
     def __init__(self, sequence_name):
         super().__init__(sequence_name)
-        self.sequence_cfg = SequenceProvider.get_config('sequence', sequence_name)
+        self.sequence_cfg = SequenceProvider._get_config('sequence', sequence_name)
         self.steps = []
         SequenceProvider.logger.debug(f'{self.sequence_cfg}')
         SequenceProvider.logger.debug(f'{self.steps}')
         if self.sequence_cfg is None:
             raise SequenceProviderError(f'config: {sequence_name} not found')
 
-        steps_from_sequence_config = SequenceProvider.get_steps(self.sequence_cfg)
+        steps_from_sequence_config = SequenceProvider._get_steps(self.sequence_cfg)
         SequenceProvider.logger.debug(f'{steps_from_sequence_config}')
 
         for step in steps_from_sequence_config:
-            step_cfg = SequenceProvider.get_config('step', step)
-            step_cls = SequenceProvider._get_class(f'{step_cfg["package"]}.{step_cfg["module"]}', f'{step_cfg["class"]}')
-            step_params = SequenceProvider.get_parameters(step_cfg, 'parameters')
+            step_cfg = SequenceProvider._get_config('step', step)
+            step_cls = SequenceProvider._get_step_class(step_cfg)
+            step_params = SequenceProvider._get_parameters(step_cfg, 'parameters')
 
             self.steps.append(step_cls(**step_params))
+
+        if len(self.steps) < 1:
+            raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
 
 
     def get_sequence(self):
