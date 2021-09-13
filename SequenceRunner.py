@@ -10,11 +10,9 @@ class SequenceRunner:
         self.steps = []
 
     def add_step(self, step):
-        self.logger.info('added step.')
         self.steps.append(step)
 
     def run(self):
-        self.logger.info('running step.')
         self.data = ''
         for s in self.steps:
             try:
@@ -23,3 +21,4 @@ class SequenceRunner:
                 raise SequenceRunnerError() from se
             except Exception as e:
                 raise SequenceRunnerError() from e
+        self.logger.info(f'finished sequence {self.name} ({len(self.steps)} steps).')
