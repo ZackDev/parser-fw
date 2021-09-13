@@ -160,17 +160,15 @@ instead of having a predefined workflow that goes from concrete `source`, `parse
 the above mentioned `source`, `parser` and `sink` sequence is only a specific use-case which operates on a given data. imagine the following data-flow at the example of, let's say the `daily_cases` sequence of `Seshu`.
 
 ### `daily_cases` translated to the view of the `sequence framework`
-* `EntrySequence`: data is a `string`
 * `HTTPResponceSource`: transforms data as a web resource `url`
-* `DailyCasesGithubParser`: interpretes data as a `csv`
-* `JSONFILESink`: interprets data as a
-* `ExitSequence`: indicates sequence end
+* `DailyCasesGithubParser`: interprets data as a `csv` and parses stuff
+* `JSONFILESink`: interprets data as a dictionary
 
-`EntrySequence` and `ExitSequence` are implicit, the fact that there is no sequence before `HTTPResponseSource` and none after `JSONFIleSink` if the `ExitSequence` is left out defines the start end end of the whole sequence.
 
 # rewrite `Seshu`
-* merge `AbstractSource`, `AbstractParser` and `AbstractSink` into one `Sequence` class
+* merge `AbstractSource`, `AbstractParser` and `AbstractSink` into one `AbstractStep` class
 * rewrite `ConfigProvider` so it can retrieve the sequence's parts step-by-step, rename it to `SequenceProvider`
+  * have `sequence` and `step` as config types where sequence has an array of steps, and the step config contains the specific step configuration
 * rename `Sequence` to `SequenceRunner`, it is now responsible for sequentially run `Sequences` and pass the results along that chain
 
 
