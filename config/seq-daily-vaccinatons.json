@@ -1,5 +1,5 @@
 {
   "type": "sequence",
-  "name": "daily-vaccinations-github"
+  "name": "daily-vaccinations-github",
   "steps": ["daily-vaccinations-github-source", "daily-vaccinations-github-parser", "daily-vaccinations-github-sink"]
 }

@@ -1,5 +1,5 @@
 {
   "type": "sequence",
-  "name": "weekly-tests"
+  "name": "weekly-tests",
   "steps": ["weekly-tests-source", "weekly-tests-parser", "weekly-tests-sink"]
 }
