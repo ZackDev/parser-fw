@@ -38,7 +38,6 @@ class Seshu:
         except Exception as e:
             logging.exception(f'unexpected error.')
         finally:
-            logging.shutdown()
             exit(0)
 
 
