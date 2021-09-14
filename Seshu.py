@@ -10,34 +10,34 @@ _DEFAULT_LOGLEVEL = 2
 class SeshuError:
     pass
 
+class Seshu:
+    def __init__(sequence_name, loglevel=_DEFAULT_LOGLEVEL):
+        loglevel = loglevel*10
+        # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
+        available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
+        cnt = available_loglevels.count(loglevel)
+        if cnt != 1:
+            loglevel = logging.INFO
+        logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
+        logger = logging.getLogger(__name__)
+        logger.info(f'program started with sequence_name: {sequence_name} and loglevel: {loglevel}.')
 
-def init(sequence_name, loglevel=_DEFAULT_LOGLEVEL):
-    loglevel = loglevel*10
-    # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
-    available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
-    cnt = available_loglevels.count(loglevel)
-    if cnt != 1:
-        loglevel = logging.INFO
-    logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
-    logger = logging.getLogger(__name__)
-    logger.info(f'program started with sequence_name: {sequence_name} and loglevel: {loglevel}.')
-
-    """ create SequenceProvider """
-    try:
-        cfg_provider = SequenceProvider(sequence_name)
-        steps = cfg_provider.get_sequence()
-        s = SequenceRunner(sequence_name)
-        for step in steps:
-            s.add_step(step)
-        s.run()
-    except SequenceProviderError as spe:
-        logger.critical(f'error creating SequenceProvider object: {spe}')
-    except SequenceRunnerError as sre:
-        logger.critical(f'error running sequence: {sre}')
-    except Exception as e:
-        logger.critical(f'unexpected error creating SequenceProvider object: {e}')
-    finally:
-        exit(0)
+        """ create SequenceProvider """
+        try:
+            cfg_provider = SequenceProvider(sequence_name)
+            steps = cfg_provider.get_sequence()
+            s = SequenceRunner(sequence_name)
+            for step in steps:
+                s.add_step(step)
+            s.run()
+        except SequenceProviderError as spe:
+            logger.critical(f'error creating SequenceProvider object: {spe}')
+        except SequenceRunnerError as sre:
+            logger.critical(f'error running sequence: {sre}')
+        except Exception as e:
+            logger.critical(f'unexpected error creating SequenceProvider object: {e}')
+        finally:
+            exit(0)
 
 
 if __name__ == '__main__':

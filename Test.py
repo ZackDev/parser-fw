@@ -1,5 +1,6 @@
 import unittest
 import time
+import logging
 from test.ToolsTest import ToolsExistTest
 from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
@@ -56,6 +57,7 @@ def vaccinations_by_vaccine_test_suite():
     return suite
 
 if __name__ == '__main__':
+    logging.basicConfig(filename='parser-fw-test.log', encoding='utf-8', level=10, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
     # verbosity determines the output of a test run, 2 seems to be the highest
     start_time = time.monotonic()
     runner = unittest.TextTestRunner(verbosity=2)
