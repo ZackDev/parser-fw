@@ -1,5 +1,6 @@
 from abc import ABC
 from abstract.AbstractStep import AbstractStep, StepError
+from misc.Converters import str_to_integer
 from io import StringIO
 import logging
 import csv
