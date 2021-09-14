@@ -1,4 +1,4 @@
-def str_to_integer(input, sign='*'):
+def str_to_integer(input: str, sign: str = '*') -> int:
     """
     converts the str input to int, checks its sign and returns the int.
 
