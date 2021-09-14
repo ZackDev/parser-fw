@@ -46,6 +46,6 @@ if __name__ == '__main__':
     arg_parser.add_argument("-l", "--loglevel", type=int, default=_DEFAULT_LOGLEVEL)
     args = arg_parser.parse_args()
     if (args.loglevel and args.sequence):
-        init(args.sequence, args.loglevel)
+        Seshu(args.sequence, args.loglevel)
     else:
         arg_parser.print_help()
