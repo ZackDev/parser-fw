@@ -1,8 +1,5 @@
 from abc import ABC
 from abstract.AbstractStep import AbstractStep, StepError
-from Exceptions import DataLengthZeroError
-from Exceptions import DataLengthUnequalError
-from Exceptions import DateArrayError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
 from io import StringIO
@@ -39,7 +36,7 @@ class DailyCasesParser(AbstractStep):
                 index+=1
 
             if country_found == False:
-                raise ValueError()
+                raise StepError(f'country {self.country} not found.')
 
             if raw_dates and raw_cases:
                 dates = []
@@ -63,23 +60,23 @@ class DailyCasesParser(AbstractStep):
                             month = str_to_integer(date_array[0], '+')
                             year = str_to_integer(date_array[2], '+')
                         except Exception as e:
-                            raise StepError() from e
+                            raise StepError(f'error parsing date_array {date_array}') from e
                     else:
-                        raise StepError() from ValueError('raw_date array length is not 3.')
+                        raise StepError('raw_date array length is not 3.')
 
                     if day >= 1 and day < 10:
                         day = f'0{day}'
                     elif day >=10 and day <= 31:
                         day = f'{day}'
                     else:
-                        raise StepError() from ValueError('day not in expected range.')
+                        raise StepError('day not in expected range.')
 
                     if month >= 1 and month < 10:
                         month = f'0{month}'
                     elif month >= 10 and month <= 12:
                         month = f'{month}'
                     else:
-                        raise StepError() from ValueError('month not in expected range.')
+                        raise StepError('month not in expected range.')
 
                     year = f'20{year}'
                     date = f'{year}-{month}-{day}'
@@ -90,10 +87,11 @@ class DailyCasesParser(AbstractStep):
                 for raw_case in raw_cases:
                     try:
                         case = str_to_integer(raw_case, '+')
+                        cases.append(case)
+                        self.logger.debug(f'appended case: {case}')
                     except Exception as e:
-                        raise StepError() from e
-                    cases.append(case)
-                    self.logger.debug(f'appended case: {case}')
+                        raise StepError('error parsing raw_case.') from e
+
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0
@@ -102,7 +100,7 @@ class DailyCasesParser(AbstractStep):
                     if index > 0:
                         if case < last_case:
                             if self.strict == True:
-                                raise StepError() from ValueError(f'cases are decreasing at index:cases {index}:{case}.')
+                                raise StepError(f'cases are decreasing at index:cases {index}:{case}.')
                             elif self.strict == False:
                                 cases[index] = last_case
                                 case = last_case
@@ -111,14 +109,14 @@ class DailyCasesParser(AbstractStep):
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
-                raise StepError() from DataLengthUnequalError('dates and cases array length not equal.')
+                raise StepError('dates and cases array length not equal.')
 
             if len(dates) < 1 and len(cases) < 1:
-                raise StepError() from DataLengthZeroError('dates and cases array length is zero.')
+                raise StepError('dates and cases array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
             if dates_is_valid == False:
-                raise StepError() from DateArrayError('date array is inconsistent.')
+                raise StepError('date array is inconsistent.')
 
             dict = { 'dates':dates, 'cases':cases}
             return dict

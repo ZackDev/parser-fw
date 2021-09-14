@@ -17,7 +17,6 @@ class HTTPResponseSource(AbstractStep):
             else:
                 self.logger.critical('call to requests.get() failed.')
                 self.logger.critical(f'status code: {rsp.status_code}')
-                raise StepError() from ConnectionError(f'Connection failed with http status code {rsp.status_code}')
+                raise StepError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
-            self.logger.critical('call to requests.get() failed. Raising ConnectionError.')
-            raise StepError() from e
+            raise StepError('requests.get() failed.') from e

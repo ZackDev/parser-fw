@@ -15,11 +15,16 @@ class JSONFileSink(AbstractStep):
         self.logger.debug('_store() called.')
         self.logger.debug(f'with data: {data}')
         json_data = None
-
-        json_data = json.dumps(data)
+        try:
+            json_data = json.dumps(data)
+        except Exception as e:
+            raise StepError('error reading json from data.') from e
 
         if json_data != None:
-            with open(self.target, 'w') as file:
-                file.write(json_data)
+            try:
+                with open(self.target, 'w') as file:
+                    file.write(json_data)
+            except Exception as e:
+                raise StepError('error writing file.') from e
         else:
             raise StepError('JSONFileSink: json_data is None')

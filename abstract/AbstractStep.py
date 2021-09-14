@@ -9,14 +9,13 @@ class AbstractStep(ABC):
         try:
             for key, value in kwargs.items():
                 setattr(self, key, value)
-        except Exceptio as exc:
+        except Exception as exc:
             raise StepError('setattr error.') from exc
-        self.logger = logging.getLogger(__name__)
+        self.abs_logger = logging.getLogger(__name__)
 
     @abstractmethod
     def run(self, data):
         raise NotImplementedError
 
     def step(self, data):
-        self.logger.info('step.')
         return self.run(data)

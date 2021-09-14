@@ -1,8 +1,5 @@
 from abc import ABC
 from abstract.AbstractStep import AbstractStep, StepError
-from Exceptions import DataLengthZeroError
-from Exceptions import DataLengthUnequalError
-from misc.Converters import str_to_integer
 from io import StringIO
 import logging
 import csv
@@ -36,7 +33,7 @@ class VaccinationsByVaccineParser(AbstractStep):
                     try:
                         vacc_count = str_to_integer(vacc_count, '+')
                     except Exception as e:
-                        raise StepError() from e
+                        raise StepError('unexpected vlaue for vacc_count.') from e
                     if vacc_name == 'Moderna':
                         moderna_count += vacc_count
                     elif vacc_name == 'AstraZeneca':

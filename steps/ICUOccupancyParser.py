@@ -1,8 +1,5 @@
 from abc import ABC
 from abstract.AbstractStep import AbstractStep, StepError
-from Exceptions import DataLengthZeroError
-from Exceptions import DataLengthUnequalError
-from Exceptions import DateArrayError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
 import logging
@@ -37,9 +34,15 @@ class ICUOccupancyParser(AbstractStep):
                     temp_date = line[0]
                     temp_icou_covid = line[6]
                     temp_icou_free = line[7]
+                    try:
+                        temp_icou_covid = str_to_integer(temp_icou_covid, '+')
+                    except Exception as e:
+                        raise StepError('error parsing ICU occupancy for covid patients.') from e
 
-                    temp_icou_covid = str_to_integer(temp_icou_covid, '+')
-                    temp_icou_free = str_to_integer(temp_icou_free, '+')
+                    try:
+                        temp_icou_free = str_to_integer(temp_icou_free, '+')
+                    except Exception as e:
+                        raise StepError('error parsing free ICU beds.') from e
 
                     if date == '':
                         date = temp_date
@@ -58,14 +61,14 @@ class ICUOccupancyParser(AbstractStep):
 
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
-            raise StepError() from DataLengthUnequalError()
+            raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
 
         if 0 == len(dates) == len(icou_free_array) == len(icou_covid_array):
-            raise StepError() from DataLengthZeroError()
+            raise StepError('dates, icuo_free_array and icuo_covid array zero lengt.')
 
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)
         if dates_is_valid == False:
-            raise StepError() from DateArrayError('date array is inconsistent.')
+            raise StepError('date array is inconsistent.')
 
         else:
             dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }
