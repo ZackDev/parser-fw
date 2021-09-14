@@ -1,9 +1,8 @@
-from Seshu import init_sequence, init_logger
+from Seshu import Seshu
 
 """
 example: how to use Seshu from python
 """
 
 if __name__ == '__main__':
-    init_logger(2)
-    init_sequence('daily_cases')
+    Seshu('daily-cases-github')
