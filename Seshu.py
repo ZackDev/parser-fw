@@ -1,9 +1,9 @@
 import argparse
 import logging
 import importlib
+from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 from abstract.AbstractStep import StepError
-from SequenceProvider import SequenceProvider, SequenceProviderError
-from SequenceRunner import SequenceRunner, SequenceRunnerError
+from abstract.AbstractSequenceProviderAndRunnerFactory import AbstractSequenceProviderAndRunnerFactory
 
 _DEFAULT_LOGLEVEL = 2
 
@@ -11,7 +11,7 @@ class SeshuError:
     pass
 
 class Seshu:
-    def __init__(self, sequence_name, loglevel=_DEFAULT_LOGLEVEL):
+    def __init__(self, factory: AbstractSequenceProviderAndRunnerFactory, sequence_name: str, loglevel: int = _DEFAULT_LOGLEVEL):
         loglevel = loglevel*10
         # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
         available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
@@ -24,9 +24,9 @@ class Seshu:
 
         """ create SequenceProvider """
         try:
-            cfg_provider = SequenceProvider(sequence_name)
+            cfg_provider = factory.get_provider(sequence_name)
             steps = cfg_provider.get_sequence()
-            s = SequenceRunner(sequence_name)
+            s = factory.get_runner(sequence_name)
             for step in steps:
                 s.add_step(step)
             s.run()
@@ -47,6 +47,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("-l", "--loglevel", type=int, default=_DEFAULT_LOGLEVEL)
     args = arg_parser.parse_args()
     if (args.loglevel and args.sequence):
-        Seshu(args.sequence, args.loglevel)
+        factory = SequenceProviderAndRunnerFactory()
+        Seshu(factory, args.sequence, args.loglevel)
     else:
         arg_parser.print_help()
