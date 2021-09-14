@@ -30,6 +30,7 @@ class Seshu:
             for step in steps:
                 s.add_step(step)
             s.run()
+            self.logger.info(f'finished sequence {sequence_name} ({len(s.steps)} steps).')
         except SequenceProviderError as spe:
             logger.exception(f'error creating SequenceProvider object: {spe}')
         except SequenceRunnerError as sre:

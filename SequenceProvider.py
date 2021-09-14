@@ -36,11 +36,11 @@ class SequenceProvider(AbstractSequenceProvider):
             cls = getattr(module, class_name)
             return cls
         except ModuleNotFoundError as me:
-            raise SequenceProviderError(f'{me}') from me
+            raise SequenceProviderError(f'could not load module {module_name}') from me
         except AttributeError as ae:
-            raise SequenceProviderError(f'{ae}') from ae
+            raise SequenceProviderError(f'could not get class {class_name}') from ae
         except Exception as e:
-            raise SequenceProviderError(f'{e}') from e
+            raise SequenceProviderError(f'unexpected error loading module: {module_name} class: {class_name}') from e
 
 
     '''
@@ -78,7 +78,6 @@ class SequenceProvider(AbstractSequenceProvider):
     def _get_parameters(config, parameter_name):
         try:
             params = {}
-            config[parameter_name]
             params.update({p['name']:p['value'] for p in config[parameter_name]})
         except:
             params = {}
@@ -108,9 +107,9 @@ class SequenceProvider(AbstractSequenceProvider):
             module_name = f"{step_config['package']}.{step_config['module']}"
             class_name = step_config['class']
         except KeyError as ke:
-            raise SequenceProviderError(f'{ke}') from ke
+            raise SequenceProviderError(f'error reading package/module/class keys from {step_config}.') from ke
         except Exception as e:
-            raise SequenceProviderError(f'{e}') from e
+            raise SequenceProviderError(f'unexpected error reading package/module/class keys from {step_config}.') from e
         step_cls = SequenceProvider._get_class(module_name, class_name)
         return step_cls
     ''' END static '''

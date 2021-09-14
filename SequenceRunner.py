@@ -18,7 +18,6 @@ class SequenceRunner:
             try:
                 self.data = s.step(self.data)
             except StepError as se:
-                raise SequenceRunnerError() from se
+                raise SequenceRunnerError('error running step().') from se
             except Exception as e:
-                raise SequenceRunnerError() from e
-        self.logger.info(f'finished sequence {self.name} ({len(self.steps)} steps).')
+                raise SequenceRunnerError('unexpected error running step().') from e

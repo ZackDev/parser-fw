@@ -11,7 +11,7 @@ class AbstractStep(ABC):
                 setattr(self, key, value)
         except Exception as exc:
             raise StepError('setattr error.') from exc
-        self.abs_logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger(__name__)
 
     @abstractmethod
     def run(self, data):
