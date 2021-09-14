@@ -1,9 +1,14 @@
-# README for the `Seshu` framework
+# What is it?
 
-## What can it do?
+`Seshu` lets you easily define tasks in the form of `seequences` of `steps` and automatically run them.
+
+
+# What can it do?
+
 In simple terms: **run a sequence of steps**
 
-## The sequence
+
+# The sequence
 
 A chain of steps is called a sequence. A specific sequence is again defined via `.json` file.
 
@@ -17,7 +22,7 @@ A chain of steps is called a sequence. A specific sequence is again defined via 
 
 ```
 
-## The step
+# The step
 
 A `step` is responsible for transforming input and returning it. A specific step is defined by a class which contains the code to be run and a config file which contains the class information and instantiation parameters.
 
@@ -61,12 +66,12 @@ The concrete step, or the instruction on how to instantiate the step, is defined
 The framework automatically looks for the module `HTTPResponseSource` in the package `steps`, loads it, and instantiates the module's class `HTTPResponseSource` with the parameter `url="http://example.org"` defined under `parameters`.
 
 
-## running the framework
+# Running the framework
 
-the framework takes two arguments, the name of the sequence and the loglevel which ranges from 1 to 5, DEBUG to CRITICAL
+The framework takes two arguments, the name of the sequence and the optional loglevel, which ranges from 1 to 5, DEBUG to CRITICAL and defaults to 2 (INFO).
 
 `python3 Seshu.py -s <sequence_name> [-l <loglevel>]`
 
 Running the sequence `my-sequence` with INFO loglevel looks like this:
 
-`python3 Seshu.py -s my-sequence -l 2`
+`python3 Seshu.py -s my-sequence`
