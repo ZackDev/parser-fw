@@ -32,11 +32,11 @@ class Seshu:
             s.run()
             self.logger.info(f'finished sequence {sequence_name} ({len(s.steps)} steps).')
         except SequenceProviderError as spe:
-            logger.exception(f'error creating SequenceProvider object: {spe}')
+            logger.exception(f'error creating SequenceProvider object with sequence_name: {sequence_name}.')
         except SequenceRunnerError as sre:
-            logger.exception(f'error running sequence: {sre}')
+            logger.exception(f'error running sequence: {sequence_name}')
         except Exception as e:
-            logger.exception(f'unexpected error creating SequenceProvider object: {e}')
+            logger.exception(f'unexpected error.')
         finally:
             exit(0)
 
