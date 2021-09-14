@@ -17,6 +17,6 @@ class AbstractStep(ABC):
     def run(self, data):
         raise NotImplementedError
 
-    def step(self):
+    def step(self, data):
         self.logger.info('step.')
-        return self.run(self.data)
+        return self.run(data)

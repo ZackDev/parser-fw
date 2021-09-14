@@ -1,5 +1,5 @@
 import logging
-
+from abstract.AbstractStep import StepError
 class SequenceRunnerError(Exception):
     pass
 
@@ -16,7 +16,7 @@ class SequenceRunner:
         self.data = ''
         for s in self.steps:
             try:
-                self.data = s.run(self.data)
+                self.data = s.step(self.data)
             except StepError as se:
                 raise SequenceRunnerError() from se
             except Exception as e:

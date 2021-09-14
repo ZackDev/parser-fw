@@ -11,7 +11,7 @@ class SeshuError:
     pass
 
 class Seshu:
-    def __init__(sequence_name, loglevel=_DEFAULT_LOGLEVEL):
+    def __init__(self, sequence_name, loglevel=_DEFAULT_LOGLEVEL):
         loglevel = loglevel*10
         # loglevels in numbers: DEBUG:10, INFO:20, WARN:30, ERROR:40, CRITICAL:50
         available_loglevels = [logging.DEBUG, logging.INFO, logging.WARN, logging.ERROR, logging.CRITICAL]
@@ -31,11 +31,11 @@ class Seshu:
                 s.add_step(step)
             s.run()
         except SequenceProviderError as spe:
-            logger.critical(f'error creating SequenceProvider object: {spe}')
+            logger.exception(f'error creating SequenceProvider object: {spe}')
         except SequenceRunnerError as sre:
-            logger.critical(f'error running sequence: {sre}')
+            logger.exception(f'error running sequence: {sre}')
         except Exception as e:
-            logger.critical(f'unexpected error creating SequenceProvider object: {e}')
+            logger.exception(f'unexpected error creating SequenceProvider object: {e}')
         finally:
             exit(0)
 
