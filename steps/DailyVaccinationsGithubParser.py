@@ -1,9 +1,10 @@
-from abstract.AbstractStep import AbstractStep, StepError
+from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
 import logging
 import csv
 from io import StringIO
+
 
 class DailyVaccinationsGithubParser(AbstractStep):
     def run(self, data):

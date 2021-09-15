@@ -1,6 +1,7 @@
-from abstract.AbstractSequenceProviderAndRunnerFactory import AbstractSequenceProviderAndRunnerFactory
+from Abstract import AbstractSequenceProviderAndRunnerFactory
 from SequenceProvider import SequenceProvider
 from SequenceRunner import SequenceRunner
+
 
 class SequenceProviderAndRunnerFactory(AbstractSequenceProviderAndRunnerFactory):
     def get_provider(self, sequence_name: str) -> SequenceProvider:

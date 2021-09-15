@@ -1,5 +1,5 @@
 import unittest
-from abstract.AbstractStep import StepError
+from Abstract import StepError
 from steps.HTTPResponseSource import HTTPResponseSource
 from steps.DailyCasesParser import DailyCasesParser
 from steps.VaccinationsByVaccineParser import VaccinationsByVaccineParser

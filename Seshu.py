@@ -2,13 +2,16 @@ import argparse
 import logging
 import importlib
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
-from abstract.AbstractStep import StepError
-from abstract.AbstractSequenceProviderAndRunnerFactory import AbstractSequenceProviderAndRunnerFactory
+from SequenceProvider import SequenceProviderError
+from SequenceRunner import SequenceRunnerError
+from Abstract import AbstractSequenceProviderAndRunnerFactory
 
 _DEFAULT_LOGLEVEL = 2
 
+
 class SeshuError:
     pass
+
 
 class Seshu:
     def __init__(self, factory: AbstractSequenceProviderAndRunnerFactory, sequence_name: str, loglevel: int = _DEFAULT_LOGLEVEL):
@@ -24,13 +27,13 @@ class Seshu:
 
         """ create SequenceProvider """
         try:
-            cfg_provider = factory.get_provider(sequence_name)
-            steps = cfg_provider.get_sequence()
-            s = factory.get_runner(sequence_name)
+            sequence_provider = factory.get_provider(sequence_name)
+            sequence_runner = factory.get_runner(sequence_name)
+            steps = sequence_provider.get_sequence()
             for step in steps:
-                s.add_step(step)
-            s.run()
-            logger.info(f'finished sequence {sequence_name} ({len(s.steps)} steps).')
+                sequence_runner.add_step(step)
+            sequence_runner.run()
+            logger.info(f'finished sequence {sequence_name} ({len(sequence_runner.steps)} steps).')
         except SequenceProviderError as spe:
             logging.exception(f'error creating SequenceProvider object with sequence_name: {sequence_name}.')
         except SequenceRunnerError as sre:
@@ -39,15 +42,3 @@ class Seshu:
             logging.exception(f'unexpected error.')
         finally:
             exit(0)
-
-
-if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("-s", "--sequence", type=str)
-    arg_parser.add_argument("-l", "--loglevel", type=int, default=_DEFAULT_LOGLEVEL)
-    args = arg_parser.parse_args()
-    if (args.loglevel and args.sequence):
-        factory = SequenceProviderAndRunnerFactory()
-        Seshu(factory, args.sequence, args.loglevel)
-    else:
-        arg_parser.print_help()

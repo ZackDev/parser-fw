@@ -29,7 +29,7 @@ A `step` is responsible for transforming input and returning it. A specific step
 The following example takes a `url` as input and returns the content of the response.
 
 ``` python3
-from abstract.AbstractStep import AbstractStep, StepError
+from Abstract import AbstractStep, StepError
 
 class HTTPResponseSource(AbstractStep):
     def run(self, data):

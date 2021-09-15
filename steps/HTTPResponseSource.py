@@ -1,7 +1,8 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep, StepError
+from Abstract import AbstractStep, StepError
 import logging
 import requests
+
 
 class HTTPResponseSource(AbstractStep):
     def run(self, data):

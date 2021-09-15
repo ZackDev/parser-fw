@@ -1,7 +1,8 @@
 from abc import ABC
-from abstract.AbstractStep import AbstractStep, StepError
+from Abstract import AbstractStep, StepError
 import json
 import logging
+
 
 class JSONFileSink(AbstractStep):
     def run(self, data):

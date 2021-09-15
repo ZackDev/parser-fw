@@ -1,4 +1,4 @@
-from abstract.AbstractStep import AbstractStep
+from Abstract import AbstractStep
 
 class TestStepWithoutRunImplementation(AbstractStep):
     pass

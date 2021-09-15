@@ -2,13 +2,11 @@ import unittest
 from test.files.TestStep import TestStepWithoutRunImplementation
 from test.files.TestStep import TestStepWithRunImplementation
 from test.files.TestStep import TestStep
-from SequenceProvider import SequenceProvider
-from SequenceProvider import SequenceProviderError
-from abstract.AbstractStep import StepError
-from SequenceRunner import SequenceRunner
+from Abstract import StepError
+from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
+
 
 class FrameworkTest(unittest.TestCase):
-
     def test_step_implementation(self):
         with self.assertRaises(TypeError):
             TestStepWithoutRunImplementation()
@@ -21,29 +19,30 @@ class FrameworkTest(unittest.TestCase):
             pass
         self.assertEqual(step_instantiation, True)
 
-
-    def test_config_provider(self):
+    def test_factory(self):
         SequenceProvider._CONFIG_DIRECTORY = './test/files/cfg/'
-        sr = SequenceRunner('test')
+
+        factory = SequenceProviderAndRunnerFactory()
+        sequence_provider =  factory.get_provider('test')
+        sequence_runner = factory.get_runner('test')
 
         """
         test with valid config
         """
-        cfg_provider = SequenceProvider('test')
-        steps = cfg_provider.get_sequence()
+        steps = sequence_provider.get_sequence()
         for s in steps:
-            sr.add_step(s)
-        sr.run()
-        self.assertEqual(8, sr.data)
+            sequence_runner.add_step(s)
+        sequence_runner.run()
+        self.assertEqual(8, sequence_runner.data)
 
         """
         test with missing config
         """
         with self.assertRaises(SequenceProviderError):
-            SequenceProvider('cfg-not-there')
+            factory.get_provider('cfg-not-there')
 
         """
         test with invalid config
         """
         with self.assertRaises(SequenceProviderError):
-            cfg_provider = SequenceProvider('faulty-test')
+            factory.get_provider('faulty-test')

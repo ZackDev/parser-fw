@@ -1,7 +1,9 @@
 import logging
-from abstract.AbstractStep import StepError
+from Abstract import StepError
+
 class SequenceRunnerError(Exception):
     pass
+
 
 class SequenceRunner:
     def __init__(self, name):
