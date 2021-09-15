@@ -5,8 +5,8 @@ from openpyxl import load_workbook
 
 
 class WeeklyTestsParser(AbstractStep):
-    def run(self, xmldata):
-        with BytesIO(xmldata) as weekly_tests:
+    def run(self, data):
+        with BytesIO(data) as weekly_tests:
             wb = load_workbook(weekly_tests)
             if wb.sheetnames.count('1_Testzahlerfassung') != 1:
                 raise StepError('expected excel sheet not found.')
