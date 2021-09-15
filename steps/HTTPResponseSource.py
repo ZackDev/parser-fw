@@ -5,7 +5,6 @@ import requests
 
 class HTTPResponseSource(AbstractStep):
     def run(self, data):
-        self.logger.debug('_get_data() called.')
         try:
             self.logger.debug(f'calling requests.get() with {self.source}')
             rsp = requests.get(self.source)

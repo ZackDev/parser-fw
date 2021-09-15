@@ -6,19 +6,8 @@ import csv
 from io import StringIO
 
 class DailyVaccinationsGithubParser(AbstractStep):
-    def __init__(self, **kwargs):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameters: {kwargs}')
-        super().__init__(**kwargs)
-
-
     def run(self, data):
-        self.logger.debug('_parse() called.')
-        self.logger.debug(f'with data: {data}')
-
         with StringIO(data.decode('utf-8')) as daily_vaccinations_csv:
-
             dates = []
             primary_vaccinations = []
             secondary_vaccinations = []

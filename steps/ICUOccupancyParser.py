@@ -7,17 +7,7 @@ from io import StringIO
 import csv
 
 class ICUOccupancyParser(AbstractStep):
-    def __init__(self, **kwargs):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameters: {kwargs}')
-        super().__init__(**kwargs)
-
-
     def run(self, data):
-        self.logger.debug('_parse() called.')
-        self.logger.debug(f'with data: {data}')
-
         dict = None
         dates = []
         icou_free_array = []

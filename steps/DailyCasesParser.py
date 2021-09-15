@@ -8,9 +8,6 @@ import csv
 
 class DailyCasesParser(AbstractStep):
     def run(self, data):
-        self.logger.debug('run called.')
-        self.logger.debug(f'with parameter data: {data}')
-
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
             country_found = False
             raw_dates = None

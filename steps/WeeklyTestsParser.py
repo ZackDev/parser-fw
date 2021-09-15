@@ -5,18 +5,7 @@ from openpyxl import load_workbook
 import logging
 
 class WeeklyTestsParser(AbstractStep):
-    def __init__(self, **kwargs):
-        self.logger = logging.getLogger(__name__)
-        self.logger.debug('__init__() called.')
-        self.logger.debug(f'with parameters: {kwargs}')
-        super().__init__(**kwargs)
-
-
     def run(self, xmldata):
-
-        self.logger.debug('_parse() called.')
-        self.logger.debug(f'with xmldata: {xmldata}')
-
         with BytesIO(xmldata) as weekly_tests:
             wb = load_workbook(weekly_tests)
             if wb.sheetnames.count('1_Testzahlerfassung') != 1:
