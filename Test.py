@@ -17,16 +17,19 @@ def framework_test_suite():
     suite.addTest(FrameworkTest('test_factory'))
     return suite
 
+
 def tools_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(ToolsExistTest('test_covid_to_jekyll_parser'))
     suite.addTest(ToolsExistTest('test_diff_files'))
     return suite
 
+
 def converters_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(ConvertersTest('test_str_to_integer'))
     return suite
+
 
 def validators_test_suite():
     suite = unittest.TestSuite()
@@ -35,10 +38,12 @@ def validators_test_suite():
     suite.addTest(ValidatorsTest('test__build_date_array'))
     return suite
 
+
 def json_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(JSONTest('test_jsonDumps'))
     return suite
+
 
 def http_source_test_suite():
     suite = unittest.TestSuite()
@@ -46,15 +51,18 @@ def http_source_test_suite():
     suite.addTest(HTTPResponseSourceTest('test_url_response_failure'))
     return suite
 
+
 def daily_cases_parser_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(DailyCasesParserTest('test_daily_cases_parser'))
     return suite
 
+
 def vaccinations_by_vaccine_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(VaccinationsByVaccineParserTest('test_vaccinations_by_vaccine_parser'))
     return suite
+
 
 if __name__ == '__main__':
     logging.basicConfig(filename='parser-fw-test.log', encoding='utf-8', level=10, format='%(asctime)s %(name)s %(levelname)s : %(message)s')

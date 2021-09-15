@@ -2,7 +2,6 @@ from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
 from io import BytesIO
 from openpyxl import load_workbook
-import logging
 
 
 class WeeklyTestsParser(AbstractStep):
