@@ -97,7 +97,7 @@ class WeeklyTestsParser(AbstractStep):
                                 tests = col.value
                             else:
                                 raise StepError('unexpected type for tests.')
-                            if tests != None:
+                            if tests is not None:
                                 weekly_tests.append(tests)
                                 self.logger.debug(f'appended {tests}')
                             else:
