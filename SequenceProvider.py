@@ -1,4 +1,4 @@
-from Abstract import AbstractSequenceProvider
+from Abstract import AbstractSequenceProvider, AbstractStep
 from os import listdir
 from os.path import isfile, join
 import json
@@ -19,18 +19,18 @@ class SequenceProvider(AbstractSequenceProvider):
 
     '''
     imports and returns the module specified by <module_name>
-    raises ModuleNotFoundError
+    - raises ModuleNotFoundError
     '''
-    def _load_module(module_name):
+    def _load_module(module_name: str):
         module = importlib.import_module(module_name)
         return module
 
 
     '''
     returns the class identified by <module_name> and <class_name>
-    raises AttributeError
+    - raises SequenceProviderError
     '''
-    def _get_class(module_name, class_name):
+    def _get_class(module_name: str, class_name: str) -> AbstractStep:
         try:
             module = SequenceProvider._load_module(module_name)
             cls = getattr(module, class_name)
@@ -46,7 +46,7 @@ class SequenceProvider(AbstractSequenceProvider):
     '''
     returns a list of all files in the directory specified by _CONFIG_DIRECTORY
     '''
-    def _get_config_files():
+    def _get_config_files() -> list:
         config_files = [f for f in listdir(SequenceProvider._CONFIG_DIRECTORY)
                             if isfile(join(SequenceProvider._CONFIG_DIRECTORY, f))
                             and f != '.gitignore']
@@ -59,7 +59,7 @@ class SequenceProvider(AbstractSequenceProvider):
     returns the config specified by the function parameters <type> and <name>
     - raises SequenceProviderError if any of the files cannot be loaded
     '''
-    def _get_config(type, name):
+    def _get_config(type: str, name: str) -> dict:
         config_files = SequenceProvider._get_config_files()
         for file in config_files:
             with open(join(SequenceProvider._CONFIG_DIRECTORY, file), 'r') as f:
@@ -75,7 +75,7 @@ class SequenceProvider(AbstractSequenceProvider):
     - returns empty dict if config doesn't contain a <name, value> pair
       specified by <parameter_name>
     '''
-    def _get_parameters(config, parameter_name):
+    def _get_parameters(config: dict, parameter_name: str) -> dict:
         try:
             params = {}
             params.update({p['name']:p['value'] for p in config[parameter_name]})
@@ -89,7 +89,7 @@ class SequenceProvider(AbstractSequenceProvider):
     function parameter
     - raises SequenceProviderError if key steps is not present in sequence_config
     '''
-    def _get_steps(sequence_config):
+    def _get_steps(sequence_config: dict) -> dict:
         try:
             steps = sequence_config['steps']
             return steps
@@ -102,7 +102,7 @@ class SequenceProvider(AbstractSequenceProvider):
     - raises SequenceProviderError if package, module or class value is not present
       in the step_config
     '''
-    def _get_step_class(step_config):
+    def _get_step_class(step_config: dict) -> dict:
         try:
             module_name = f"{step_config['package']}.{step_config['module']}"
             class_name = step_config['class']
@@ -117,7 +117,7 @@ class SequenceProvider(AbstractSequenceProvider):
 
     ''' BEGIN object '''
 
-    def __init__(self, sequence_name):
+    def __init__(self, sequence_name: str):
         self.sequence_cfg = SequenceProvider._get_config('sequence', sequence_name)
         self.steps = []
         SequenceProvider.logger.debug(f'{self.sequence_cfg}')
@@ -139,7 +139,7 @@ class SequenceProvider(AbstractSequenceProvider):
             raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
 
 
-    def get_sequence(self):
+    def get_sequence(self) -> dict:
         return self.steps
 
     ''' END object '''
