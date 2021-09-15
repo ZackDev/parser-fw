@@ -19,11 +19,9 @@ class Seshu:
         cnt = available_loglevels.count(loglevel)
         if cnt != 1:
             loglevel = logging.INFO
-        logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel,
-                            format='%(asctime)s %(name)s %(levelname)s : %(message)s')
+        logging.basicConfig(filename='parser-fw.log', encoding='utf-8', level=loglevel, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
         logger = logging.getLogger(__name__)
-        logger.info(
-            f'program started with sequence_name: {factory.sequence_name} and loglevel: {loglevel}.')
+        logger.info(f'program started with sequence_name: {factory.sequence_name} and loglevel: {loglevel}.')
 
         """ create SequenceProvider """
         try:

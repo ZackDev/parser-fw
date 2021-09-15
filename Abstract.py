@@ -29,7 +29,7 @@ class AbstractStep(ABC):
 
 class AbstractSequenceRunner(ABC):
     @abstractmethod
-    def __init__(self, sequence_name):
+    def __init__(self, sequence_name: str):
         raise NotImplementedError
 
     @abstractmethod
@@ -43,7 +43,7 @@ class AbstractSequenceRunner(ABC):
 
 class AbstractSequenceProvider(ABC):
     @abstractmethod
-    def __init__(self, sequence_name):
+    def __init__(self, sequence_name: str, config_directory: str):
         raise NotImplementedError
 
     @abstractmethod
@@ -52,7 +52,7 @@ class AbstractSequenceProvider(ABC):
 
 
 class AbstractSequenceProviderAndRunnerFactory(ABC):
-    def __init__(self, sequence_name):
+    def __init__(self, sequence_name: str):
         self.sequence_name = sequence_name
 
     @abstractmethod
