@@ -24,9 +24,9 @@ class FrameworkTest(unittest.TestCase):
     def test_factory(self):
         SequenceProvider._CONFIG_DIRECTORY = './test/files/cfg/'
 
-        factory = SequenceProviderAndRunnerFactory()
-        sequence_provider =  factory.get_provider('test')
-        sequence_runner = factory.get_runner('test')
+        factory = SequenceProviderAndRunnerFactory('test')
+        sequence_provider =  factory.get_provider()
+        sequence_runner = factory.get_runner()
 
         """
         test with valid config
