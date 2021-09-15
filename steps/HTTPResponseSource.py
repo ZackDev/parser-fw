@@ -1,6 +1,4 @@
-from abc import ABC
 from Abstract import AbstractStep, StepError
-import logging
 import requests
 
 
@@ -10,7 +8,7 @@ class HTTPResponseSource(AbstractStep):
             self.logger.debug(f'calling requests.get() with {self.source}')
             rsp = requests.get(self.source)
             if rsp.status_code == 200:
-                self.logger.debug(f'call to requests.get() finished.')
+                self.logger.debug('call to requests.get() finished.')
                 self.logger.debug(f'status code: {rsp.status_code}')
                 self.logger.debug(f'content: {rsp.content}')
                 return rsp.content

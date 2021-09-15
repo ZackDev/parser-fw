@@ -1,7 +1,5 @@
-from abc import ABC
 from Abstract import AbstractStep, StepError
 import json
-import logging
 
 
 class JSONFileSink(AbstractStep):
@@ -12,7 +10,7 @@ class JSONFileSink(AbstractStep):
         except Exception as e:
             raise StepError('error reading json from data.') from e
 
-        if json_data != None:
+        if json_data is not None:
             try:
                 with open(self.target, 'w') as file:
                     file.write(json_data)

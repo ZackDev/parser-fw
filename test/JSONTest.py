@@ -1,8 +1,8 @@
 import unittest
 import json
 
-class JSONTest(unittest.TestCase):
 
+class JSONTest(unittest.TestCase):
     def test_jsonDumps(self):
         with self.subTest():
             self.assertEqual(json.dumps('{}'), '"{}"')

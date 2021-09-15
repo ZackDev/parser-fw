@@ -31,9 +31,9 @@ class DailyCasesParser(AbstractStep):
                         raw_cases = line[4:]
                         self.logger.debug(f'raw_cases: {raw_cases}')
                         break
-                index+=1
+                index += 1
 
-            if country_found == False:
+            if country_found is False:
                 raise StepError(f'country {self.country} not found.')
 
             if raw_dates and raw_cases:
@@ -64,7 +64,7 @@ class DailyCasesParser(AbstractStep):
 
                     if day >= 1 and day < 10:
                         day = f'0{day}'
-                    elif day >=10 and day <= 31:
+                    elif day >= 10 and day <= 31:
                         day = f'{day}'
                     else:
                         raise StepError('day not in expected range.')
@@ -97,13 +97,13 @@ class DailyCasesParser(AbstractStep):
                 for case in cases:
                     if index > 0:
                         if case < last_case:
-                            if self.strict == True:
+                            if self.strict is True:
                                 raise StepError(f'cases are decreasing at index:cases {index}:{case}.')
-                            elif self.strict == False:
+                            elif self.strict is False:
                                 cases[index] = last_case
                                 case = last_case
                     last_case = case
-                    index+=1
+                    index += 1
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
@@ -113,8 +113,8 @@ class DailyCasesParser(AbstractStep):
                 raise StepError('dates and cases array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
-            if dates_is_valid == False:
+            if dates_is_valid is False:
                 raise StepError('date array is inconsistent.')
 
-            dict = { 'dates':dates, 'cases':cases}
+            dict = {"dates": dates, "cases": cases}
             return dict

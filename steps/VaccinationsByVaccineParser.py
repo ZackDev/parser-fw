@@ -1,8 +1,6 @@
-from abc import ABC
 from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
 from io import StringIO
-import logging
 import csv
 
 
@@ -36,6 +34,6 @@ class VaccinationsByVaccineParser(AbstractStep):
                         comirnaty_count += vacc_count
                     else:
                         self.logger.info(f'unknown vaccine: {vacc_name}')
-                index+=1
-            dict = {'Moderna':moderna_count, 'AstraZeneca':astrazeneca_count, 'Janssen':janssen_count, 'Comirnaty':comirnaty_count}
+                index += 1
+            dict = {'Moderna': moderna_count, 'AstraZeneca': astrazeneca_count, 'Janssen': janssen_count, 'Comirnaty': comirnaty_count}
             return dict

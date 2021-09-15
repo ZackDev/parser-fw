@@ -1,6 +1,7 @@
 import unittest
 from misc.Converters import str_to_integer
 
+
 class ConvertersTest(unittest.TestCase):
 
     def test_str_to_integer(self):

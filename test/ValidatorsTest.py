@@ -3,6 +3,7 @@ from misc.Validators import is_valid_ISO8601_date
 from misc.Validators import is_valid_ISO8601_date_array
 from misc.Validators import _build_date_array
 
+
 class ValidatorsTest(unittest.TestCase):
     _TEST_ARRAY = ["2021-05-06", "2021-05-07", "2021-05-08"]
     _TEST_GAP_ARRAY = ["2021-05-06", "2021-05-07", "2021-11-08"]

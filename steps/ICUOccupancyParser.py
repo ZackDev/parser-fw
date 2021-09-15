@@ -1,8 +1,6 @@
-from abc import ABC
 from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
-import logging
 from io import StringIO
 import csv
 
@@ -48,7 +46,7 @@ class ICUOccupancyParser(AbstractStep):
                         icou_covid = 0
                     icou_free += int(temp_icou_free)
                     icou_covid += int(temp_icou_covid)
-                index+=1
+                index += 1
 
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
@@ -58,9 +56,9 @@ class ICUOccupancyParser(AbstractStep):
             raise StepError('dates, icuo_free_array and icuo_covid array zero lengt.')
 
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)
-        if dates_is_valid == False:
+        if dates_is_valid is False:
             raise StepError('date array is inconsistent.')
 
         else:
-            dict = { 'dates' : dates, 'free_icu' : icou_free_array, 'covid_icu' : icou_covid_array }
+            dict = {"dates": dates, "free_icu": icou_free_array, "covid_icu": icou_covid_array}
             return dict

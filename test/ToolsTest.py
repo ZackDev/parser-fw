@@ -1,6 +1,7 @@
 import unittest
 import os
 
+
 class ToolsExistTest(unittest.TestCase):
     def test_covid_to_jekyll_parser(self):
         r_path = 'tools/covid_to_jekyll_parser.sh'

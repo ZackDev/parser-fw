@@ -4,10 +4,11 @@ from steps.HTTPResponseSource import HTTPResponseSource
 from steps.DailyCasesParser import DailyCasesParser
 from steps.VaccinationsByVaccineParser import VaccinationsByVaccineParser
 
+
 class HTTPResponseSourceTest(unittest.TestCase):
     def test_url_response_success(self):
         url = 'https://istandischeuernochimamt.de/'
-        cfg = {"source":url}
+        cfg = {"source": url}
         source = HTTPResponseSource(**cfg)
 
         request_successfull = False
@@ -15,15 +16,14 @@ class HTTPResponseSourceTest(unittest.TestCase):
         try:
             source.run('')
             request_successfull = True
-        except:
+        except Exception:
             request_successfull = False
 
         self.assertEqual(request_successfull, True)
 
-
     def test_url_response_failure(self):
         url = 'not-a-valid-url'
-        cfg = {"source":url}
+        cfg = {"source": url}
         source = HTTPResponseSource(**cfg)
 
         with self.assertRaises(StepError):
@@ -33,7 +33,7 @@ class HTTPResponseSourceTest(unittest.TestCase):
 class DailyCasesParserTest(unittest.TestCase):
     def test_daily_cases_parser(self):
         with self.subTest():
-            cfg = {"country":"Germany", "strict":False}
+            cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 data = parser.run(csv.read())
@@ -68,16 +68,15 @@ class DailyCasesParserTest(unittest.TestCase):
             self.assertEqual(dates_match, True)
             self.assertEqual(cases_match, True)
 
-
         with self.subTest():
-            cfg = {"country":"Germany", "strict":False}
+            cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
                 with self.assertRaises(StepError):
                     parser.run(csv.read())
 
         with self.subTest():
-            cfg = {"country":"Germany", "strict":False}
+            cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
             with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
                 with self.assertRaises(StepError):

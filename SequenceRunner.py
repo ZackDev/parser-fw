@@ -1,11 +1,12 @@
 import logging
-from Abstract import AbstractStep, StepError
+from Abstract import AbstractSequenceRunner, AbstractStep, StepError
+
 
 class SequenceRunnerError(Exception):
     pass
 
 
-class SequenceRunner:
+class SequenceRunner(AbstractSequenceRunner):
     def __init__(self, sequence_name: str):
         self.logger = logging.getLogger(__name__)
         self.sequence_name = sequence_name

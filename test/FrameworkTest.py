@@ -1,8 +1,6 @@
 import unittest
 from test.files.TestStep import TestStepWithoutRunImplementation
 from test.files.TestStep import TestStepWithRunImplementation
-from test.files.TestStep import TestStep
-from Abstract import StepError
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 from SequenceProvider import SequenceProvider, SequenceProviderError
 
@@ -16,7 +14,7 @@ class FrameworkTest(unittest.TestCase):
         try:
             TestStepWithRunImplementation()
             step_instantiation = True
-        except:
+        except Exception:
             pass
         self.assertEqual(step_instantiation, True)
 
@@ -25,7 +23,7 @@ class FrameworkTest(unittest.TestCase):
         SequenceProvider._CONFIG_DIRECTORY = './test/files/cfg/'
 
         factory = SequenceProviderAndRunnerFactory('test')
-        sequence_provider =  factory.get_provider()
+        sequence_provider = factory.get_provider()
         sequence_runner = factory.get_runner()
 
         """

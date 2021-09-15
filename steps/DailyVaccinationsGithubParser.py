@@ -1,7 +1,6 @@
 from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
 from misc.Validators import is_valid_ISO8601_date_array
-import logging
 import csv
 from io import StringIO
 
@@ -49,7 +48,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
                                 self.logger.warn(f'unknown vacc_series: {vacc_series}')
                         except Exception as e:
                             raise StepError('error parsing vaccination counter.') from e
-                index+=1
+                index += 1
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):
@@ -59,9 +58,9 @@ class DailyVaccinationsGithubParser(AbstractStep):
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
-            if dates_is_valid == False:
+            if dates_is_valid is False:
                 raise StepError('date array is inconsistent.')
 
 
-            dict = { 'dates':dates, 'primary_vaccinations':primary_vaccinations, 'secondary_vaccinations':secondary_vaccinations, 'booster_vaccinations':booster_vaccinations }
+            dict = {"dates": dates, "primary_vaccinations": primary_vaccinations, "secondary_vaccinations": secondary_vaccinations, 'booster_vaccinations': booster_vaccinations}
             return dict

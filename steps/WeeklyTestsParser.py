@@ -28,7 +28,7 @@ class WeeklyTestsParser(AbstractStep):
                 if parse_error is True:
                     break
                 if row_index == 1:
-                    calendar_weeks.append(f'2020-W10')
+                    calendar_weeks.append('2020-W10')
                     test_count = row[2].value
                     if isinstance(test_count, str):
                         try:
@@ -61,7 +61,7 @@ class WeeklyTestsParser(AbstractStep):
                                         raw_year = str_to_integer(raw_week_array[1], '+')
                                     except Exception as e:
                                         raise StepError('unexpected value for raw_week_array[1].') from e
-                                elif isinstance(raw_week_array[0], int) and isintance(raw_week_array[1], int):
+                                elif isinstance(raw_week_array[0], int) and isinstance(raw_week_array[1], int):
                                     raw_week = raw_week_array[0]
                                     raw_year = raw_week_array[1]
                                 else:
@@ -103,18 +103,18 @@ class WeeklyTestsParser(AbstractStep):
                             else:
                                 raise StepError('error reading tests. got "None"')
 
-                        col_index +=1
-                row_index +=1
+                        col_index += 1
+                row_index += 1
 
             if parse_error is False:
                 ''' data consistency check, length calendar_weeks equals length weekly_tests '''
                 if len(calendar_weeks) != len(weekly_tests):
-                    raise StepError(f'calendar_weeks and weekly_tests array length not equal.')
+                    raise StepError('calendar_weeks and weekly_tests array length not equal.')
 
                 if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
                     raise StepError('calendar_weeks and weekly_tests array length is zero.')
 
-                dict = {'calendar_weeks':calendar_weeks, 'weekly_tests':weekly_tests}
+                dict = {'calendar_weeks': calendar_weeks, 'weekly_tests': weekly_tests}
                 return dict
 
             else:
