@@ -6,9 +6,9 @@ class SequenceRunnerError(Exception):
 
 
 class SequenceRunner:
-    def __init__(self, name):
+    def __init__(self, sequence_name):
         self.logger = logging.getLogger(__name__)
-        self.name = name
+        self.sequence_name = sequence_name
         self.steps = []
 
     def add_step(self, step):

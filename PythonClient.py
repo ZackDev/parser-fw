@@ -6,5 +6,5 @@ example: how to use Seshu from terminal
 
 
 if __name__ == '__main__':
-    factory = SequenceProviderAndRunnerFactory()
-    Seshu(factory, 'daily-cases-github', 1)
+    factory = SequenceProviderAndRunnerFactory('daily-cases-github')
+    Seshu(factory, 1)

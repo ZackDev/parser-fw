@@ -118,7 +118,6 @@ class SequenceProvider(AbstractSequenceProvider):
     ''' BEGIN object '''
 
     def __init__(self, sequence_name):
-        super().__init__(sequence_name)
         self.sequence_cfg = SequenceProvider._get_config('sequence', sequence_name)
         self.steps = []
         SequenceProvider.logger.debug(f'{self.sequence_cfg}')
