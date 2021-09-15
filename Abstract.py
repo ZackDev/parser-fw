@@ -54,9 +54,9 @@ class AbstractSequenceProviderAndRunnerFactory(ABC):
         self.sequence_name = sequence_name
 
     @abstractmethod
-    def get_provider(self, sequence_name: str) -> AbstractSequenceProvider:
+    def get_provider(self) -> AbstractSequenceProvider:
         raise NotImplementedError
 
     @abstractmethod
-    def get_runner(self, sequence_name: str) -> AbstractSequenceRunner:
+    def get_runner(self) -> AbstractSequenceRunner:
         raise NotImplementedError
