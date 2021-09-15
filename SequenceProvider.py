@@ -12,13 +12,12 @@ class SequenceProviderError(Exception):
 
 class SequenceProvider(AbstractSequenceProvider):
 
-    def __init__(self, sequence_name: str, config_directory: str):
+    def __init__(self, sequence_name: str, config_directory: str = './config/'):
         self.config_directory = config_directory
         self.logger = logging.getLogger(__name__)
         self.sequence_cfg = self._get_config('sequence', sequence_name)
         self.steps = []
         self.logger.debug(f'{self.sequence_cfg}')
-        self.logger.debug(f'{self.steps}')
 
         step_names = self._get_step_names(self.sequence_cfg)
 
@@ -27,6 +26,8 @@ class SequenceProvider(AbstractSequenceProvider):
             step_cls = self._get_step_class(step_cfg)
             step_params = self._get_parameters(step_cfg, 'parameters')
             self.steps.append(step_cls(**step_params))
+
+        self.logger.debug(f'{self.steps}')
 
         if len(self.steps) < 1:
             raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
