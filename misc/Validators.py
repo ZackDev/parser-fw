@@ -5,19 +5,19 @@ def is_valid_ISO8601_date(date_string: str) -> bool:
     try:
         date.fromisoformat(date_string)
         return True
-    except Exception as e:
+    except Exception:
         return False
 
 
 def is_valid_ISO8601_date_array(date_array: str, strict: bool = False) -> bool:
     if len(date_array) == 0:
         return False
-    elif strict == False:
-        for date in date_array:
-            if is_valid_ISO8601_date(date) == False:
+    elif strict is False:
+        for d in date_array:
+            if is_valid_ISO8601_date(d) is False:
                 return False
         return True
-    elif strict == True:
+    elif strict is True:
         temp_array = _build_date_array(date_array[0], len(date_array))
         if date_array == temp_array:
             return True
@@ -26,7 +26,7 @@ def is_valid_ISO8601_date_array(date_array: str, strict: bool = False) -> bool:
 
 
 def _build_date_array(start_date: str, length: int):
-    if is_valid_ISO8601_date(start_date) == True:
+    if is_valid_ISO8601_date(start_date) is True:
         date_array = []
         date_array.append(start_date)
         temp_date = start_date

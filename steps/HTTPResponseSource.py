@@ -9,8 +9,6 @@ class HTTPResponseSource(AbstractStep):
             rsp = requests.get(self.url)
             if rsp.status_code == 200:
                 self.logger.debug('call to requests.get() finished.')
-                self.logger.debug(f'status code: {rsp.status_code}')
-                self.logger.debug(f'content: {rsp.content}')
                 return rsp.content
             else:
                 self.logger.critical('call to requests.get() failed.')

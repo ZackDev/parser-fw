@@ -6,7 +6,7 @@ from Abstract import AbstractSequenceProviderAndRunnerFactory
 _DEFAULT_LOGLEVEL = 2
 
 
-class SeshuError:
+class SeshuError(Exception):
     pass
 
 
