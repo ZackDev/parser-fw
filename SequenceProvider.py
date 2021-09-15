@@ -12,16 +12,33 @@ class SequenceProviderError(Exception):
 
 class SequenceProvider(AbstractSequenceProvider):
 
-    ''' BEGIN static '''
+    def __init__(self, sequence_name: str, config_directory: str):
+        self.config_directory = config_directory
+        self.logger = logging.getLogger(__name__)
+        self.sequence_cfg = self._get_config('sequence', sequence_name)
+        self.steps = []
+        self.logger.debug(f'{self.sequence_cfg}')
+        self.logger.debug(f'{self.steps}')
 
-    logger = logging.getLogger(__name__)
-    _CONFIG_DIRECTORY = './config/'
+        step_names = self._get_step_names(self.sequence_cfg)
+
+        for name in step_names:
+            step_cfg = self._get_config('step', name)
+            step_cls = self._get_step_class(step_cfg)
+            step_params = self._get_parameters(step_cfg, 'parameters')
+            self.steps.append(step_cls(**step_params))
+
+        if len(self.steps) < 1:
+            raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
+
 
     '''
     imports and returns the module specified by <module_name>
     - raises ModuleNotFoundError
     '''
-    def _load_module(module_name: str):
+
+
+    def _load_module(self, module_name: str):
         module = importlib.import_module(module_name)
         return module
 
@@ -29,27 +46,28 @@ class SequenceProvider(AbstractSequenceProvider):
     returns the class identified by <module_name> and <class_name>
     - raises SequenceProviderError
     '''
-    def _get_class(module_name: str, class_name: str) -> AbstractStep:
+
+
+    def _get_class(self, module_name: str, class_name: str) -> AbstractStep:
         try:
-            module = SequenceProvider._load_module(module_name)
+            module = self._load_module(module_name)
             cls = getattr(module, class_name)
             return cls
         except ModuleNotFoundError as me:
-            raise SequenceProviderError(
-                f'could not load module {module_name}') from me
+            raise SequenceProviderError(f'could not load module {module_name}') from me
         except AttributeError as ae:
-            raise SequenceProviderError(
-                f'could not get class {class_name}') from ae
+            raise SequenceProviderError(f'could not get class {class_name}') from ae
         except Exception as e:
-            raise SequenceProviderError(
-                f'unexpected error loading module: {module_name} class: {class_name}') from e
+            raise SequenceProviderError(f'unexpected error loading module: {module_name} class: {class_name}') from e
 
     '''
     returns a list of all files in the directory specified by _CONFIG_DIRECTORY
     '''
-    def _get_config_files() -> list:
-        config_files = [f for f in listdir(SequenceProvider._CONFIG_DIRECTORY)
-                        if isfile(join(SequenceProvider._CONFIG_DIRECTORY, f))
+
+
+    def _get_config_files(self) -> list:
+        config_files = [f for f in listdir(self.config_directory)
+                        if isfile(join(self.config_directory, f))
                         and f != '.gitignore']
         return config_files
 
@@ -59,24 +77,27 @@ class SequenceProvider(AbstractSequenceProvider):
     returns the config specified by the function parameters <type> and <name>
     - raises SequenceProviderError if any of the files cannot be loaded
     '''
-    def _get_config(type: str, name: str) -> dict:
-        config_files = SequenceProvider._get_config_files()
+
+
+    def _get_config(self, type: str, name: str) -> dict:
+        config_files = self._get_config_files()
         for file in config_files:
-            with open(join(SequenceProvider._CONFIG_DIRECTORY, file), 'r') as f:
+            with open(join(self.config_directory, file), 'r') as f:
                 try:
                     cfg = json.loads(f.read())
                     if cfg['name'] is not None and cfg['type'] == type and cfg['name'] == name:
                         return cfg
                 except Exception as exc:
-                    raise SequenceProviderError(
-                        f'error reading config: {type} {name}') from exc
+                    raise SequenceProviderError(f'error reading config: {type} {name}') from exc
 
     '''
     returns the parameters specified by <config> and <parameter_name> as a dict
     - returns empty dict if config doesn't contain a <name, value> pair
       specified by <parameter_name>
     '''
-    def _get_parameters(config: dict, parameter_name: str) -> dict:
+
+
+    def _get_parameters(self, config: dict, parameter_name: str) -> dict:
         try:
             if parameter_name in config:
                 params = {}
@@ -94,13 +115,15 @@ class SequenceProvider(AbstractSequenceProvider):
     function parameter
     - raises SequenceProviderError if key steps is not present in sequence_config
     '''
-    def _get_steps(sequence_config: dict) -> dict:
+
+
+    def _get_step_names(self, sequence_config: dict) -> list:
         try:
             steps = sequence_config['steps']
             if isinstance(steps, list):
                 return steps
             else:
-                SequenceProvider.logger.warn('sequence config is malformed.')
+                self.logger.warn('sequence config is malformed.')
         except Exception:
             raise SequenceProviderError(f'steps not found in {sequence_config}')
 
@@ -109,42 +132,19 @@ class SequenceProvider(AbstractSequenceProvider):
     - raises SequenceProviderError if package, module or class value is not present
       in the step_config
     '''
-    def _get_step_class(step_config: dict) -> dict:
+
+
+    def _get_step_class(self, step_config: dict) -> dict:
         try:
             module_name = f"{step_config['package']}.{step_config['module']}"
             class_name = step_config['class']
+            step_cls = self._get_class(module_name, class_name)
+            return step_cls
         except KeyError as ke:
             raise SequenceProviderError(f'error reading package/module/class keys from {step_config}.') from ke
         except Exception as e:
             raise SequenceProviderError(f'unexpected error reading package/module/class keys from {step_config}.') from e
-        step_cls = SequenceProvider._get_class(module_name, class_name)
-        return step_cls
-    ''' END static '''
 
-    ''' BEGIN object '''
 
-    def __init__(self, sequence_name: str):
-        self.sequence_cfg = SequenceProvider._get_config(
-            'sequence', sequence_name)
-        self.steps = []
-        SequenceProvider.logger.debug(f'{self.sequence_cfg}')
-        SequenceProvider.logger.debug(f'{self.steps}')
-        if self.sequence_cfg is None:
-            raise SequenceProviderError(f'config: {sequence_name} not found')
-
-        steps_from_sequence_config = SequenceProvider._get_steps(self.sequence_cfg)
-        SequenceProvider.logger.debug(f'{steps_from_sequence_config}')
-
-        for step in steps_from_sequence_config:
-            step_cfg = SequenceProvider._get_config('step', step)
-            step_cls = SequenceProvider._get_step_class(step_cfg)
-            step_params = SequenceProvider._get_parameters(step_cfg, 'parameters')
-
-            self.steps.append(step_cls(**step_params))
-
-        if len(self.steps) < 1:
-            raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
-
-    def get_sequence(self) -> dict:
+    def get_sequence(self) -> list:
         return self.steps
-    ''' END object '''
