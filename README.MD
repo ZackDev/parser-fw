@@ -28,8 +28,9 @@ A `step` is responsible for transforming input and returning it. A specific step
 
 The following example takes a `url` as input and returns the content of the response.
 
-``` python3
+``` python
 from Abstract import AbstractStep, StepError
+import requests
 
 class HTTPResponseSource(AbstractStep):
     def run(self, data):
@@ -40,7 +41,7 @@ class HTTPResponseSource(AbstractStep):
             else:
                 raise StepError(f'Connection failed with http status code {rsp.status_code}')
         except Exception as e:
-            raise StepError() from e
+            raise StepError('unexpected error.') from e
 ```
 
 The concrete step, or the instruction on how to instantiate the step, is defined inside a `.json` config file.
@@ -53,12 +54,10 @@ The concrete step, or the instruction on how to instantiate the step, is defined
   "package": "steps",
   "module": "HTTPResponseSource",
   "class": "HTTPResponseSource",
-  "parameters": [
-    {
-      "name": "url",
-      "value": "http://example.org"
-    }
-  ]
+  "parameters":
+  {
+    "url": "http://example.org"
+  }
 }
 
 ```
@@ -70,8 +69,17 @@ The framework automatically looks for the module `HTTPResponseSource` in the pac
 
 The framework takes two arguments, the name of the sequence and the optional loglevel, which ranges from 1 to 5, DEBUG to CRITICAL and defaults to 2 (INFO).
 
-`python3 Seshu.py -s <sequence_name> [-l <loglevel>]`
+For now there are two ways to run it:
 
-Running the sequence `my-sequence` with INFO loglevel looks like this:
+* from a console:
+  `python3 ConsoleClient.py -s my-sequence`
 
-`python3 Seshu.py -s my-sequence`
+* from python:
+  ``` python
+  from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
+  from Seshu import Seshu
+
+  factory = SequenceProviderAndRunnerFactory('my-sequence')
+  Seshu(factory)  
+
+  ```
