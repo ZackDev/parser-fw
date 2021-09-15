@@ -11,6 +11,9 @@ class VaccinationsByVaccineParser(AbstractStep):
             csv_reader = csv.reader(vaccine_csv, delimiter=',')
 
             ''' NOTE: the first line is the header '''
+            ''' reads name of vaccine and administered doses line by line '''
+            ''' adds vaccine and doses to dict if vaccine_name not present in dict '''
+            ''' else: updates dict's vaccine_name doses count with count from dict plus count from current line '''
             index = 0
             for line in csv_reader:
                 if index == 0:
