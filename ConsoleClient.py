@@ -1,6 +1,8 @@
 from Seshu import Seshu
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 import argparse
+
+
 """
 example: how to use Seshu from console
 """

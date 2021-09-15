@@ -1,9 +1,5 @@
-import argparse
 import logging
-import importlib
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
-from SequenceProvider import SequenceProviderError
-from SequenceRunner import SequenceRunnerError
 from Abstract import AbstractSequenceProviderAndRunnerFactory
 
 _DEFAULT_LOGLEVEL = 2

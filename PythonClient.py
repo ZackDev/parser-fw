@@ -1,7 +1,9 @@
 from Seshu import Seshu
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
+
+
 """
-example: how to use Seshu from terminal
+example: how to use Seshu from python
 """
 
 
