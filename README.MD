@@ -5,7 +5,7 @@
 
 # What can it do?
 
-In simple terms: **run a sequence of steps**
+In simple terms: *run a sequence of n steps*
 
 
 # The sequence
@@ -13,14 +13,13 @@ In simple terms: **run a sequence of steps**
 A chain of steps is called a sequence. A specific sequence is again defined via `.json` file.
 
 ``` json
-
 {
   "type": "sequence",
   "name": "my-sequence",
   "steps": ["fetch-url", "store-data"]
 }
-
 ```
+
 
 # The step
 
@@ -47,7 +46,6 @@ class HTTPResponseSource(AbstractStep):
 The concrete step, or the instruction on how to instantiate the step, is defined inside a `.json` config file.
 
 ``` json
-
 {
   "type": "step",
   "name": "fetch-url",
@@ -59,7 +57,6 @@ The concrete step, or the instruction on how to instantiate the step, is defined
     "url": "http://example.org"
   }
 }
-
 ```
 
 The framework automatically looks for the module `HTTPResponseSource` in the package `steps`, loads it, and instantiates the module's class `HTTPResponseSource` with the parameter `url="http://example.org"` defined under `parameters`.
@@ -81,5 +78,4 @@ For now there are two ways to run it:
 
   factory = SequenceProviderAndRunnerFactory('my-sequence')
   Seshu(factory)  
-
   ```
