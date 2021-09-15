@@ -9,12 +9,15 @@ class StepError(Exception):
 
 class AbstractStep(ABC):
     def __init__(self, **kwargs):
+        self.logger = logging.getLogger(type(self).__name__)
+        self.logger.debug(f'__init__() called with kwargs: {kwargs}')
         try:
             for key, value in kwargs.items():
+                print(key, value)
                 setattr(self, key, value)
         except Exception as exc:
             raise StepError('setattr error.') from exc
-        self.logger = logging.getLogger(type(self).__name__)
+
 
     @abstractmethod
     def run(self, data):

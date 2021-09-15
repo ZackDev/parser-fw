@@ -4,10 +4,8 @@
   "package": "steps",
   "module": "HTTPResponseSource",
   "class": "HTTPResponseSource",
-  "parameters": [
-    {
-      "name": "source",
-      "value": "https://diviexchange.blob.core.windows.net/%24web/zeitreihe-tagesdaten.csv"
-    }
-  ]
+  "parameters":
+  {
+    "url": "https://diviexchange.blob.core.windows.net/%24web/zeitreihe-tagesdaten.csv"
+  }
 }

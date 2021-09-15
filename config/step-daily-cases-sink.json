@@ -4,10 +4,8 @@
   "package": "steps",
   "module": "JSONFileSink",
   "class": "JSONFileSink",
-  "parameters": [
-    {
-      "name": "target",
-      "value": "corona_germany_daily_cases.json"
-    }
-  ]
+  "parameters":
+  {
+    "target": "corona_germany_daily_cases.json"
+  }
 }

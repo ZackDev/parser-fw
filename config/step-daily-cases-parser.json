@@ -4,14 +4,9 @@
   "package": "steps",
   "module": "DailyCasesParser",
   "class": "DailyCasesParser",
-  "parameters": [
-    {
-      "name": "strict",
-      "value": true
-    },
-    {
-      "name": "country",
-      "value": "Germany"
-    }
-  ]
+  "parameters":
+  {
+    "strict": true,
+    "country": "Germany"
+  }
 }

@@ -5,8 +5,8 @@ import requests
 class HTTPResponseSource(AbstractStep):
     def run(self, data):
         try:
-            self.logger.debug(f'calling requests.get() with {self.source}')
-            rsp = requests.get(self.source)
+            self.logger.debug(f'calling requests.get() with {self.url}')
+            rsp = requests.get(self.url)
             if rsp.status_code == 200:
                 self.logger.debug('call to requests.get() finished.')
                 self.logger.debug(f'status code: {rsp.status_code}')
