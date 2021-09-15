@@ -116,7 +116,6 @@ class SequenceProvider(AbstractSequenceProvider):
 
 
     ''' BEGIN object '''
-
     def __init__(self, sequence_name: str):
         self.sequence_cfg = SequenceProvider._get_config('sequence', sequence_name)
         self.steps = []
@@ -141,5 +140,4 @@ class SequenceProvider(AbstractSequenceProvider):
 
     def get_sequence(self) -> dict:
         return self.steps
-
     ''' END object '''
