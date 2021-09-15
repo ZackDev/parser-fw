@@ -4,6 +4,7 @@ from test.files.TestStep import TestStepWithRunImplementation
 from test.files.TestStep import TestStep
 from Abstract import StepError
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
+from SequenceProvider import SequenceProvider, SequenceProviderError
 
 
 class FrameworkTest(unittest.TestCase):
@@ -18,6 +19,7 @@ class FrameworkTest(unittest.TestCase):
         except:
             pass
         self.assertEqual(step_instantiation, True)
+
 
     def test_factory(self):
         SequenceProvider._CONFIG_DIRECTORY = './test/files/cfg/'

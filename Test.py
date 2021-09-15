@@ -14,7 +14,7 @@ from test.JSONTest import JSONTest
 def framework_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(FrameworkTest('test_step_implementation'))
-    suite.addTest(FrameworkTest('test_config_provider'))
+    suite.addTest(FrameworkTest('test_factory'))
     return suite
 
 def tools_test_suite():
