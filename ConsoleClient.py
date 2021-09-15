@@ -12,7 +12,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("-l", "--loglevel", type=int, default=2)
     args = arg_parser.parse_args()
     if (args.loglevel and args.sequence):
-        factory = SequenceProviderAndRunnerFactory()
-        Seshu(factory, args.sequence, args.loglevel)
+        factory = SequenceProviderAndRunnerFactory(args.sequence)
+        Seshu(factory, args.loglevel)
     else:
         arg_parser.print_help()
