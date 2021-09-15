@@ -68,14 +68,21 @@ The framework takes two arguments, the name of the sequence and the optional log
 
 For now there are two ways to run it:
 
-* from a console:
-  `python3 ConsoleClient.py -s my-sequence`
+**from console:**
+``` bash
+python3 ConsoleClient.py -s my-sequence
+```
 
-* from python:
-  ``` python
-  from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
-  from Seshu import Seshu
+**from python:**
+``` python
+from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
+from Seshu import Seshu
 
-  factory = SequenceProviderAndRunnerFactory('my-sequence')
-  Seshu(factory)  
-  ```
+class PythonClient:
+    def __init__(sequence_name):
+        factory = SequenceProviderAndRunnerFactory(sequence_name)
+        Seshu(factory)
+
+if __name__ == '__main__':
+    PythonClient('my-sequence')
+```
