@@ -4,10 +4,8 @@
   "package": "test.files",
   "module": "TestStep",
   "class": "TestStep",
-  "parameters": [
-    {
-      "name": "initialvalue",
-      "value": 2
-    }
-  ]
+  "parameters":
+  {
+    "initialvalue": 2
+  }
 }

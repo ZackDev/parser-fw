@@ -13,7 +13,6 @@ class AbstractStep(ABC):
         self.logger.debug(f'__init__() called with kwargs: {kwargs}')
         try:
             for key, value in kwargs.items():
-                print(key, value)
                 setattr(self, key, value)
         except Exception as exc:
             raise StepError('setattr error.') from exc

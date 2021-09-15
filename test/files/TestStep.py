@@ -1,11 +1,14 @@
 from Abstract import AbstractStep
 
+
 class TestStepWithoutRunImplementation(AbstractStep):
     pass
+
 
 class TestStepWithRunImplementation(AbstractStep):
     def run(self):
         pass
+
 
 class TestStep(AbstractStep):
     def run(self, data):
