@@ -41,10 +41,12 @@ class FrameworkTest(unittest.TestCase):
         test with missing config
         """
         with self.assertRaises(SequenceProviderError):
-            factory.get_provider('cfg-not-there')
+            factory = SequenceProviderAndRunnerFactory('cfg-not-there')
+            factory.get_provider()
 
         """
         test with invalid config
         """
         with self.assertRaises(SequenceProviderError):
-            factory.get_provider('faulty-test')
+            factory = SequenceProviderAndRunnerFactory('faulty-test')
+            factory.get_provider()
