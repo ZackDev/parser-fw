@@ -27,3 +27,8 @@ This way, the factory should also include the logging's `baseConfig` initializat
 Imagine three steps, A, B and C. And let's say, either B or C gets called depending on the result of A. How would one model this? In a tree-like structure!
 
 This would require different implementations of `provider` and `runner` and another type sequence. Like `"type": "conditional-sequence"`. But probably doable without changing the `Seshu` logic.
+
+
+## support for sequence chaining and conditional sequence selection
+
+Not only excute sequences in order, but as with steps, let the output of the former sequence be the input for the latter. Plus conditional chaining. So a step can either have a step or sequence as successor.
