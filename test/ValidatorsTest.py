@@ -23,7 +23,6 @@ class ValidatorsTest(unittest.TestCase):
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_ARRAY, True), True)
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_GAP_ARRAY, True), False)
 
-
     def test__build_date_array(self):
         built_array = _build_date_array("2021-05-06", 3)
         self.assertEqual(ValidatorsTest._TEST_ARRAY, built_array)

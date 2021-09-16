@@ -30,7 +30,7 @@ def _build_date_array(start_date: str, length: int):
         date_array = []
         date_array.append(start_date)
         temp_date = start_date
-        for i in range(length-1):
+        for i in range(length - 1):
             '''
             convert to date object, add timedelta of 1 day, convert to iso formatted
             string and add it to the date_darray

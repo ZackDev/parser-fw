@@ -48,7 +48,6 @@ class ICUOccupancyParser(AbstractStep):
                     icou_covid += int(temp_icou_covid)
                 index += 1
 
-
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
 

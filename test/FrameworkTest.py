@@ -18,7 +18,6 @@ class FrameworkTest(unittest.TestCase):
             pass
         self.assertEqual(step_instantiation, True)
 
-
     def test_factory(self):
 
         factory = TestSequenceProviderAndRunnerFactory('test')

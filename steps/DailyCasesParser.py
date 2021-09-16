@@ -30,7 +30,6 @@ class DailyCasesParser(AbstractStep):
                         break
                     index += 1
 
-
             if (raw_dates is not None) & (raw_cases is not None):
                 dates = []
                 cases = []
@@ -63,7 +62,6 @@ class DailyCasesParser(AbstractStep):
                         self.logger.debug(f'appended case: {case}')
                     except Exception as e:
                         raise StepError('error parsing raw_case.') from e
-
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0

@@ -61,6 +61,5 @@ class DailyVaccinationsGithubParser(AbstractStep):
             if dates_is_valid is False:
                 raise StepError('date array is inconsistent.')
 
-
             dict = {"dates": dates, "primary_vaccinations": primary_vaccinations, "secondary_vaccinations": secondary_vaccinations, 'booster_vaccinations': booster_vaccinations}
             return dict
