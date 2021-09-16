@@ -17,7 +17,6 @@ class AbstractStep(ABC):
         except Exception as exc:
             raise StepError('setattr error.') from exc
 
-
     @abstractmethod
     def run(self, data):
         raise NotImplementedError
