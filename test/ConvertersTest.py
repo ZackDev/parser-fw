@@ -34,14 +34,20 @@ class ConvertersTest(unittest.TestCase):
             with self.assertRaises(TypeError):
                 str_to_integer(-1.0)
 
-        for i in range(0, 99):
+        with self.subTest():
+            with self.assertRaises(TypeError):
+                str_to_integer(True)
+            with self.assertRaises(TypeError):
+                str_to_integer(False)
+
+        for i in range(0, 999999):
             with self.subTest():
                 self.assertEqual(str_to_integer(str(i), '+'), i)
 
-        for i in range(-99, 0):
+        for i in range(-999999, 0):
             with self.subTest():
                 self.assertEqual(str_to_integer(str(i), '-'), i)
 
-        for i in range(-49, 49):
+        for i in range(-499999, 499999):
             with self.subTest():
                 self.assertEqual(str_to_integer(str(i), '*'), i)

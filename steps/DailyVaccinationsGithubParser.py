@@ -54,7 +54,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length not equal.')
 
-            if len(dates) < 1 and len(primary_vaccinations) < 1 and len(secondary_vaccinations) and len(booster_vaccinations) < 1:
+            if len(dates) < 1 & len(primary_vaccinations) < 1 & len(secondary_vaccinations) < 1 & len(booster_vaccinations) < 1:
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)

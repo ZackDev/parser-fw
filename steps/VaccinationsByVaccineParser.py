@@ -16,7 +16,8 @@ class VaccinationsByVaccineParser(AbstractStep):
             ''' else: updates dict's vaccine_name doses count with count from dict plus count from current line '''
             index = 0
             for line in csv_reader:
-                if index == 0:
+                if index < 1:
+                    index += 1
                     pass
                 else:
                     vacc_name = line[2]
@@ -30,7 +31,6 @@ class VaccinationsByVaccineParser(AbstractStep):
                         dict.update({vacc_name: doses + vacc_doses})
                     except KeyError:
                         dict.update({vacc_name: vacc_doses})
-                index += 1
         if len(dict) > 0:
             return dict
         else:

@@ -9,11 +9,6 @@ class DailyCasesParser(AbstractStep):
     def run(self, data):
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
             country_found = False
-            raw_dates = None
-            raw_cases = None
-            dates = None
-            cases = None
-            dict = None
 
             ''' NOTE: the first line contains the dates, starting from 22.01.2020 '''
             ''' each line after that corresponds to a country, containing the cases among other data '''
@@ -42,7 +37,6 @@ class DailyCasesParser(AbstractStep):
                 ''' do some date parsing, provided format is M/D/Y, to YYYY-MM-DD '''
                 for raw_date in raw_dates:
                     date_array = raw_date.split('/')
-                    day, month, year = None, None, None
                     try:
                         day = f"{str_to_integer(date_array[1], '+'):02}"
                         month = f"{str_to_integer(date_array[0], '+'):02}"
