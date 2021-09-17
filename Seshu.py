@@ -27,8 +27,7 @@ class Seshu:
             for step in steps:
                 sequence_runner.add_step(step)
             sequence_runner.run()
-            quantifier = 'step' if len(sequence_runner.steps) == 1 else quantifier = 'steps'
-            logger.info(f'finished sequence {factory.sequence_name} ({len(sequence_runner.steps)} {quantifier}).')
+            logger.info(f'finished sequence {factory.sequence_name} with ({len(sequence_runner.steps)}) steps.')
         except SequenceProviderError:
             logging.exception(f'error creating SequenceProvider object with sequence_name: {factory.sequence_name}.')
         except SequenceRunnerError:
