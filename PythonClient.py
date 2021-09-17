@@ -7,6 +7,10 @@ example: how to use Seshu from python
 """
 
 
-if __name__ == '__main__':
+def run_seshu():
     factory = SequenceProviderAndRunnerFactory('daily-cases-github')
     Seshu(factory, 1)
+
+
+if __name__ == '__main__':
+    run_seshu()
