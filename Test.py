@@ -114,13 +114,13 @@ if __name__ == '__main__':
     try:
         with open('/var/lib/prometheus/node-exporter/python-unittest.prom', 'w') as pex:
             pex.write('HELP python_unittest_count counts the number of tests\n')
-            pex.write('TYPE python_unittest_count gauge')
+            pex.write('TYPE python_unittest_count gauge\n')
             pex.write(f'python_unittest_count{{pname="parser-fw"}} {total_runs}\n')
             pex.write('HELP python_unittest_err counts the number of erroneous tests\n')
-            pex.write('TYPE python_unittest_err gauge')
+            pex.write('TYPE python_unittest_err gauge\n')
             pex.write(f'python_unittest_err{{pname="parser-fw"}} {errors}\n')
             pex.write('HELP python_unittest_fail counts the number of failed tests\n')
-            pex.write('TYPE python_unittest_fail gauge')
+            pex.write('TYPE python_unittest_fail gauge\n')
             pex.write(f'python_unittest_fail{{pname="parser-fw"}} {failures}\n')
     except Exception as e:
         print(e)
