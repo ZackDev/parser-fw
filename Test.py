@@ -103,6 +103,6 @@ if __name__ == '__main__':
             pex.write(f'python_unittest_fail{{pname="parser-fw"}} {failures}\n')
         logger.info('wrote testresults to python-unittest.prom.')
     except Exception as e:
-        logger.warn('error writing testresults to python-unittest.prom.')
-        logger.warn(f'{e}')
+        logger.warning('error writing testresults to python-unittest.prom.')
+        logger.warning(f'{e}')
         print(e)
