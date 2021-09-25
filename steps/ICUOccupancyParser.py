@@ -14,13 +14,12 @@ class ICUOccupancyParser(AbstractStep):
         icuo_covid_invasive_array = []
         with StringIO(data.decode('utf-8')) as daily_icuo_csv:
             csv_reader = csv.reader(daily_icuo_csv, delimiter=',')
-            index = 0
             date = ''
             icou_free = 0
             icou_covid = 0
             icuo_covid_invasive = 0
 
-            for line in csv_reader:
+            for index, line in enumerate(csv_reader):
                 if index >= 1:
                     temp_date = line[0]
                     temp_icou_covid = line[5]
@@ -57,7 +56,6 @@ class ICUOccupancyParser(AbstractStep):
                     icou_free += int(temp_icou_free)
                     icou_covid += int(temp_icou_covid)
                     icuo_covid_invasive += int(temp_icou_covid_invasive)
-                index += 1
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')

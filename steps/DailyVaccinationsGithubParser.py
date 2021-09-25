@@ -16,12 +16,11 @@ class DailyVaccinationsGithubParser(AbstractStep):
             tmp_pri_vacc = 0
             tmp_sec_vacc = 0
             tmp_booster_vacc = 0
-            index = 0
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
 
-            for line in csv_reader:
+            for index, line in enumerate(csv_reader):
                 if index > 0:
                     if date is None:
                         date = line[0]
@@ -48,7 +47,6 @@ class DailyVaccinationsGithubParser(AbstractStep):
                                 self.logger.warn(f'unknown vacc_series: {vacc_series}')
                         except Exception as e:
                             raise StepError('error parsing vaccination counter.') from e
-                index += 1
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):

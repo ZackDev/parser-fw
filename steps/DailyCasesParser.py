@@ -13,9 +13,8 @@ class DailyCasesParser(AbstractStep):
             ''' NOTE: the first line contains the dates, starting from 22.01.2020 '''
             ''' each line after that corresponds to a country, containing the cases among other data '''
             csv_reader = csv.reader(daily_cases_csv, delimiter=',')
-            index = 0
             while country_found is False:
-                for line in csv_reader:
+                for index, line in enumerate(csv_reader):
                     if index == 0:
                         raw_dates = line[4:]
                     elif line[1] == self.country:
@@ -23,7 +22,6 @@ class DailyCasesParser(AbstractStep):
                         raw_cases = line[4:]
                         self.logger.debug(f'raw_cases: {raw_cases}')
                         break
-                    index += 1
 
             if (raw_dates is not None) & (raw_cases is not None):
                 dates = []
@@ -59,8 +57,7 @@ class DailyCasesParser(AbstractStep):
 
                 ''' check if day-to-day cases are decreasing '''
                 last_case = 0
-                index = 0
-                for case in cases:
+                for index, case in enumerate(cases):
                     if index > 0:
                         if case < last_case:
                             if self.strict is True:
@@ -69,7 +66,6 @@ class DailyCasesParser(AbstractStep):
                                 cases[index] = last_case
                                 case = last_case
                     last_case = case
-                    index += 1
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(cases):
