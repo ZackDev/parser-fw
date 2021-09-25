@@ -21,32 +21,33 @@ class DailyVaccinationsGithubParser(AbstractStep):
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
 
             for index, line in enumerate(csv_reader):
-                if index > 0:
-                    if date is None:
-                        date = line[0]
-                        dates.append(date)
-                    elif date != line[0]:
-                        date = line[0]
-                        dates.append(date)
-                        primary_vaccinations.append(tmp_pri_vacc)
-                        secondary_vaccinations.append(tmp_sec_vacc)
-                        booster_vaccinations.append(tmp_booster_vacc)
-                        tmp_pri_vacc = 0
-                        tmp_sec_vacc = 0
-                        tmp_booster_vacc = 0
-                    else:
-                        try:
-                            vacc_series = str_to_integer(line[3], '+')
-                            if vacc_series == 1:
-                                tmp_pri_vacc += str_to_integer(line[4], '+')
-                            elif vacc_series == 2:
-                                tmp_sec_vacc += str_to_integer(line[4], '+')
-                            elif vacc_series == 3:
-                                tmp_booster_vacc += str_to_integer(line[4], '+')
-                            else:
-                                self.logger.warn(f'unknown vacc_series: {vacc_series}')
-                        except Exception as e:
-                            raise StepError('error parsing vaccination counter.') from e
+                if index == 0:
+                    continue
+                if date is None:
+                    date = line[0]
+                    dates.append(date)
+                elif date != line[0]:
+                    date = line[0]
+                    dates.append(date)
+                    primary_vaccinations.append(tmp_pri_vacc)
+                    secondary_vaccinations.append(tmp_sec_vacc)
+                    booster_vaccinations.append(tmp_booster_vacc)
+                    tmp_pri_vacc = 0
+                    tmp_sec_vacc = 0
+                    tmp_booster_vacc = 0
+                else:
+                    try:
+                        vacc_series = str_to_integer(line[3], '+')
+                        if vacc_series == 1:
+                            tmp_pri_vacc += str_to_integer(line[4], '+')
+                        elif vacc_series == 2:
+                            tmp_sec_vacc += str_to_integer(line[4], '+')
+                        elif vacc_series == 3:
+                            tmp_booster_vacc += str_to_integer(line[4], '+')
+                        else:
+                            self.logger.warn(f'unknown vacc_series: {vacc_series}')
+                    except Exception as e:
+                        raise StepError('error parsing vaccination counter.') from e
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):

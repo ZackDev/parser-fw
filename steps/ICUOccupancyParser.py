@@ -20,42 +20,43 @@ class ICUOccupancyParser(AbstractStep):
             icuo_covid_invasive = 0
 
             for index, line in enumerate(csv_reader):
-                if index >= 1:
-                    temp_date = line[0]
-                    temp_icou_covid = line[5]
-                    temp_icou_covid_invasive = line[6]
-                    temp_icou_free = line[7]
-                    try:
-                        temp_icou_covid = str_to_integer(temp_icou_covid, '+')
-                    except Exception as e:
-                        raise StepError('error parsing ICU occupancy for covid patients.') from e
+                if index == 0:
+                    continue
+                temp_date = line[0]
+                temp_icou_covid = line[5]
+                temp_icou_covid_invasive = line[6]
+                temp_icou_free = line[7]
+                try:
+                    temp_icou_covid = str_to_integer(temp_icou_covid, '+')
+                except Exception as e:
+                    raise StepError('error parsing ICU occupancy for covid patients.') from e
 
-                    try:
-                        temp_icou_covid_invasive = str_to_integer(temp_icou_covid_invasive, '+')
-                    except Exception as e:
-                        raise StepError('error parsing ICU invasive occupancy for covid patients.')
+                try:
+                    temp_icou_covid_invasive = str_to_integer(temp_icou_covid_invasive, '+')
+                except Exception as e:
+                    raise StepError('error parsing ICU invasive occupancy for covid patients.')
 
-                    try:
-                        temp_icou_free = str_to_integer(temp_icou_free, '+')
-                    except Exception as e:
-                        raise StepError('error parsing free ICU beds.') from e
+                try:
+                    temp_icou_free = str_to_integer(temp_icou_free, '+')
+                except Exception as e:
+                    raise StepError('error parsing free ICU beds.') from e
 
-                    if date == '':
-                        date = temp_date
-                        dates.append(temp_date)
+                if date == '':
+                    date = temp_date
+                    dates.append(temp_date)
 
-                    elif (date != temp_date) & (date != ''):
-                        date = temp_date
-                        dates.append(temp_date)
-                        icou_free_array.append(icou_free)
-                        icou_covid_array.append(icou_covid - icuo_covid_invasive)
-                        icuo_covid_invasive_array.append(icuo_covid_invasive)
-                        icou_free = 0
-                        icou_covid = 0
-                        icuo_covid_invasive = 0
-                    icou_free += int(temp_icou_free)
-                    icou_covid += int(temp_icou_covid)
-                    icuo_covid_invasive += int(temp_icou_covid_invasive)
+                elif (date != temp_date) & (date != ''):
+                    date = temp_date
+                    dates.append(temp_date)
+                    icou_free_array.append(icou_free)
+                    icou_covid_array.append(icou_covid - icuo_covid_invasive)
+                    icuo_covid_invasive_array.append(icuo_covid_invasive)
+                    icou_free = 0
+                    icou_covid = 0
+                    icuo_covid_invasive = 0
+                icou_free += int(temp_icou_free)
+                icou_covid += int(temp_icou_covid)
+                icuo_covid_invasive += int(temp_icou_covid_invasive)
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')

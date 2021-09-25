@@ -17,7 +17,8 @@ class DailyCasesParser(AbstractStep):
                 for index, line in enumerate(csv_reader):
                     if index == 0:
                         raw_dates = line[4:]
-                    elif line[1] == self.country:
+                        continue
+                    if line[1] == self.country:
                         country_found = True
                         raw_cases = line[4:]
                         self.logger.debug(f'raw_cases: {raw_cases}')
