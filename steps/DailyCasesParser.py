@@ -64,6 +64,7 @@ class DailyCasesParser(AbstractStep):
                             if self.strict is True:
                                 raise StepError(f'cases are decreasing at index:cases {index}:{case}.')
                             elif self.strict is False:
+                                self.logger.warning(f'cases are decreasing at index:cases {index}:{case}.')
                                 cases[index] = last_case
                                 case = last_case
                     last_case = case
