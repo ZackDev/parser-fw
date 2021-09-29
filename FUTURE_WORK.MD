@@ -32,3 +32,5 @@ This would require different implementations of `provider` and `runner` and anot
 ## support for sequence chaining and conditional sequence selection
 
 Not only excute sequences in order, but as with steps, let the output of the former sequence be the input for the latter. Plus conditional chaining. So a step can either have a step or sequence as successor.
+
+*Everything above are potential features that **might** get implemented in the future. For now Seshu is good for the use cases.*
