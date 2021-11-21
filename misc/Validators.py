@@ -9,7 +9,7 @@ def is_valid_ISO8601_date(date_string: str) -> bool:
         return False
 
 
-def is_valid_ISO8601_date_array(date_array: str, strict: bool = False) -> bool:
+def is_valid_ISO8601_date_array(date_array: list, strict: bool = False) -> bool:
     if len(date_array) == 0:
         return False
     elif strict is False:
