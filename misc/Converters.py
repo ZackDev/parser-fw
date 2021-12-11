@@ -5,7 +5,7 @@ def str_to_integer(input: str, sign: str = '*') -> int:
     raises Exceptions when input is not a str, not a decimal or the sign of the
     resulting int does not match the parameter sign.
 
-    valid signs are '+', '-' and '' empty string. zero here is both negative and
+    valid signs are '+', '-' and '*'. zero here is both negative and
     positive.
     '+': checks if number is positive, including zero
     '-': checks if number is negative, including zero
