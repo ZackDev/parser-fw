@@ -1,0 +1,5 @@
+{
+  "type": "sequence",
+  "name": "daily-queries-ddg",
+  "steps": ["daily-queries-ddg-source", "daily-queries-ddg-parser", "daily-queries-ddg-sink"]
+}

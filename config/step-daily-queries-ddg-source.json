@@ -1,0 +1,11 @@
+{
+  "type": "step",
+  "name": "daily-queries-ddg-source",
+  "package": "steps",
+  "module": "HTTPResponseSource",
+  "class": "HTTPResponseSource",
+  "parameters":
+  {
+    "url": "https://duckduckgo.com/traffic_data/direct.csv"
+  }
+}

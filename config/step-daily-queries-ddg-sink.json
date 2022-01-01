@@ -1,0 +1,11 @@
+{
+  "type": "step",
+  "name": "daily-queries-ddg-sink",
+  "package": "steps",
+  "module": "JSONFileSink",
+  "class": "JSONFileSink",
+  "parameters":
+  {
+    "target": "daily-queries-ddg.json"
+  }
+}
