@@ -30,6 +30,7 @@ class DuckDuckGoDailyQueries(AbstractStep):
         if len(dates) != len(queries):
             raise StepError('dates and queries length unequal')
         if is_valid_ISO8601_date_array(dates) is False:
+            # the date array is missing 2 days, therefore strict checking is switched off
             raise StepError('dates array is inconsistent')
 
         dict = {"dates": dates, "queries": queries}
