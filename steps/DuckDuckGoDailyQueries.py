@@ -34,4 +34,3 @@ class DuckDuckGoDailyQueries(AbstractStep):
 
         dict = {"dates": dates, "queries": queries}
         return dict
-            
