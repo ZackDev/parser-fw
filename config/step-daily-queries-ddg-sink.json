@@ -6,6 +6,6 @@
   "class": "JSONFileSink",
   "parameters":
   {
-    "target": "daily-queries-ddg.json"
+    "target": "daily_queries_ddg.json"
   }
 }
