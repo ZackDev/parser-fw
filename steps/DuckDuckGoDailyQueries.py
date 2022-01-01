@@ -27,6 +27,8 @@ class DuckDuckGoDailyQueries(AbstractStep):
 
         if 0 == len(dates) == len(queries):
             raise StepError('dates and queries length is zero')
+        if len(dates) != len(queries):
+            raise StepError('dates and queries length unequal')
         if is_valid_ISO8601_date_array(dates) is False:
             raise StepError('dates array is inconsistent')
 
