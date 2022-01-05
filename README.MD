@@ -70,7 +70,7 @@ For now there are two ways to run it:
 
 **from console:**
 ``` bash
-python3 ConsoleClient.py -s my-sequence
+python3 ConsoleClient.py -s my-sequence [-l loglevel]
 ```
 
 **from python:**
