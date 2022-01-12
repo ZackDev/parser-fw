@@ -1,11 +1,11 @@
 {
     "type": "step",
-    "name": "git-update",
+    "name": "git-update-zackdev.github.io",
     "package": "steps",
     "module": "ExecCmd",
     "class": "ExecCmd",
     "parameters":{
-        "path": "/home/zack/Git/parser-fw",
-        "cmds": ["git pull", "git add --all", "git commit -m 'added git step'", "git push"]
+        "path": "/home/zack/Git/zackdev.github.io",
+        "cmds": ["git pull", "git add --all", "git commit -m 'automated dataset update'", "git push"]
     }
 }
