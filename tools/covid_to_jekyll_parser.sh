@@ -31,11 +31,7 @@ if [ $num_args -eq 3 ]; then
       moved_file=true
     fi
     if [ "$moved_file" = true ]; then
-      cd $jekyll_base_dir
-      git add ./$target_dir$2
-      git commit -m "automated dataset update"
-      git push
-      echo "copied output file to jekyll directory. set git commit message."
+      echo "copied output file to jekyll directory."
     else
       echo "file wasn't moved. deleting file."
       cd $script_base_dir
