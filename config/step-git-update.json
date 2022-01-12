@@ -1,0 +1,11 @@
+{
+    "type": "step",
+    "name": "git-update",
+    "package": "steps",
+    "module": "ExecCmd",
+    "class": "ExecCmd",
+    "parameters":{
+        "path": "/home/zack/Git/parser-fw",
+        "cmds": ["git pull", "git add --all", "git commit -m 'added git step'", "git push"]
+    }
+}

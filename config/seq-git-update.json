@@ -1,0 +1,5 @@
+{
+    "type": "sequence",
+    "name": "git-update",
+    "steps": ["git-update"]
+}
