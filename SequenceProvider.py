@@ -19,12 +19,11 @@ class SequenceProvider(AbstractSequenceProvider):
         self.steps = []
         self.logger.debug(f'{self.sequence_cfg}')
 
-        step_names = self._get_step_names(self.sequence_cfg)
+        step_configs = self._get_step_configs(self.sequence_cfg)
 
-        for name in step_names:
-            step_cfg = self._get_config('step', name)
-            step_cls = self._get_step_class(step_cfg)
-            step_params = self._get_parameters(step_cfg, 'parameters')
+        for s_cfg in step_configs:
+            step_cls = self._get_step_class(s_cfg)
+            step_params = self._get_parameters(s_cfg, 'parameters')
             self.steps.append(step_cls(**step_params))
 
         self.logger.debug(f'{self.steps}')
@@ -110,7 +109,7 @@ class SequenceProvider(AbstractSequenceProvider):
     - raises SequenceProviderError if key steps is not present in sequence_config
     '''
 
-    def _get_step_names(self, sequence_config: dict) -> list:
+    def _get_step_configs(self, sequence_config: dict) -> list:
         try:
             steps = sequence_config['steps']
             if isinstance(steps, list):

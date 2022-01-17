@@ -1,5 +1,31 @@
 {
   "type": "sequence",
   "name": "daily-queries-ddg",
-  "steps": ["daily-queries-ddg-source", "daily-queries-ddg-parser", "daily-queries-ddg-sink"]
+  "steps": [
+    {
+      "package": "steps",
+      "module": "HTTPResponseSource",
+      "class": "HTTPResponseSource",
+      "parameters":
+      {
+        "url": "https://duckduckgo.com/traffic_data/direct.csv"
+      }
+    },
+    {
+      "type": "step",
+      "name": "daily-queries-ddg-parser",
+      "package": "steps",
+      "module": "DuckDuckGoDailyQueries",
+      "class": "DuckDuckGoDailyQueries"
+    },
+    {
+      "package": "steps",
+      "module": "JSONFileSink",
+      "class": "JSONFileSink",
+      "parameters":
+      {
+        "target": "daily_queries_ddg.json"
+      }
+    }
+  ]
 }

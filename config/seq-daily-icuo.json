@@ -1,5 +1,33 @@
 {
   "type": "sequence",
   "name": "daily-icuo",
-  "steps": ["daily-icuo-source", "daily-icuo-parser", "daily-icuo-sink"]
+  "steps": [
+    {
+      "package": "steps",
+      "module": "HTTPResponseSource",
+      "class": "HTTPResponseSource",
+      "parameters":
+      {
+        "url": "https://diviexchange.blob.core.windows.net/%24web/zeitreihe-tagesdaten.csv"
+      }
+    },
+    {
+      "type": "step",
+      "name": "daily-icuo-parser",
+      "package": "steps",
+      "module": "ICUOccupancyParser",
+      "class": "ICUOccupancyParser"
+    },
+    {
+      "type": "step",
+      "name": "daily-icuo-sink",
+      "package": "steps",
+      "module": "JSONFileSink",
+      "class": "JSONFileSink",
+      "parameters":
+      {
+        "target": "corona_germany_daily_icuo.json"
+      }
+    }
+  ]
 }

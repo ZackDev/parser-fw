@@ -1,5 +1,15 @@
 {
-    "type": "sequence",
-    "name": "git-update",
-    "steps": ["git-update-zackdev.github.io"]
+  "type": "sequence",
+  "name": "git-update",
+  "steps": [
+    {
+      "package": "steps",
+      "module": "ExecCmd",
+      "class": "ExecCmd",
+      "parameters": {
+        "path": "/home/zack/Git/zackdev.github.io",
+        "cmds": ["git pull", "git add --all", "git commit -m 'automated dataset update'", "git push"]
+      }
+    }
+  ]
 }

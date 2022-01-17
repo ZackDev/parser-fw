@@ -1,5 +1,31 @@
 {
   "type": "sequence",
   "name": "vaccinations-by-vaccine",
-  "steps": ["vbv-source", "vbv-parser", "vbv-sink"]
+  "steps": [
+    {
+      "package": "steps",
+      "module": "HTTPResponseSource",
+      "class": "HTTPResponseSource",
+      "parameters":
+      {
+        "url": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv"
+      }
+    },
+    {
+      "type": "step",
+      "name": "vbv-parser",
+      "package": "steps",
+      "module": "VaccinationsByVaccineParser",
+      "class": "VaccinationsByVaccineParser"
+    },
+    {
+      "package": "steps",
+      "module": "JSONFileSink",
+      "class": "JSONFileSink",
+      "parameters":
+      {
+        "target": "corona_germany_vaccinations_by_vaccine.json"
+      }
+    }
+  ]
 }

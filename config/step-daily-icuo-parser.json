@@ -1,7 +1,0 @@
-{
-  "type": "step",
-  "name": "daily-icuo-parser",
-  "package": "steps",
-  "module": "ICUOccupancyParser",
-  "class": "ICUOccupancyParser"
-}

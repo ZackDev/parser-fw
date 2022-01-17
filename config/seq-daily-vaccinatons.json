@@ -1,5 +1,31 @@
 {
   "type": "sequence",
   "name": "daily-vaccinations-github",
-  "steps": ["daily-vaccinations-github-source", "daily-vaccinations-github-parser", "daily-vaccinations-github-sink"]
+  "steps": [
+    {
+      "package": "steps",
+      "module": "HTTPResponseSource",
+      "class": "HTTPResponseSource",
+      "parameters":
+      {
+        "url": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv"
+      }
+    },
+    {
+      "type": "step",
+      "name": "daily-vaccinations-github-parser",
+      "package": "steps",
+      "module": "DailyVaccinationsGithubParser",
+      "class": "DailyVaccinationsGithubParser"
+    },
+    {
+      "package": "steps",
+      "module": "JSONFileSink",
+      "class": "JSONFileSink",
+      "parameters":
+      {
+        "target": "corona_germany_daily_vaccinations.json"
+      }
+    }
+  ]
 }
