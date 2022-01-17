@@ -1,5 +1,29 @@
 {
   "type": "sequence",
   "name": "test",
-  "steps": ["s1", "s2", "s3"]
+  "steps": [
+    {
+      "package": "test.files",
+      "module": "TestStep",
+      "class": "TestStep",
+      "parameters":
+      {
+        "initialvalue": 2
+      }
+    },
+    {
+      "type": "step",
+      "name": "s2",
+      "package": "test.files",
+      "module": "TestStep",
+      "class": "TestStep"
+    },
+    {
+      "type": "step",
+      "name": "s3",
+      "package": "test.files",
+      "module": "TestStep",
+      "class": "TestStep"
+    }
+  ]
 }

@@ -1,7 +1,0 @@
-{
-  "type": "step",
-  "name": "s3",
-  "package": "test.files",
-  "module": "TestStep",
-  "class": "TestStep"
-}
