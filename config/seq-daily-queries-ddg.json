@@ -12,7 +12,6 @@
       }
     },
     {
-      "type": "step",
       "name": "daily-queries-ddg-parser",
       "package": "steps",
       "module": "DuckDuckGoDailyQueries",

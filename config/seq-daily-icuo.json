@@ -12,14 +12,12 @@
       }
     },
     {
-      "type": "step",
       "name": "daily-icuo-parser",
       "package": "steps",
       "module": "ICUOccupancyParser",
       "class": "ICUOccupancyParser"
     },
     {
-      "type": "step",
       "name": "daily-icuo-sink",
       "package": "steps",
       "module": "JSONFileSink",
