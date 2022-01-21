@@ -45,7 +45,7 @@ class ICUOccupancyParser(AbstractStep):
                     date = temp_date
                     dates.append(temp_date)
 
-                elif (date != temp_date) & (date != ''):
+                elif (date != temp_date) and (date != ''):
                     date = temp_date
                     dates.append(temp_date)
                     icou_free_array.append(icou_free)
@@ -57,6 +57,9 @@ class ICUOccupancyParser(AbstractStep):
                 icou_free += int(temp_icou_free)
                 icou_covid += int(temp_icou_covid)
                 icuo_covid_invasive += int(temp_icou_covid_invasive)
+            icou_free_array.append(icou_free)
+            icou_covid_array.append(icou_covid - icuo_covid_invasive)
+            icuo_covid_invasive_array.append(icuo_covid_invasive)
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
@@ -67,7 +70,17 @@ class ICUOccupancyParser(AbstractStep):
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)
         if dates_is_valid is False:
             raise StepError('date array is inconsistent.')
-
         else:
-            dict = {"dates": dates, "free_icu": icou_free_array, "covid_icu": icou_covid_array, "covid_icu_invasive": icuo_covid_invasive_array}
+            # build dict
+            dict = {
+                "data": []
+            }
+            for i in range(len(dates)):
+                de = {
+                    "date": dates[i],
+                    "free_icu": icou_free_array[i],
+                    "covid_icu": icou_covid_array[i],
+                    "covid_icu_invasive": icuo_covid_invasive_array[i]
+                }
+                dict['data'].append(de)
             return dict

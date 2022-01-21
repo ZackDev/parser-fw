@@ -113,7 +113,22 @@ class WeeklyTestsParser(AbstractStep):
                 if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
                     raise StepError('calendar_weeks and weekly_tests array length is zero.')
 
-                dict = {'calendar_weeks': calendar_weeks, 'weekly_tests': weekly_tests}
+                # calculate total tests
+                total_tests = []
+                for i in range(len(calendar_weeks)):
+                    total_tests.append(sum(weekly_tests[0:i]))
+                
+                # build dict
+                dict = {
+                    "data": []
+                }
+                for i in range(len(calendar_weeks)):
+                    de = {
+                        "calendar_week": calendar_weeks[i],
+                        "weekly_tests": weekly_tests[i],
+                        "total_tests": total_tests[i]
+                    }
+                    dict['data'].append(de)
                 return dict
 
             else:

@@ -19,7 +19,6 @@ class DailyVaccinationsGithubParser(AbstractStep):
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
-
             for index, line in enumerate(csv_reader):
                 if index == 0:
                     continue
@@ -35,7 +34,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
                     tmp_pri_vacc = 0
                     tmp_sec_vacc = 0
                     tmp_booster_vacc = 0
-                else:
+                elif date == line[0]:
                     try:
                         vacc_series = str_to_integer(line[3], '+')
                         if vacc_series == 1:
@@ -48,6 +47,9 @@ class DailyVaccinationsGithubParser(AbstractStep):
                             self.logger.warn(f'unknown vacc_series: {vacc_series}')
                     except Exception as e:
                         raise StepError('error parsing vaccination counter.') from e
+            primary_vaccinations.append(tmp_pri_vacc)
+            secondary_vaccinations.append(tmp_sec_vacc)
+            booster_vaccinations.append(tmp_booster_vacc)
 
             ''' check data for consistency, equal amount of dates and cases '''
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):
@@ -60,5 +62,39 @@ class DailyVaccinationsGithubParser(AbstractStep):
             if dates_is_valid is False:
                 raise StepError('date array is inconsistent.')
 
-            dict = {"dates": dates, "primary_vaccinations": primary_vaccinations, "secondary_vaccinations": secondary_vaccinations, 'booster_vaccinations': booster_vaccinations}
+            total_primary_vaccinations = []
+            total_secondary_vaccinations = []
+            total_booster_vaccinations = []
+            for i in range(len(primary_vaccinations)):
+                total_primary_vaccinations.append(sum(primary_vaccinations[0:i]))
+                total_secondary_vaccinations.append(sum(secondary_vaccinations[0:i]))
+                total_booster_vaccinations.append(sum(booster_vaccinations[0:i]))
+
+            primary_vaccinations_percentage = []
+            secondary_vaccinations_percentage = []
+            booster_vaccinations_percentage = []
+
+            for i in range(len(total_primary_vaccinations)):
+                primary_vaccinations_percentage.append(round((total_primary_vaccinations[i] / self.population) * 100, 2))
+                secondary_vaccinations_percentage.append(round((total_secondary_vaccinations[i] / self.population) * 100, 2))
+                booster_vaccinations_percentage.append(round((total_booster_vaccinations[i] / self.population) * 100, 2))
+            # build dict
+            print(len(dates), len(primary_vaccinations), len(secondary_vaccinations), len(booster_vaccinations), len(total_primary_vaccinations), len(total_secondary_vaccinations), len(total_booster_vaccinations), len(primary_vaccinations_percentage), len(secondary_vaccinations_percentage), len(booster_vaccinations_percentage))
+            dict = {
+                "data": []
+            }
+            for i in range(len(dates)):
+                de = {
+                    "date": dates[i],
+                    "primary_vaccinations": primary_vaccinations[i],
+                    "secondary_vaccinations": secondary_vaccinations[i],
+                    "booster_vaccinations": booster_vaccinations[i],
+                    "total_primary_vaccinations": total_primary_vaccinations[i],
+                    "total_secondary_vaccinations": total_secondary_vaccinations[i],
+                    "total_booster_vaccinations": total_booster_vaccinations[i],
+                    "primary_vaccinations_percentage": primary_vaccinations_percentage[i],
+                    "secondary_vaccinations_percentage": secondary_vaccinations_percentage[i],
+                    "booster_vaccinations_percentage": booster_vaccinations_percentage[i],
+                }
+                dict['data'].append(de)
             return dict

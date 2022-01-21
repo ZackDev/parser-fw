@@ -15,7 +15,10 @@
       "name": "daily-vaccinations-github-parser",
       "package": "steps",
       "module": "DailyVaccinationsGithubParser",
-      "class": "DailyVaccinationsGithubParser"
+      "class": "DailyVaccinationsGithubParser",
+      "parameters": {
+        "population": 83121363
+      }
     },
     {
       "package": "steps",
