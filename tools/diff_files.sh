@@ -24,8 +24,10 @@ if [[ -f $file_a && -f $file_b ]]; then
   len_fb=${#file_b}
 
   # slice filename from hash
-  h_a=${rh_a:0:-$len_fa-2}
-  h_b=${rh_b:0:-$len_fb-2}
+  h_a=${rh_a:0:-$len_fa}
+  h_b=${rh_b:0:-$len_fb}
+
+  echo $h_a $h_b
 
   # compare hashes
   if [[ $h_a != $h_b ]]; then
