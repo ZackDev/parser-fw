@@ -6,7 +6,8 @@
 num_args=$#
 
 if [[ $num_args -ne 2 ]]; then
-  exit 1
+  echo "wrong number of arguments"
+  exit 0
 fi
 
 file_a=$1
@@ -28,10 +29,12 @@ if [[ -f $file_a && -f $file_b ]]; then
 
   # compare hashes
   if [[ $h_a != $h_b ]]; then
-    exit 0
+    echo "true"
   else
-    exit 1
+    echo "false"
   fi
 else
-  exit 1
+  echo "file(s) not found"
 fi
+exit 0
+
