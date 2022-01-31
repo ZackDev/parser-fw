@@ -10,13 +10,34 @@ In simple terms: *run a sequence of n steps*
 
 # The sequence
 
-A chain of steps is called a sequence. A specific sequence is again defined via `.json` file.
+A chain of steps is called a sequence. A specific sequence is defined via `.json` file.
 
 ``` json
 {
   "type": "sequence",
   "name": "my-sequence",
-  "steps": ["fetch-url", "store-data"]
+  "steps": [
+    {
+      "type": "step",
+      "name": "get-data",
+      "package": "steps",
+      "module": "HTTPResponseSource",
+      "class": "HTTPResponseSource",
+      "parameters": {
+        "url": "https://example.org/example.data"
+      }
+    },
+    {
+      "type": "step",
+      "name": "JSONFileSink",
+      "package": "steps",
+      "module": "JSONFileSink",
+      "class": "JSONFileSink",
+      "parameters": {
+        "target": "data.json"
+      }
+    }
+  ]
 }
 ```
 
@@ -25,48 +46,14 @@ A chain of steps is called a sequence. A specific sequence is again defined via 
 
 A `step` is responsible for transforming input and returning it. A specific step is defined by a class which contains the code to be run and a config file which contains the class information and instantiation parameters.
 
-The following example takes a `url` as input and returns the content of the response.
-
-``` python
-from Abstract import AbstractStep, StepError
-import requests
-
-class HTTPResponseSource(AbstractStep):
-    def run(self, data):
-        try:
-            rsp = requests.get(self.url)
-            if rsp.status_code == 200:
-                return rsp.content
-            else:
-                raise StepError(f'Connection failed with http status code {rsp.status_code}')
-        except Exception as e:
-            raise StepError('unexpected error.') from e
-```
-
-The concrete step, or the instruction on how to instantiate the step, is defined inside a `.json` config file.
-
-``` json
-{
-  "type": "step",
-  "name": "fetch-url",
-  "package": "steps",
-  "module": "HTTPResponseSource",
-  "class": "HTTPResponseSource",
-  "parameters":
-  {
-    "url": "http://example.org"
-  }
-}
-```
-
-The framework automatically looks for the module `HTTPResponseSource` in the package `steps`, loads it, and instantiates the module's class `HTTPResponseSource` with the parameter `url="http://example.org"` defined under `parameters`.
+The framework automatically looks for the module `HTTPResponseSource` in the package `steps`, loads it, and instantiates the module's class `HTTPResponseSource` with the parameter `url="http://example.org"` defined under `parameters`. The parameter is available at object-level as `self.<parameter_name>`. The automatic parametrization allows the change of instantiation parameters without modifying the `__init__()` function.
 
 
 # Running the framework
 
 The framework takes two arguments, the name of the sequence and the optional loglevel, which ranges from 1 to 5, DEBUG to CRITICAL and defaults to 2 (INFO).
 
-For now there are two ways to run it:
+For now, there are two ways to run it:
 
 **from console:**
 ``` bash
@@ -86,3 +73,13 @@ class PythonClient:
 if __name__ == '__main__':
     PythonClient('my-sequence')
 ```
+
+Noteable here is that Seshu is provisioned with a factory which produces a `SequenceProvider` and a `SequenceRunner`.
+
+## SequenceProvider
+Contains the logic for creating sequences. The example above uses data structured as `.json` to define a specific sequence directly from the local harddrive. But the sequence definitions could also come in another `.json` structure, or from a webserver or a SQL database for example.
+
+Derive a new factory from `Abstract.AbstractSequenceProviderAndRunnerFactory` to implement custom structures and sources.
+
+## SequenceRunner
+Implements the logic to run a sequence of steps. In the example, steps are run sequentially, where the output of `step n-1` becomes the input of `step n`. Thinkable here is a conditional runner.
