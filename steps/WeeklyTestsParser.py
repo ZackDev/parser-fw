@@ -86,7 +86,6 @@ class WeeklyTestsParser(AbstractStep):
                                 break
 
                         elif col_index == 1:
-                            tests = None
                             if isinstance(col.value, str):
                                 try:
                                     tests = str_to_integer(col.value, '+')

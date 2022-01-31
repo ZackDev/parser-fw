@@ -12,8 +12,6 @@ class VaccinationsByVaccineParser(AbstractStep):
 
             ''' NOTE: the first line is the header '''
             ''' reads name of vaccine and administered doses line by line '''
-            ''' adds vaccine and doses to dict if vaccine_name not present in dict '''
-            ''' else: updates dict's vaccine_name doses count with count from dict plus count from current line '''
             for index, line in enumerate(csv_reader):
                 if index == 0:
                     continue
@@ -24,6 +22,8 @@ class VaccinationsByVaccineParser(AbstractStep):
                 except Exception as e:
                     raise StepError('unexpected value for vacc_doses.') from e
                 try:
+                    ''' adds vaccine and doses to dict if vaccine_name not present in dict '''
+                    ''' else: adds administered doses to existing doses '''
                     doses = dict[vacc_name]
                     dict.update({vacc_name: doses + vacc_doses})
                 except KeyError:
@@ -31,4 +31,4 @@ class VaccinationsByVaccineParser(AbstractStep):
         if len(dict) > 0:
             return dict
         else:
-            raise StepError('unexpected error: dict is empty.')
+            raise StepError('dict is empty.')

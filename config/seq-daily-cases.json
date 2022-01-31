@@ -16,7 +16,8 @@
       "class": "DailyCasesParser",
       "parameters": {
         "strict": false,
-        "country": "Germany"
+        "country": "Germany",
+        "population": 83121363
       }
     },
     {

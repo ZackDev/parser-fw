@@ -8,23 +8,19 @@ import csv
 class DailyCasesParser(AbstractStep):
     def run(self, data):
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
-            country_found = False
-
             ''' NOTE: the first line contains the dates, starting from 22.01.2020 '''
             ''' each line after that corresponds to a country, containing the cases among other data '''
             csv_reader = csv.reader(daily_cases_csv, delimiter=',')
-            while country_found is False:
-                for index, line in enumerate(csv_reader):
-                    if index == 0:
-                        raw_dates = line[4:]
-                        continue
-                    if line[1] == self.country:
-                        country_found = True
-                        raw_cases = line[4:]
-                        self.logger.debug(f'raw_cases: {raw_cases}')
-                        break
+            for index, line in enumerate(csv_reader):
+                if index == 0:
+                    raw_dates = line[4:]
+                    continue
+                if line[1] == self.country:
+                    raw_cases = line[4:]
+                    self.logger.debug(f'raw_cases: {raw_cases}')
+                    break
 
-            if (raw_dates is not None) and (raw_cases is not None):
+            if raw_dates is not None and raw_cases is not None:
                 dates = []
                 total_cases = []
                 daily_cases = []
@@ -44,12 +40,11 @@ class DailyCasesParser(AbstractStep):
                         day = f"{str_to_integer(date_array[1], '+'):02}"
                         month = f"{str_to_integer(date_array[0], '+'):02}"
                         year = f"20{str_to_integer(date_array[2], '+')}"
+                        date = f'{year}-{month}-{day}'
+                        dates.append(date)
+                        self.logger.debug(f'appended date: {date}')
                     except Exception as e:
                         raise StepError(f'error parsing date_array {date_array}') from e
-
-                    date = f'{year}-{month}-{day}'
-                    dates.append(date)
-                    self.logger.debug(f'appended date: {date}')
 
                 ''' simple string to integer conversion '''
                 for raw_case in raw_cases:
@@ -61,9 +56,11 @@ class DailyCasesParser(AbstractStep):
                         raise StepError('error parsing raw_case.') from e
 
                 ''' check if day-to-day cases are decreasing '''
-                last_case = 0
                 for index, case in enumerate(total_cases):
-                    if index > 0:
+                    if index == 0:
+                        last_case = 0
+                        continue
+                    else:
                         if case < last_case:
                             if self.strict is True:
                                 raise StepError(f'cases are decreasing at index:cases {index}:{case}.')
@@ -97,17 +94,18 @@ class DailyCasesParser(AbstractStep):
                 lower_bound = index - 7
                 if lower_bound < 0:
                     lower_bound = 0
-                incidence = round(sum(daily_cases[lower_bound:index]) / 831, 2)
+                incidence = round(sum(daily_cases[lower_bound:index]) / (self.population / 100000), 2)
                 incidences.append(incidence)
 
             # r-value
             for index, case in enumerate(daily_cases):
                 if index == 0:
                     rrates.append(0)
+                    continue
                 else:
                     last_cases = daily_cases[index - 1]
                     if last_cases > 0:
-                        rrates.append(round((case / daily_cases[index - 1]), 2))
+                        rrates.append(round((case / last_cases), 2))
                     else:
                         rrates.append(0)
             

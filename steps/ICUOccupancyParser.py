@@ -64,7 +64,7 @@ class ICUOccupancyParser(AbstractStep):
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
 
-        if 0 == len(dates) == len(icou_free_array) == len(icou_covid_array):
+        if len(dates) + len(icou_free_array) + len(icou_covid_array) == 0:
             raise StepError('dates, icuo_free_array and icuo_covid array zero lengt.')
 
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)

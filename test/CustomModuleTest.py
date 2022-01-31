@@ -33,7 +33,7 @@ class HTTPResponseSourceTest(unittest.TestCase):
 class DailyCasesParserTest(unittest.TestCase):
     def test_daily_cases_parser(self):
         with self.subTest():
-            cfg = {"country": "Germany", "strict": False}
+            cfg = {"country": "Germany", "strict": False, "population": 83121363}
             parser = DailyCasesParser(**cfg)
             dates, cases = [], []
             with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:

@@ -25,7 +25,7 @@ class DuckDuckGoDailyQueries(AbstractStep):
                 except Exception as e:
                     raise StepError('query sign mismatch') from e
 
-        if 0 == len(dates) == len(queries):
+        if len(dates) + len(queries) == 0:
             raise StepError('dates and queries length is zero')
         if len(dates) != len(queries):
             raise StepError('dates and queries length unequal')
