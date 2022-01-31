@@ -1,16 +1,14 @@
 def str_to_integer(input: str, sign: str = '*') -> int:
-    """
-    converts the str input to int, checks its sign and returns the int.
+    # converts the str input to int, checks its sign and returns the int.
 
-    raises Exceptions when input is not a str, not a decimal or the sign of the
-    resulting int does not match the parameter sign.
+    # raises Exceptions when input is not a str, not a decimal or the sign of the
+    # resulting int does not match the parameter sign.
 
-    valid signs are '+', '-' and '*'. zero here is both negative and
-    positive.
-    '+': checks if number is positive, including zero
-    '-': checks if number is negative, including zero
-    '*': doesn't check for sign, default
-    """
+    # valid signs are '+', '-' and '*'. zero here is both negative and
+    # positive.
+    # '+': checks if number is positive, including zero
+    # '-': checks if number is negative, including zero
+    # '*': doesn't check for sign, default
     if isinstance(input, str):
         tmp = int(input)
         if sign == '*':

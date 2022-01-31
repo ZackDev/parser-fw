@@ -3,9 +3,7 @@ from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 import argparse
 
 
-"""
-example: how to use Seshu from console
-"""
+# example: supply Seshu with command line parameters
 
 
 if __name__ == '__main__':

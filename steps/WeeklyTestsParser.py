@@ -105,7 +105,7 @@ class WeeklyTestsParser(AbstractStep):
                 row_index += 1
 
             if parse_error is False:
-                ''' data consistency check, length calendar_weeks equals length weekly_tests '''
+                # data consistency check, length calendar_weeks equals length weekly_tests
                 if len(calendar_weeks) != len(weekly_tests):
                     raise StepError('calendar_weeks and weekly_tests array length not equal.')
 
@@ -116,7 +116,7 @@ class WeeklyTestsParser(AbstractStep):
                 total_tests = []
                 for i in range(len(calendar_weeks)):
                     total_tests.append(sum(weekly_tests[0:i]))
-                
+
                 # build dict
                 dict = {
                     "data": []

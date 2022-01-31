@@ -32,20 +32,14 @@ class SequenceProvider(AbstractSequenceProvider):
         if len(self.steps) < 1:
             raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
 
-    '''
-    imports and returns the module specified by <module_name>
-    - raises ModuleNotFoundError
-    '''
-
+    # imports and returns the module specified by <module_name>
+    # - raises ModuleNotFoundError
     def _load_module(self, module_name: str):
         module = importlib.import_module(module_name)
         return module
 
-    '''
-    returns the class identified by <module_name> and <class_name>
-    - raises SequenceProviderError
-    '''
-
+    # returns the class identified by <module_name> and <class_name>
+    # - raises SequenceProviderError
     def _get_class(self, module_name: str, class_name: str) -> Any:
         try:
             module = self._load_module(module_name)
@@ -58,27 +52,20 @@ class SequenceProvider(AbstractSequenceProvider):
         except Exception as e:
             raise SequenceProviderError(f'unexpected error loading module: {module_name} class: {class_name}') from e
 
-    '''
-    returns a list of all files in the directory specified by _CONFIG_DIRECTORY
-    - raises SequenceProviderError
-    '''
-
+    # returns a list of all files in the directory specified by _CONFIG_DIRECTORY
+    # - raises SequenceProviderError
     def _get_config_files(self) -> list:
         config_files = [f for f in listdir(self.config_directory)
-                        if isfile(join(self.config_directory, f))
-                        and f != '.gitignore']
+                        if isfile(join(self.config_directory, f))]
         if config_files is not None and len(config_files) > 0:
             return config_files
         else:
             raise SequenceProviderError(f"no configs found at directory: {self.config_directory}")
 
-    '''
-    searches in all files in the directory specified by _CONFIG_DIRECTORY for a
-    json file which the <keys> name and type
-    returns the config specified by the function parameters <type> and <name>
-    - raises SequenceProviderError if any of the files cannot be loaded
-    '''
-
+    # searches in all files in the directory specified by _CONFIG_DIRECTORY for a
+    # json file which the <keys> name and type
+    # returns the config specified by the function parameters <type> and <name>
+    # - raises SequenceProviderError if any of the files cannot be loaded
     def _get_config(self, type: str, name: str) -> dict:
         config_files = self._get_config_files()
         cfg = None
@@ -98,13 +85,10 @@ class SequenceProvider(AbstractSequenceProvider):
         else:
             raise SequenceProviderError(f'config type: {type} name: {name} not found')
 
-    '''
-    returns the parameters specified by <config> and <parameter_name> as a dict
-    - returns empty dict if config doesn't contain a <name, value> pair
-      specified by <parameter_name>
-    - raises SequenceProviderError
-    '''
-
+    # returns the parameters specified by <config> and <parameter_name> as a dict
+    # - returns empty dict if config doesn't contain a <name, value> pair
+    #   specified by <parameter_name>
+    # - raises SequenceProviderError
     def _get_parameters(self, config: dict, parameter_name: str) -> dict:
         try:
             if parameter_name in config:
@@ -117,12 +101,9 @@ class SequenceProvider(AbstractSequenceProvider):
         except Exception as e:
             raise SequenceProviderError('unexpected error getting parameter from config.') from e
 
-    '''
-    returns the value of the key steps of the sequence config provided as
-    function parameter
-    - raises SequenceProviderError if key steps is not present in sequence_config
-    '''
-
+    # returns the value of the key steps of the sequence config provided as
+    # function parameter
+    # - raises SequenceProviderError if key steps is not present in sequence_config
     def _get_step_configs(self, sequence_config: dict) -> list:
         steps = sequence_config.get('steps')
         if steps is None:
@@ -131,13 +112,10 @@ class SequenceProvider(AbstractSequenceProvider):
             raise SequenceProviderError('steps is not a list.')
         return steps
 
-    '''
-    returns the class of the step provided with the step_config function parameter
-    - raises SequenceProviderError if package, module or class value is not present
-      in the step_config
-    - raises SequenceProviderError
-    '''
-
+    # returns the class of the step provided with the step_config function parameter
+    # - raises SequenceProviderError if package, module or class value is not present
+    #   in the step_config
+    # - raises SequenceProviderError
     def _get_step_class(self, step_config: dict) -> dict:
         try:
             sc_package = step_config.get('package')

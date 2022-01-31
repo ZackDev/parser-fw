@@ -19,13 +19,18 @@ class DailyVaccinationsGithubParser(AbstractStep):
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
-            for index, line in enumerate(csv_reader):
+            vacc_list = enumerate(csv_reader)
+            list_length = len(vacc_list)
+            # keep track of the date at index
+            for index, line in vacc_list:
                 if index == 0:
                     continue
                 if date is None:
                     date = line[0]
                     dates.append(date)
                 elif date != line[0]:
+                    # if date changes, append accumulated vaccinations to their related lists,
+                    # and reset the counter to zero
                     date = line[0]
                     dates.append(date)
                     primary_vaccinations.append(tmp_pri_vacc)
@@ -35,6 +40,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
                     tmp_sec_vacc = 0
                     tmp_booster_vacc = 0
                 elif date == line[0]:
+                    # accumulate vaccinations as long as date doesn't change
                     try:
                         vacc_series = str_to_integer(line[3], '+')
                         if vacc_series == 1:
@@ -47,11 +53,13 @@ class DailyVaccinationsGithubParser(AbstractStep):
                             self.logger.warn(f'unknown vacc_series: {vacc_series}')
                     except Exception as e:
                         raise StepError('error parsing vaccination counter.') from e
-            primary_vaccinations.append(tmp_pri_vacc)
-            secondary_vaccinations.append(tmp_sec_vacc)
-            booster_vaccinations.append(tmp_booster_vacc)
+                # after the last index, there is no date change
+                if index == list_length - 1:
+                    primary_vaccinations.append(tmp_pri_vacc)
+                    secondary_vaccinations.append(tmp_sec_vacc)
+                    booster_vaccinations.append(tmp_booster_vacc)
 
-            ''' check data for consistency, equal amount of dates and cases '''
+            # check data for consistency, equal amount of dates and cases
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length not equal.')
 
@@ -73,11 +81,11 @@ class DailyVaccinationsGithubParser(AbstractStep):
             primary_vaccinations_percentage = []
             secondary_vaccinations_percentage = []
             booster_vaccinations_percentage = []
-
             for i in range(len(total_primary_vaccinations)):
                 primary_vaccinations_percentage.append(round((total_primary_vaccinations[i] / self.population) * 100, 2))
                 secondary_vaccinations_percentage.append(round((total_secondary_vaccinations[i] / self.population) * 100, 2))
                 booster_vaccinations_percentage.append(round((total_booster_vaccinations[i] / self.population) * 100, 2))
+
             # build dict
             print(len(dates), len(primary_vaccinations), len(secondary_vaccinations), len(booster_vaccinations), len(total_primary_vaccinations), len(total_secondary_vaccinations), len(total_booster_vaccinations), len(primary_vaccinations_percentage), len(secondary_vaccinations_percentage), len(booster_vaccinations_percentage))
             dict = {

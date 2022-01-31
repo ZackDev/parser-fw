@@ -8,8 +8,8 @@ import csv
 class DailyCasesParser(AbstractStep):
     def run(self, data):
         with StringIO(data.decode('utf-8')) as daily_cases_csv:
-            ''' NOTE: the first line contains the dates, starting from 22.01.2020 '''
-            ''' each line after that corresponds to a country, containing the cases among other data '''
+            # NOTE: the first line contains the dates, starting from 22.01.2020
+            # each line after that corresponds to a country, containing the cases among other data
             csv_reader = csv.reader(daily_cases_csv, delimiter=',')
             for index, line in enumerate(csv_reader):
                 if index == 0:
@@ -28,12 +28,12 @@ class DailyCasesParser(AbstractStep):
                 rrates = []
                 rrates_smoothed = []
 
-                ''' fill the dates and cases that are missing with pseudo-data, e.g. 1.1 to 21.1 '''
+                # fill the dates and cases that are missing with pseudo-data, e.g. 1.1 to 21.1
                 for x in range(1, 22):
                     dates.append(f'2020-01-{x:02}')
                     total_cases.append(0)
 
-                ''' do some date parsing, provided format is M/D/Y, to YYYY-MM-DD '''
+                # do some date parsing, provided format is M/D/Y, to YYYY-MM-DD
                 for raw_date in raw_dates:
                     date_array = raw_date.split('/')
                     try:
@@ -46,7 +46,7 @@ class DailyCasesParser(AbstractStep):
                     except Exception as e:
                         raise StepError(f'error parsing date_array {date_array}') from e
 
-                ''' simple string to integer conversion '''
+                # simple string to integer conversion
                 for raw_case in raw_cases:
                     try:
                         case = str_to_integer(raw_case, '+')
@@ -55,7 +55,7 @@ class DailyCasesParser(AbstractStep):
                     except Exception as e:
                         raise StepError('error parsing raw_case.') from e
 
-                ''' check if day-to-day cases are decreasing '''
+                # check if day-to-day cases are decreasing
                 for index, case in enumerate(total_cases):
                     if index == 0:
                         last_case = 0
@@ -70,7 +70,7 @@ class DailyCasesParser(AbstractStep):
                                 case = last_case
                     last_case = case
 
-            ''' check data for consistency, equal amount of dates and cases '''
+            # check data for consistency, equal amount of dates and cases
             if len(dates) != len(total_cases):
                 raise StepError('dates and cases array length not equal.')
 
@@ -81,15 +81,15 @@ class DailyCasesParser(AbstractStep):
                 raise StepError('date array is inconsistent.')
 
             # the raw data extracted is ok. compute additional data
-            
-            # daily cases:
+
+            # daily cases
             for index, case in enumerate(total_cases):
                 if index == 0:
                     daily_cases.append(case)
                 else:
                     daily_cases.append(case - total_cases[index - 1])
 
-            # 7-day incidence:
+            # 7-day incidence
             for index, case in enumerate(daily_cases):
                 lower_bound = index - 7
                 if lower_bound < 0:
@@ -108,7 +108,7 @@ class DailyCasesParser(AbstractStep):
                         rrates.append(round((case / last_cases), 2))
                     else:
                         rrates.append(0)
-            
+
             # r-smoothed
             for index, r in enumerate(rrates):
                 lower_bound = index - 7

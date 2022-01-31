@@ -10,8 +10,8 @@ class VaccinationsByVaccineParser(AbstractStep):
         with StringIO(data.decode('utf-8')) as vaccine_csv:
             csv_reader = csv.reader(vaccine_csv, delimiter=',')
 
-            ''' NOTE: the first line is the header '''
-            ''' reads name of vaccine and administered doses line by line '''
+            # NOTE: the first line is the header
+            # reads name of vaccine and administered doses line by line
             for index, line in enumerate(csv_reader):
                 if index == 0:
                     continue
@@ -22,8 +22,8 @@ class VaccinationsByVaccineParser(AbstractStep):
                 except Exception as e:
                     raise StepError('unexpected value for vacc_doses.') from e
                 try:
-                    ''' adds vaccine and doses to dict if vaccine_name not present in dict '''
-                    ''' else: adds administered doses to existing doses '''
+                    # adds vaccine and doses to dict if vaccine_name not present in dict
+                    # else: adds administered doses to existing doses
                     doses = dict[vacc_name]
                     dict.update({vacc_name: doses + vacc_doses})
                 except KeyError:

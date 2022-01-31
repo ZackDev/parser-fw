@@ -24,25 +24,19 @@ class FrameworkTest(unittest.TestCase):
         sequence_provider = factory.get_provider()
         sequence_runner = factory.get_runner()
 
-        """
-        test with valid config
-        """
+        # test with valid config
         steps = sequence_provider.get_sequence()
         for s in steps:
             sequence_runner.add_step(s)
         sequence_runner.run()
         self.assertEqual(8, sequence_runner.data)
 
-        """
-        test with missing config
-        """
+        # test with missing config
         with self.assertRaises(SequenceProviderError):
             factory = TestSequenceProviderAndRunnerFactory('unknown-sequence')
             factory.get_provider()
 
-        """
-        test with invalid config
-        """
+        # test with invalid config
         with self.assertRaises(SequenceProviderError):
             factory = TestSequenceProviderAndRunnerFactory('faulty-sequence')
             factory.get_provider()

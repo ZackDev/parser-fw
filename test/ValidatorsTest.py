@@ -16,10 +16,11 @@ class ValidatorsTest(unittest.TestCase):
         self.assertEqual(is_valid_ISO8601_date(12), False)
 
     def test_is_valid_ISO8601_date_array(self):
-        ''' test with strict set to default = False '''
+        # test with strict set to default = False
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_ARRAY), True)
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_GAP_ARRAY), True)
-        ''' test with strict set to default = True '''
+
+        # test with strict set to default = True
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_ARRAY, True), True)
         self.assertEqual(is_valid_ISO8601_date_array(ValidatorsTest._TEST_GAP_ARRAY, True), False)
 

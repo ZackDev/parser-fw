@@ -18,8 +18,9 @@ class ICUOccupancyParser(AbstractStep):
             icou_free = 0
             icou_covid = 0
             icuo_covid_invasive = 0
-
-            for index, line in enumerate(csv_reader):
+            icuo_list = enumerate(csv_reader)
+            list_length = len(icuo_list)
+            for index, line in enumerate(icuo_list):
                 if index == 0:
                     continue
                 temp_date = line[0]
@@ -57,9 +58,11 @@ class ICUOccupancyParser(AbstractStep):
                 icou_free += int(temp_icou_free)
                 icou_covid += int(temp_icou_covid)
                 icuo_covid_invasive += int(temp_icou_covid_invasive)
-            icou_free_array.append(icou_free)
-            icou_covid_array.append(icou_covid - icuo_covid_invasive)
-            icuo_covid_invasive_array.append(icuo_covid_invasive)
+                # last index doesn't trigger datechange
+                if index == list_length - 1:
+                    icou_free_array.append(icou_free)
+                    icou_covid_array.append(icou_covid - icuo_covid_invasive)
+                    icuo_covid_invasive_array.append(icuo_covid_invasive)
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')

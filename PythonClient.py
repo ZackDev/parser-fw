@@ -2,9 +2,7 @@ from Seshu import Seshu
 from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 
 
-"""
-example: how to use Seshu from python
-"""
+# example: use Seshu from python
 
 
 def run_seshu():
