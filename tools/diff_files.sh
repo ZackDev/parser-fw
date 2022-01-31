@@ -23,7 +23,7 @@ if [[ -f $file_a && -f $file_b ]]; then
   len_fa=${#file_a}
   len_fb=${#file_b}
 
-  # slice filename from hash
+  # slice hash from sha512sum output
   h_a=${rh_a:0:-$len_fa}
   h_b=${rh_b:0:-$len_fb}
 
