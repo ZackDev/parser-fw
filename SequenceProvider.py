@@ -4,6 +4,7 @@ from os.path import isfile, join
 import json
 import importlib
 import logging
+from typing import Any
 
 
 class SequenceProviderError(Exception):
@@ -45,7 +46,7 @@ class SequenceProvider(AbstractSequenceProvider):
     - raises SequenceProviderError
     '''
 
-    def _get_class(self, module_name: str, class_name: str) -> AbstractStep:
+    def _get_class(self, module_name: str, class_name: str) -> Any:
         try:
             module = self._load_module(module_name)
             cls = getattr(module, class_name)
@@ -59,13 +60,17 @@ class SequenceProvider(AbstractSequenceProvider):
 
     '''
     returns a list of all files in the directory specified by _CONFIG_DIRECTORY
+    - raises SequenceProviderError
     '''
 
     def _get_config_files(self) -> list:
         config_files = [f for f in listdir(self.config_directory)
                         if isfile(join(self.config_directory, f))
                         and f != '.gitignore']
-        return config_files
+        if config_files is not None and len(config_files) > 0:
+            return config_files
+        else:
+            raise SequenceProviderError(f"no configs found at directory: {self.config_directory}")
 
     '''
     searches in all files in the directory specified by _CONFIG_DIRECTORY for a
@@ -76,19 +81,28 @@ class SequenceProvider(AbstractSequenceProvider):
 
     def _get_config(self, type: str, name: str) -> dict:
         config_files = self._get_config_files()
+        cfg = None
         for file in config_files:
             with open(join(self.config_directory, file), 'r') as f:
                 try:
-                    cfg = json.loads(f.read())
-                    if cfg['name'] is not None and cfg['type'] == type and cfg['name'] == name:
-                        return cfg
+                    c = json.loads(f.read())
+                    c_name = c['name']
+                    c_type = c['type']
+                    if c_name is not None and c_type is not None and c_name == name and c_type == type:
+                        cfg = c
+                        break
                 except Exception as exc:
                     raise SequenceProviderError(f'error reading config: {type} {name}') from exc
+        if cfg is not None:
+            return cfg
+        else:
+            raise SequenceProviderError(f'config type: {type} name: {name} not found')
 
     '''
     returns the parameters specified by <config> and <parameter_name> as a dict
     - returns empty dict if config doesn't contain a <name, value> pair
       specified by <parameter_name>
+    - raises SequenceProviderError
     '''
 
     def _get_parameters(self, config: dict, parameter_name: str) -> dict:
@@ -110,31 +124,35 @@ class SequenceProvider(AbstractSequenceProvider):
     '''
 
     def _get_step_configs(self, sequence_config: dict) -> list:
-        try:
-            steps = sequence_config['steps']
-            if isinstance(steps, list):
-                return steps
-            else:
-                self.logger.warn('sequence config is malformed.')
-        except Exception:
-            raise SequenceProviderError(f'steps not found in {sequence_config}')
+        steps = sequence_config.get('steps')
+        if steps is None:
+            raise SequenceProviderError('steps not found in sequence config.')
+        if not isinstance(steps, list):
+            raise SequenceProviderError('steps is not a list.')
+        return steps
 
     '''
     returns the class of the step provided with the step_config function parameter
     - raises SequenceProviderError if package, module or class value is not present
       in the step_config
+    - raises SequenceProviderError
     '''
 
     def _get_step_class(self, step_config: dict) -> dict:
         try:
-            module_name = f"{step_config['package']}.{step_config['module']}"
-            class_name = step_config['class']
-            step_cls = self._get_class(module_name, class_name)
+            sc_package = step_config.get('package')
+            sc_module = step_config.get('module')
+            sc_class = step_config.get('class')
+            if sc_package is None:
+                raise SequenceProviderError('error reading package from sequence_config..')
+            if sc_module is None:
+                raise SequenceProviderError('error reading module from sequence_config..')
+            if sc_class is None:
+                raise SequenceProviderError('error reading class from sequence_config..')
+            step_cls = self._get_class(f"{sc_package}.{sc_module}", sc_class)
             return step_cls
-        except KeyError as ke:
-            raise SequenceProviderError(f'error reading package/module/class keys from {step_config}.') from ke
         except Exception as e:
-            raise SequenceProviderError(f'unexpected error reading package/module/class keys from {step_config}.') from e
+            raise SequenceProviderError(f'unexpected error reading package/module/class keys from sequence_config.') from e
 
     def get_sequence(self) -> list:
         return self.steps
