@@ -35,10 +35,12 @@ class DailyCasesParserTest(unittest.TestCase):
         with self.subTest():
             cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
+            dates, cases = [], []
             with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
                 data = parser.run(csv.read())
-            dates = data['dates']
-            cases = data['cases']
+            for d in data['data']:
+                dates.append(d['date'])
+                cases.append(d['totalcases'])
             expected_dates = [
                 "2020-01-01", "2020-01-02", "2020-01-03", "2020-01-04", "2020-01-05", "2020-01-06",
                 "2020-01-07", "2020-01-08", "2020-01-09", "2020-01-10", "2020-01-11", "2020-01-12",
