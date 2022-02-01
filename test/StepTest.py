@@ -8,6 +8,14 @@ class CustomTest(AbstractStep):
 
 
 class StepTest(unittest.TestCase):
+    def test_empty_kwargs(self):
+        attr = {}
+        c = CustomTest(**attr)
+        self.assertRaises(AttributeError)
+
+    def test_no_kwargs(self):
+        c = CustomTest()
+
     def test_init_setattr(self):
         attr = {"attr": 2}
         c = CustomTest(**attr)

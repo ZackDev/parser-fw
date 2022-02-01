@@ -14,6 +14,8 @@ from test.JSONTest import JSONTest
 
 def step_test_suite():
     suite = unittest.TestSuite()
+    suite.addTest(StepTest('test_empty_kwargs'))
+    suite.addTest(StepTest('test_no_kwargs'))
     suite.addTest(StepTest('test_init_setattr'))
     suite.addTest(StepTest('test_init_setattr_exception'))
     return suite
