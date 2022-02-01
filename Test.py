@@ -2,6 +2,7 @@ import unittest
 import time
 import logging
 from test.ToolsTest import ToolsExistTest
+from test.StepTest import StepTest
 from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
@@ -9,6 +10,13 @@ from test.CustomModuleTest import HTTPResponseSourceTest
 from test.CustomModuleTest import DailyCasesParserTest
 from test.CustomModuleTest import VaccinationsByVaccineParserTest
 from test.JSONTest import JSONTest
+
+
+def step_test_suite():
+    suite = unittest.TestSuite()
+    suite.addTest(StepTest('test_init_setattr'))
+    suite.addTest(StepTest('test_init_setattr_exception'))
+    return suite
 
 
 def framework_test_suite():
@@ -67,11 +75,12 @@ def vaccinations_by_vaccine_test_suite():
 if __name__ == '__main__':
     logging.basicConfig(filename='parser-fw-test.log', encoding='utf-8', level=20, format='%(asctime)s %(name)s %(levelname)s : %(message)s')
     logger = logging.getLogger(__name__)
-    # verbosity determines the output of a test run, 2 seems to be the highest
+    # verbosity determines the output detail of a test run, 2 seems to be the highest
     start_time = time.monotonic()
     runner = unittest.TextTestRunner(verbosity=2)
     test_results = []
     logger.info('running tests with verbosity=2')
+    test_results.append(runner.run(step_test_suite()))
     test_results.append(runner.run(framework_test_suite()))
     test_results.append(runner.run(tools_test_suite()))
     test_results.append(runner.run(converters_test_suite()))

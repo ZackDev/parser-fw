@@ -11,11 +11,11 @@ class AbstractStep(ABC):
     def __init__(self, **kwargs):
         self.logger = logging.getLogger(type(self).__name__)
         self.logger.debug(f'__init__() called with kwargs: {kwargs}')
-        try:
-            for key, value in kwargs.items():
+        for key, value in kwargs.items():
+            if getattr(self, key, None) is None:
                 setattr(self, key, value)
-        except Exception as exc:
-            raise StepError('setattr error.') from exc
+            else:
+                raise StepError(f'attribute {key} already present.')
 
     @abstractmethod
     def run(self, data):
