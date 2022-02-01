@@ -18,9 +18,9 @@ class ICUOccupancyParser(AbstractStep):
             icou_free = 0
             icou_covid = 0
             icuo_covid_invasive = 0
-            icuo_list = enumerate(csv_reader)
-            list_length = len(icuo_list)
-            for index, line in enumerate(icuo_list):
+            list_length = len(list(csv_reader))
+            icuo_enum = enumerate(csv_reader)
+            for index, line in icuo_enum:
                 if index == 0:
                     continue
                 temp_date = line[0]

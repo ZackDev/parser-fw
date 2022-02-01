@@ -4,7 +4,6 @@ import json
 
 class JSONFileSink(AbstractStep):
     def run(self, data):
-        json_data = None
         try:
             json_data = json.dumps(data)
         except Exception as e:

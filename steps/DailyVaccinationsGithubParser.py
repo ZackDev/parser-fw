@@ -19,10 +19,10 @@ class DailyVaccinationsGithubParser(AbstractStep):
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
-            vacc_list = enumerate(csv_reader)
-            list_length = len(vacc_list)
+            list_length = len(list(csv_reader))
+            vacc_enum = enumerate(csv_reader)
             # keep track of the date at index
-            for index, line in vacc_list:
+            for index, line in vacc_enum:
                 if index == 0:
                     continue
                 if date is None:
@@ -87,7 +87,6 @@ class DailyVaccinationsGithubParser(AbstractStep):
                 booster_vaccinations_percentage.append(round((total_booster_vaccinations[i] / self.population) * 100, 2))
 
             # build dict
-            print(len(dates), len(primary_vaccinations), len(secondary_vaccinations), len(booster_vaccinations), len(total_primary_vaccinations), len(total_secondary_vaccinations), len(total_booster_vaccinations), len(primary_vaccinations_percentage), len(secondary_vaccinations_percentage), len(booster_vaccinations_percentage))
             dict = {
                 "data": []
             }
