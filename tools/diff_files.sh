@@ -16,16 +16,8 @@ file_b=$2
 if [[ -f $file_a && -f $file_b ]]; then
   # raw sha512sum output
   # NOTE: sha512sum postpends filename to hash
-  rh_a=$(sha512sum $file_a)
-  rh_b=$(sha512sum $file_b)
-
-  # filename length
-  len_fa=${#file_a}
-  len_fb=${#file_b}
-
-  # slice hash from sha512sum output
-  h_a=${rh_a:0:-$len_fa}
-  h_b=${rh_b:0:-$len_fb}
+  h_a=$(sha512sum $file_a | cut -d " " -f 1)
+  h_b=$(sha512sum $file_b | cut -d " " -f 1)
 
   # compare hashes
   if [[ $h_a != $h_b ]]; then
