@@ -20,7 +20,7 @@ if [ $num_args -eq 3 ]; then
     # case: file at jekyll dir exists, compare hashes
     if [ -f $jekyll_base_dir$target_dir$2 ]; then
       differs=`./tools/diff_files.sh $2 $jekyll_base_dir$target_dir$2`
-      if [ $differs = "true" ]; then
+      if [[ $differs = "true" ]]; then
         mv $2 $jekyll_base_dir$target_dir
         moved_file=true
       fi
