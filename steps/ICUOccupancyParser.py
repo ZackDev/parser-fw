@@ -46,7 +46,7 @@ class ICUOccupancyParser(AbstractStep):
                     date = temp_date
                     dates.append(temp_date)
 
-                elif (date != temp_date) and (date != ''):
+                elif date != temp_date and date != '':
                     date = temp_date
                     dates.append(temp_date)
                     icou_free_array.append(icou_free)

@@ -28,7 +28,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
                 if date is None:
                     date = line[0]
                     dates.append(date)
-                elif date != line[0]:
+                elif date != line[0] and index <= list_length - 2:
                     # if date changes, append accumulated vaccinations to their related lists,
                     # and reset the counter to zero
                     date = line[0]
