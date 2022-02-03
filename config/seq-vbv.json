@@ -12,7 +12,6 @@
       }
     },
     {
-      "name": "vbv-parser",
       "package": "steps",
       "module": "VaccinationsByVaccineParser",
       "class": "VaccinationsByVaccineParser"
