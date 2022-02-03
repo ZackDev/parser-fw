@@ -19,7 +19,6 @@ class DailyVaccinationsGithubParser(AbstractStep):
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
-            list_length = len(list(csv_reader))
             vacc_enum = enumerate(csv_reader)
             # keep track of the date at index
             for index, line in vacc_enum:
@@ -28,7 +27,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
                 if date is None:
                     date = line[0]
                     dates.append(date)
-                elif date != line[0] and index <= list_length - 2:
+                elif date != line[0]:
                     # if date changes, append accumulated vaccinations to their related lists,
                     # and reset the counter to zero
                     date = line[0]
@@ -53,17 +52,15 @@ class DailyVaccinationsGithubParser(AbstractStep):
                             self.logger.warn(f'unknown vacc_series: {vacc_series}')
                     except Exception as e:
                         raise StepError('error parsing vaccination counter.') from e
-                # after the last index, there is no date change
-                if index == list_length - 1:
-                    primary_vaccinations.append(tmp_pri_vacc)
-                    secondary_vaccinations.append(tmp_sec_vacc)
-                    booster_vaccinations.append(tmp_booster_vacc)
+            primary_vaccinations.append(tmp_pri_vacc)
+            secondary_vaccinations.append(tmp_sec_vacc)
+            booster_vaccinations.append(tmp_booster_vacc)
 
             # check data for consistency, equal amount of dates and cases
             if len(dates) != len(primary_vaccinations) != len(secondary_vaccinations) != len(booster_vaccinations):
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length not equal.')
 
-            if len(dates) < 1 & len(primary_vaccinations) < 1 & len(secondary_vaccinations) < 1 & len(booster_vaccinations) < 1:
+            if len(dates) + len(primary_vaccinations) + len(secondary_vaccinations) + len(booster_vaccinations) == 0:
                 raise StepError('dates, primary_vaccinations and secondary_vaccinations array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
