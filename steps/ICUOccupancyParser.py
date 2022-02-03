@@ -18,9 +18,8 @@ class ICUOccupancyParser(AbstractStep):
             icou_free = 0
             icou_covid = 0
             icuo_covid_invasive = 0
-            list_length = len(list(csv_reader))
-            icuo_enum = enumerate(csv_reader)
-            for index, line in icuo_enum:
+
+            for index, line in enumerate(csv_reader):
                 if index == 0:
                     continue
                 temp_date = line[0]
@@ -46,7 +45,7 @@ class ICUOccupancyParser(AbstractStep):
                     date = temp_date
                     dates.append(temp_date)
 
-                elif date != temp_date and date != '':
+                elif (date != temp_date) and (date != ''):
                     date = temp_date
                     dates.append(temp_date)
                     icou_free_array.append(icou_free)
@@ -58,16 +57,14 @@ class ICUOccupancyParser(AbstractStep):
                 icou_free += int(temp_icou_free)
                 icou_covid += int(temp_icou_covid)
                 icuo_covid_invasive += int(temp_icou_covid_invasive)
-                # last index doesn't trigger datechange
-                if index == list_length - 1:
-                    icou_free_array.append(icou_free)
-                    icou_covid_array.append(icou_covid - icuo_covid_invasive)
-                    icuo_covid_invasive_array.append(icuo_covid_invasive)
+            icou_free_array.append(icou_free)
+            icou_covid_array.append(icou_covid - icuo_covid_invasive)
+            icuo_covid_invasive_array.append(icuo_covid_invasive)
 
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
 
-        if len(dates) + len(icou_free_array) + len(icou_covid_array) == 0:
+        if 0 == len(dates) == len(icou_free_array) == len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array zero lengt.')
 
         dates_is_valid = is_valid_ISO8601_date_array(dates, True)
