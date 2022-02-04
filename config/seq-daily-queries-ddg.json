@@ -22,7 +22,8 @@
       "class": "JSONFileSink",
       "parameters":
       {
-        "target": "daily_queries_ddg.json"
+        "target": "daily_queries_ddg.json",
+        "indent": 4
       }
     }
   ]

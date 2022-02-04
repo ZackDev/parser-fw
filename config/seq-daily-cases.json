@@ -25,7 +25,8 @@
       "module": "JSONFileSink",
       "class": "JSONFileSink",
       "parameters": {
-        "target": "corona_germany_daily_cases.json"
+        "target": "corona_germany_daily_cases.json",
+        "indent": 4
       }
     }
   ]

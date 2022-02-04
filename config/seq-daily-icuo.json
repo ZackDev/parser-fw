@@ -22,7 +22,8 @@
       "class": "JSONFileSink",
       "parameters":
       {
-        "target": "corona_germany_daily_icuo.json"
+        "target": "corona_germany_daily_icuo.json",
+        "indent": 4
       }
     }
   ]

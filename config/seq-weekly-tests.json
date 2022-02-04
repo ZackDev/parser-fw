@@ -22,7 +22,8 @@
       "class": "JSONFileSink",
       "parameters":
       {
-        "target": "corona_germany_weekly_tests.json"
+        "target": "corona_germany_weekly_tests.json",
+        "indent": 4
       }
     }
   ]

@@ -22,7 +22,8 @@
       "class": "JSONFileSink",
       "parameters":
       {
-        "target": "corona_germany_vaccinations_by_vaccine.json"
+        "target": "corona_germany_vaccinations_by_vaccine.json",
+        "indent": 4
       }
     }
   ]

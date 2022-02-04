@@ -25,7 +25,8 @@
       "class": "JSONFileSink",
       "parameters":
       {
-        "target": "corona_germany_daily_vaccinations.json"
+        "target": "corona_germany_daily_vaccinations.json",
+        "indent": 4
       }
     }
   ]

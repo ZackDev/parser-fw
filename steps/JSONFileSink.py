@@ -5,7 +5,7 @@ import json
 class JSONFileSink(AbstractStep):
     def run(self, data):
         try:
-            json_data = json.dumps(data)
+            json_data = json.dumps(data, self.indent)
         except Exception as e:
             raise StepError('error reading json from data.') from e
 
