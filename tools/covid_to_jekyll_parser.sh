@@ -11,7 +11,7 @@ if [ $num_args -eq 3 ]; then
   #2 - name of output file
   #3 - log level
   cd $script_base_dir
-  python3.9 ConsoleClient.py -s $1 -l $3
+  python3.10 ConsoleClient.py -s $1 -l $3
   moved_file=false
   if [ -f $2 ]; then
     cd $jekyll_base_dir
