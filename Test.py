@@ -1,6 +1,7 @@
 import unittest
 import time
 import logging
+from test.ThirdPartyModulesTest import ThirdPartyModulesTest
 from test.ToolsTest import ToolsExistTest
 from test.StepTest import StepTest
 from test.FrameworkTest import FrameworkTest
@@ -25,6 +26,13 @@ def framework_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(FrameworkTest('test_step_implementation'))
     suite.addTest(FrameworkTest('test_factory'))
+    return suite
+
+
+def thirdpartymodules_test_suite():
+    suite = unittest.TestSuite()
+    suite.addTest(ThirdPartyModulesTest('test_requests_import'))
+    suite.addTest(ThirdPartyModulesTest('test_openpyxl_import'))
     return suite
 
 
@@ -84,6 +92,7 @@ if __name__ == '__main__':
     logger.info('running tests with verbosity=2')
     test_results.append(runner.run(step_test_suite()))
     test_results.append(runner.run(framework_test_suite()))
+    test_results.append(runner.run(thirdpartymodules_test_suite()))
     test_results.append(runner.run(tools_test_suite()))
     test_results.append(runner.run(converters_test_suite()))
     test_results.append(runner.run(validators_test_suite()))

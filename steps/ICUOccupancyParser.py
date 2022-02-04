@@ -12,7 +12,7 @@ class ICUOccupancyParser(AbstractStep):
         icou_free_array = []
         icou_covid_array = []
         icuo_covid_invasive_array = []
-        with StringIO(data.decode('utf-8')) as daily_icuo_csv:
+        with StringIO(data) as daily_icuo_csv:
             csv_reader = csv.reader(daily_icuo_csv, delimiter=',')
             date = ''
             icou_free = 0

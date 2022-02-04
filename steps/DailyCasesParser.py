@@ -7,7 +7,7 @@ import csv
 
 class DailyCasesParser(AbstractStep):
     def run(self, data):
-        with StringIO(data.decode('utf-8')) as daily_cases_csv:
+        with StringIO(data) as daily_cases_csv:
             # NOTE: the first line contains the dates, starting from 22.01.2020
             # each line after that corresponds to a country, containing the cases among other data
             csv_reader = csv.reader(daily_cases_csv, delimiter=',')
