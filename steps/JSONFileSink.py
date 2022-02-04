@@ -4,8 +4,12 @@ import json
 
 class JSONFileSink(AbstractStep):
     def run(self, data):
+        if hasattr(self, "indent"):
+            indent = getattr(self, "indent")
+        else:
+            indent = None
         try:
-            json_data = json.dumps(data, self.indent)
+            json_data = json.dumps(data, indent)
         except Exception as e:
             raise StepError('error reading json from data.') from e
 
