@@ -36,7 +36,7 @@ class DailyCasesParserTest(unittest.TestCase):
             cfg = {"country": "Germany", "strict": False, "population": 83121363}
             parser = DailyCasesParser(**cfg)
             dates, cases = [], []
-            with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'rb') as csv:
+            with open('test/files/time_series_covid19_confirmed_global_valid.csv', 'r') as csv:
                 data = parser.run(csv.read())
             for d in data['data']:
                 dates.append(d['date'])
@@ -73,14 +73,14 @@ class DailyCasesParserTest(unittest.TestCase):
         with self.subTest():
             cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
-            with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'rb') as csv:
+            with open('test/files/time_series_covid19_confirmed_global_invalid_date.csv', 'r') as csv:
                 with self.assertRaises(StepError):
                     parser.run(csv.read())
 
         with self.subTest():
             cfg = {"country": "Germany", "strict": False}
             parser = DailyCasesParser(**cfg)
-            with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'rb') as csv:
+            with open('test/files/time_series_covid19_confirmed_global_invalid_cases.csv', 'r') as csv:
                 with self.assertRaises(StepError):
                     parser.run(csv.read())
 
@@ -89,7 +89,7 @@ class VaccinationsByVaccineParserTest(unittest.TestCase):
     def test_vaccinations_by_vaccine_parser(self):
         with self.subTest():
             parser = VaccinationsByVaccineParser()
-            with open('test/files/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen_valid.csv', 'rb') as csv:
+            with open('test/files/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen_valid.csv', 'r') as csv:
                 data = parser.run(csv.read())
             self.assertEqual(data['Comirnaty'], 1250)
             self.assertEqual(data['AstraZeneca'], 1)
