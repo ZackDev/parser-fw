@@ -95,3 +95,9 @@ class VaccinationsByVaccineParserTest(unittest.TestCase):
             self.assertEqual(data['AstraZeneca'], 1)
             self.assertEqual(data['Janssen'], 4)
             self.assertEqual(data['Moderna'], 3)
+
+        with self.subTest():
+            parser = VaccinationsByVaccineParser()
+            with open('test/files/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen_faulty_date.csv', 'rb') as csv:
+                with self.assertRaises(StepError):
+                    parser.run(csv.read())

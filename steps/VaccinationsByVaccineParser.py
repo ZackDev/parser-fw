@@ -1,5 +1,6 @@
 from Abstract import AbstractStep, StepError
 from misc.Converters import str_to_integer
+from misc.Validators import is_valid_ISO8601_date
 from io import StringIO
 import csv
 
@@ -15,12 +16,18 @@ class VaccinationsByVaccineParser(AbstractStep):
             for index, line in enumerate(csv_reader):
                 if index == 0:
                     continue
+                date = line[0]
                 vacc_name = line[2]
                 vacc_doses = line[4]
+                valid_date = is_valid_ISO8601_date(date)
+                if valid_date is False:
+                    raise StepError('date is not ISO 8601')
+
                 try:
                     vacc_doses = str_to_integer(vacc_doses, '+')
                 except Exception as e:
                     raise StepError('unexpected value for vacc_doses.') from e
+                
                 try:
                     # adds vaccine and doses to dict if vaccine_name not present in dict
                     # else: adds administered doses to existing doses
