@@ -1,16 +1,33 @@
-import unittest
 import os
+import subprocess
+import unittest
 
 
-class ToolsExistTest(unittest.TestCase):
-    def test_covid_to_jekyll_parser(self):
+class CovidToJekyllParserTest(unittest.TestCase):
+    def test_covid_to_jekyll_parser_exists(self):
         r_path = 'tools/covid_to_jekyll_parser.sh'
-        is_file = os.path.isfile(r_path)
+        self.assertEqual(os.path.isfile(r_path), True)
 
-        self.assertEqual(is_file, True)
 
-    def test_diff_files(self):
-        r_path = 'tools/diff_files.sh'
-        is_file = os.path.isfile(r_path)
+class DiffFilesTest(unittest.TestCase):
+    def setUp(self):
+        self.f_path = 'tools/diff_files.sh'
 
-        self.assertEqual(is_file, True)
+    def test_diff_files_exists(self):
+        self.assertEqual(os.path.isfile(self.f_path), True)
+
+    def test_diff_files_wrong_nargs(self):
+        r = subprocess.run([self.f_path, "1"], capture_output=True)
+        self.assertEqual(r.stdout.decode('utf-8').strip(), "wrong number of arguments")
+
+    def test_diff_files_wrong_args(self):
+        r = subprocess.run([self.f_path, 'doesntexist0.sh', 'doesntexist1.sh'], capture_output=True)
+        self.assertEqual(r.stdout.decode('utf-8').strip(), "file(s) not found")
+
+    def test_diff_files_true(self):
+        r = subprocess.run([self.f_path, 'tools/diff_files.sh', 'tools/covid_to_jekyll_parser.sh'], capture_output=True)
+        self.assertEqual(r.stdout.decode('utf-8').strip(), "true")
+
+    def test_diff_files_false(self):
+        r = subprocess.run([self.f_path, 'tools/diff_files.sh', 'tools/diff_files.sh'], capture_output=True)
+        self.assertEqual(r.stdout.decode('utf-8').strip(), "false")

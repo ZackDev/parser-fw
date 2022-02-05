@@ -2,7 +2,8 @@ import unittest
 import time
 import logging
 from test.ThirdPartyModulesTest import ThirdPartyModulesTest
-from test.ToolsTest import ToolsExistTest
+from test.ToolsTest import CovidToJekyllParserTest
+from test.ToolsTest import DiffFilesTest
 from test.StepTest import StepTest
 from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
@@ -38,8 +39,12 @@ def thirdpartymodules_test_suite():
 
 def tools_test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(ToolsExistTest('test_covid_to_jekyll_parser'))
-    suite.addTest(ToolsExistTest('test_diff_files'))
+    suite.addTest(CovidToJekyllParserTest('test_covid_to_jekyll_parser_exists'))
+    suite.addTest(DiffFilesTest('test_diff_files_exists'))
+    suite.addTest(DiffFilesTest('test_diff_files_wrong_nargs'))
+    suite.addTest(DiffFilesTest('test_diff_files_wrong_args'))
+    suite.addTest(DiffFilesTest('test_diff_files_true'))
+    suite.addTest(DiffFilesTest('test_diff_files_false'))
     return suite
 
 
