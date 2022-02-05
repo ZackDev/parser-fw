@@ -7,7 +7,7 @@ import csv
 class VaccinationsByVaccineParser(AbstractStep):
     def run(self, data):
         dict = {}
-        with StringIO(data) as vaccine_csv:
+        with StringIO(data.decode('utf-8')) as vaccine_csv:
             csv_reader = csv.reader(vaccine_csv, delimiter=',')
 
             # NOTE: the first line is the header
