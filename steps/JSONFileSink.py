@@ -9,7 +9,7 @@ class JSONFileSink(AbstractStep):
         else:
             indent = None
         try:
-            json_data = json.dumps(data, indent)
+            json_data = json.dumps(data, indent=indent)
         except Exception as e:
             raise StepError('error reading json from data.') from e
 

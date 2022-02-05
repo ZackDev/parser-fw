@@ -8,7 +8,7 @@ from misc.Converters import str_to_integer
 class DuckDuckGoDailyQueries(AbstractStep):
     def run(self, data):
         dates, queries, dict = [], [], {}
-        with StringIO(data) as dq:
+        with StringIO(data.decode('utf-8')) as dq:
             cr = csv.reader(dq, delimiter=' ')
             for index, line in enumerate(cr):
                 if index == 0:

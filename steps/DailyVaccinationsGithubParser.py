@@ -7,7 +7,7 @@ from io import StringIO
 
 class DailyVaccinationsGithubParser(AbstractStep):
     def run(self, data):
-        with StringIO(data) as daily_vaccinations_csv:
+        with StringIO(data.decode('utf-8')) as daily_vaccinations_csv:
             dates = []
             primary_vaccinations = []
             secondary_vaccinations = []
