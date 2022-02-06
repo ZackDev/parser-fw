@@ -27,7 +27,7 @@ class VaccinationsByVaccineParser(AbstractStep):
                     vacc_doses = str_to_integer(vacc_doses, '+')
                 except Exception as e:
                     raise StepError('unexpected value for vacc_doses.') from e
-                
+
                 try:
                     # adds vaccine and doses to dict if vaccine_name not present in dict
                     # else: adds administered doses to existing doses

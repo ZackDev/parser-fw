@@ -13,6 +13,7 @@ class DuckDuckGoDailyQueries(AbstractStep):
             for index, line in enumerate(cr):
                 if index == 0:
                     continue
+                # each line comes like this "<date>,<queries>"
                 t = line[0].split(",")
                 td, tq = t[0], t[1]
                 if is_valid_ISO8601_date(td) is False:
@@ -25,6 +26,7 @@ class DuckDuckGoDailyQueries(AbstractStep):
                 except Exception as e:
                     raise StepError('query sign mismatch') from e
 
+        # sanity checks
         if len(dates) + len(queries) == 0:
             raise StepError('dates and queries length is zero')
         if len(dates) != len(queries):

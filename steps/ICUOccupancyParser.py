@@ -61,6 +61,7 @@ class ICUOccupancyParser(AbstractStep):
             icou_covid_array.append(icou_covid - icuo_covid_invasive)
             icuo_covid_invasive_array.append(icuo_covid_invasive)
 
+        # sanity checks
         if len(dates) != len(icou_free_array) != len(icou_covid_array):
             raise StepError('dates, icuo_free_array and icuo_covid array lengts mismatch.')
 
