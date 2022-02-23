@@ -82,4 +82,4 @@ Contains the logic for creating sequences. The example above uses data structure
 Derive a new factory from `Abstract.AbstractSequenceProviderAndRunnerFactory` to implement custom structures and sources.
 
 ## SequenceRunner
-Implements the logic to run a sequence of steps. In the example, steps are run sequentially, where the output of `step n-1` becomes the input of `step n`. Thinkable here is a conditional runner.
+Implements the logic to run a set of steps. In the example, steps are run sequentially, where the output of `step n-1` becomes the input of `step n`. Thinkable here is a conditional runner. Let's say there are 3 steps, `A`, `B0` and `B1`, where the result of `A` determines wheather `B0` or `B1` gets executed.
