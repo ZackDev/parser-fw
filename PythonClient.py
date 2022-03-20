@@ -6,7 +6,7 @@ from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 
 
 def run_seshu():
-    factory = SequenceProviderAndRunnerFactory('daily-cases-github')
+    factory = SequenceProviderAndRunnerFactory('Production', 'daily-cases-github')
     Seshu(factory, 1)
 
 

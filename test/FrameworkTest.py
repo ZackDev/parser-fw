@@ -1,7 +1,7 @@
 import unittest
 from test.files.TestStep import TestStepWithoutRunImplementation
 from test.files.TestStep import TestStepWithRunImplementation
-from SequenceProviderAndRunnerFactory import TestSequenceProviderAndRunnerFactory
+from SequenceProviderAndRunnerFactory import SequenceProviderAndRunnerFactory
 from SequenceProvider import SequenceProviderError
 
 
@@ -20,7 +20,7 @@ class FrameworkTest(unittest.TestCase):
 
     def test_factory(self):
 
-        factory = TestSequenceProviderAndRunnerFactory('test')
+        factory = SequenceProviderAndRunnerFactory('Unittest', 'test')
         sequence_provider = factory.get_provider()
         sequence_runner = factory.get_runner()
 
@@ -33,10 +33,10 @@ class FrameworkTest(unittest.TestCase):
 
         # test with missing config
         with self.assertRaises(SequenceProviderError):
-            factory = TestSequenceProviderAndRunnerFactory('unknown-sequence')
+            factory = SequenceProviderAndRunnerFactory('Unittest', 'unknown-sequence')
             factory.get_provider()
 
         # test with invalid config
         with self.assertRaises(SequenceProviderError):
-            factory = TestSequenceProviderAndRunnerFactory('faulty-sequence')
+            factory = SequenceProviderAndRunnerFactory('Unittest', 'faulty-sequence')
             factory.get_provider()

@@ -51,7 +51,8 @@ class AbstractSequenceProvider(ABC):
 
 
 class AbstractSequenceProviderAndRunnerFactory(ABC):
-    def __init__(self, sequence_name: str):
+    def __init__(self, run_type: str, sequence_name: str):
+        self.run_type = run_type
         self.sequence_name = sequence_name
 
     @abstractmethod
