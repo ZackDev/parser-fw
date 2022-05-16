@@ -7,7 +7,9 @@ from steps.VaccinationsByVaccineParser import VaccinationsByVaccineParser
 
 class HTTPResponseSourceTest(unittest.TestCase):
     def test_url_response_success(self):
-        url = 'https://istandischeuernochimamt.de/'
+        # disappeared, noticed at 2022-05-16
+        # url = 'https://istandischeuernochimamt.de/'
+        url = 'https://xkcd.com'
         cfg = {"url": url}
         source = HTTPResponseSource(**cfg)
 
