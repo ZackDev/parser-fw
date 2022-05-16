@@ -9,21 +9,27 @@ def str_to_integer(input: str, sign: str = '*') -> int:
     # '+': checks if number is positive, including zero
     # '-': checks if number is negative, including zero
     # '*': doesn't check for sign, default
+
     if isinstance(input, str):
         tmp = int(input)
-        if sign == '*':
+    else:
+        raise TypeError('input is not a string.')
+
+    match sign:
+        case '*':
             return tmp
-        elif sign == '+':
+
+        case '+':
             if tmp >= 0:
                 return tmp
             else:
                 raise ValueError(f'input: {input} sign: {sign} does not match criteria.')
-        elif sign == '-':
+
+        case '-':
             if tmp <= 0:
                 return tmp
             else:
                 raise ValueError(f'input: {input} sign: {sign} does not match criteria.')
-        else:
+
+        case _:
             raise ValueError(f'sign: {sign} not supported.')
-    else:
-        raise TypeError('input is not a string.')
