@@ -67,7 +67,7 @@ class DailyVaccinationsGithubParser(AbstractStep):
             if len(dates) != len(first_vaccinations) != len(second_vaccinations) != len(third_vaccinations) != len(fourth_vaccinations):
                 raise StepError('dates, first_vaccinations and second_vaccinations array length not equal.')
 
-            if len(dates) + len(first_vaccinations) + len(second_vaccinations) + len(third_vaccinations) + len(fourth_vaccinations)== 0:
+            if len(dates) + len(first_vaccinations) + len(second_vaccinations) + len(third_vaccinations) + len(fourth_vaccinations) == 0:
                 raise StepError('dates, first_vaccinations and second_vaccinations array length is zero.')
 
             dates_is_valid = is_valid_ISO8601_date_array(dates, True)
