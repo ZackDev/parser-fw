@@ -115,7 +115,7 @@ class WeeklyTestsParser(AbstractStep):
                 # calculate total tests
                 total_tests = []
                 for i in range(len(calendar_weeks)):
-                    total_tests.append(sum(weekly_tests[0:i]))
+                    total_tests.append(sum(weekly_tests[0:i + 1]))
 
                 # build dict
                 dict = {
