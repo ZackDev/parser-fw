@@ -79,10 +79,10 @@ class DailyVaccinationsGithubParser(AbstractStep):
             total_third_vaccinations = []
             total_fourth_vaccinations = []
             for i in range(len(first_vaccinations)):
-                total_first_vaccinations.append(sum(first_vaccinations[0:i]))
-                total_second_vaccinations.append(sum(second_vaccinations[0:i]))
-                total_third_vaccinations.append(sum(third_vaccinations[0:i]))
-                total_fourth_vaccinations.append(sum(fourth_vaccinations[0:i]))
+                total_first_vaccinations.append(sum(first_vaccinations[0:i + 1]))
+                total_second_vaccinations.append(sum(second_vaccinations[0:i + 1]))
+                total_third_vaccinations.append(sum(third_vaccinations[0:i + 1]))
+                total_fourth_vaccinations.append(sum(fourth_vaccinations[0:i + 1]))
 
             first_vaccinations_percentage = []
             second_vaccinations_percentage = []
