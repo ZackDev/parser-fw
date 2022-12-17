@@ -13,11 +13,15 @@ class DailyVaccinationsGithubParser(AbstractStep):
             second_vaccinations = []
             third_vaccinations = []
             fourth_vaccinations = []
+            fifth_vaccinations = []
+            sixth_vaccinations = []
 
             tmp_pri_vacc = 0
             tmp_sec_vacc = 0
             tmp_third_vacc = 0
             tmp_fourth_vacc = 0
+            temp_fifth_vacc = 0
+            temp_sixth_vacc = 0
             date = None
 
             csv_reader = csv.reader(daily_vaccinations_csv, delimiter=',')
@@ -38,10 +42,14 @@ class DailyVaccinationsGithubParser(AbstractStep):
                     second_vaccinations.append(tmp_sec_vacc)
                     third_vaccinations.append(tmp_third_vacc)
                     fourth_vaccinations.append(tmp_fourth_vacc)
+                    fifth_vaccinations.append(temp_fifth_vacc)
+                    sixth_vaccinations.append(temp_sixth_vacc)
                     tmp_pri_vacc = 0
                     tmp_sec_vacc = 0
                     tmp_third_vacc = 0
                     tmp_fourth_vacc = 0
+                    temp_fifth_vacc = 0
+                    temp_sixth_vacc = 0
                 elif date == line[0]:
                     # accumulate vaccinations as long as date doesn't change
                     try:
@@ -54,6 +62,10 @@ class DailyVaccinationsGithubParser(AbstractStep):
                             tmp_third_vacc += str_to_integer(line[4], '+')
                         elif vacc_series == 4:
                             tmp_fourth_vacc += str_to_integer(line[4], '+')
+                        elif vacc_series == 5:
+                            temp_fifth_vacc += str_to_integer(line[4], '+')
+                        elif vacc_series == 6:
+                            temp_sixth_vacc += str_to_integer(line[4], '+')
                         else:
                             self.logger.warn(f'unknown vacc_series: {vacc_series}')
                     except Exception as e:
@@ -62,6 +74,8 @@ class DailyVaccinationsGithubParser(AbstractStep):
             second_vaccinations.append(tmp_sec_vacc)
             third_vaccinations.append(tmp_third_vacc)
             fourth_vaccinations.append(tmp_fourth_vacc)
+            fifth_vaccinations.append(temp_fifth_vacc)
+            sixth_vaccinations.append(temp_sixth_vacc)
 
             # check data for consistency, equal amount of dates and cases
             if len(dates) != len(first_vaccinations) != len(second_vaccinations) != len(third_vaccinations) != len(fourth_vaccinations):
@@ -78,21 +92,29 @@ class DailyVaccinationsGithubParser(AbstractStep):
             total_second_vaccinations = []
             total_third_vaccinations = []
             total_fourth_vaccinations = []
+            total_fifth_vaccinations = []
+            total_sixth_vaccinations = []
             for i in range(len(first_vaccinations)):
                 total_first_vaccinations.append(sum(first_vaccinations[0:i + 1]))
                 total_second_vaccinations.append(sum(second_vaccinations[0:i + 1]))
                 total_third_vaccinations.append(sum(third_vaccinations[0:i + 1]))
                 total_fourth_vaccinations.append(sum(fourth_vaccinations[0:i + 1]))
+                total_fifth_vaccinations.append(sum(fifth_vaccinations[0:i + 1]))
+                total_sixth_vaccinations.append(sum(sixth_vaccinations[0:i + 1]))
 
             first_vaccinations_percentage = []
             second_vaccinations_percentage = []
             third_vaccinations_percentage = []
             fourth_vaccinations_percentage = []
+            fifth_vaccinations_percentage = []
+            sixth_vaccinations_percentage = []
             for i in range(len(total_first_vaccinations)):
                 first_vaccinations_percentage.append(round((total_first_vaccinations[i] / self.population) * 100, 2))
                 second_vaccinations_percentage.append(round((total_second_vaccinations[i] / self.population) * 100, 2))
                 third_vaccinations_percentage.append(round((total_third_vaccinations[i] / self.population) * 100, 2))
                 fourth_vaccinations_percentage.append(round((total_fourth_vaccinations[i] / self.population) * 100, 2))
+                fifth_vaccinations_percentage.append(round((total_fifth_vaccinations[i] / self.population) * 100, 2))
+                sixth_vaccinations_percentage.append(round((total_sixth_vaccinations[i] / self.population) * 100, 2))
 
             # build dict
             dict = {
@@ -105,14 +127,20 @@ class DailyVaccinationsGithubParser(AbstractStep):
                     "second_vaccinations": second_vaccinations[i],
                     "third_vaccinations": third_vaccinations[i],
                     "fourth_vaccinations": fourth_vaccinations[i],
+                    "fifth_vaccinations": fifth_vaccinations[i],
+                    "sixth_vaccinations": sixth_vaccinations[i],
                     "total_first_vaccinations": total_first_vaccinations[i],
                     "total_second_vaccinations": total_second_vaccinations[i],
                     "total_third_vaccinations": total_third_vaccinations[i],
                     "total_fourth_vaccinations": total_fourth_vaccinations[i],
+                    "total_fifth_vaccinations": total_fifth_vaccinations[i],
+                    "total_sixth_vaccinations": total_sixth_vaccinations[i],
                     "first_vaccinations_percentage": first_vaccinations_percentage[i],
                     "second_vaccinations_percentage": second_vaccinations_percentage[i],
                     "third_vaccinations_percentage": third_vaccinations_percentage[i],
                     "fourth_vaccinations_percentage": fourth_vaccinations_percentage[i],
+                    "fifth_vaccinations_percentage": fifth_vaccinations_percentage[i],
+                    "sixth_vaccinations_percentage": sixth_vaccinations_percentage[i]
                 }
                 dict['data'].append(de)
             return dict
