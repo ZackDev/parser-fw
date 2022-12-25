@@ -3,7 +3,7 @@
 script_base_dir="/home/zack/Git/parser-fw/"
 jekyll_base_dir="/home/zack/Git/zackdev.github.io/"
 target_dir="/assets/json/"
-venv_dir="/home/zack/Git/parser-fw-env/"
+venv_dir="/home/zack/Git/parser-fw-venv/"
 
 num_args=$#
 
