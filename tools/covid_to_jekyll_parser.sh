@@ -3,6 +3,7 @@
 script_base_dir="/home/zack/Git/parser-fw/"
 jekyll_base_dir="/home/zack/Git/zackdev.github.io/"
 target_dir="/assets/json/"
+venv_dir="/home/zack/Git/parser-fw-env/"
 
 num_args=$#
 
@@ -10,8 +11,12 @@ if [ $num_args -eq 3 ]; then
   #1 - name of sequence
   #2 - name of output file
   #3 - log level
+
+  # activate venv
+  source $venv_dir
+
   cd $script_base_dir
-  python3.10 ConsoleClient.py -s $1 -l $3
+  python3.11 ConsoleClient.py -s $1 -l $3
   moved_file=false
   if [ -f $2 ]; then
     cd $jekyll_base_dir
@@ -39,6 +44,7 @@ if [ $num_args -eq 3 ]; then
   else
     echo "expected file not found."
   fi
+  deactivate
 else
   echo "invalid number of arguments."
 fi
