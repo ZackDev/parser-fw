@@ -13,7 +13,7 @@ if [ $num_args -eq 3 ]; then
   #3 - log level
 
   # activate venv
-  source $venv_dir
+  source $venv_dir/bin/activate
 
   cd $script_base_dir
   python3.11 ConsoleClient.py -s $1 -l $3
