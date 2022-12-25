@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/bash
 
 script_base_dir="/home/zack/Git/parser-fw/"
 jekyll_base_dir="/home/zack/Git/zackdev.github.io/"
