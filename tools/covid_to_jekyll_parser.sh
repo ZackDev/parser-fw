@@ -2,7 +2,7 @@
 
 script_base_dir="/home/zack/Git/parser-fw/"
 data_base_dir="/home/zack/Git/data/"
-target_dir="/assets/json/"
+target_dir="/json/"
 venv_dir="/home/zack/Git/parser-fw-venv/"
 
 num_args=$#
