@@ -1,7 +1,7 @@
 #!/bin/bash
 
 script_base_dir="/home/zack/Git/parser-fw/"
-jekyll_base_dir="/home/zack/Git/zackdev.github.io/"
+data_base_dir="/home/zack/Git/data/"
 target_dir="/assets/json/"
 venv_dir="/home/zack/Git/parser-fw-venv/"
 
@@ -19,23 +19,23 @@ if [ $num_args -eq 3 ]; then
   python3.11 ConsoleClient.py -s $1 -l $3
   moved_file=false
   if [ -f $2 ]; then
-    cd $jekyll_base_dir
+    cd $data_base_dir
     git pull
     cd $script_base_dir
-    # case: file at jekyll dir exists, compare hashes
-    if [ -f $jekyll_base_dir$target_dir$2 ]; then
-      differs=`./tools/diff_files.sh $2 $jekyll_base_dir$target_dir$2`
+    # case: file at data dir exists, compare hashes
+    if [ -f $data_base_dir$target_dir$2 ]; then
+      differs=`./tools/diff_files.sh $2 $data_base_dir$target_dir$2`
       if [ "$differs" = "true" ]; then
-        mv $2 $jekyll_base_dir$target_dir
+        mv $2 $data_base_dir$target_dir
         moved_file=true
       fi
-    # case: file at jekyll dir DOESN'T exist
-    elif [ ! -f $jekyll_base_dir$target_dir$2 ]; then
-      mv $2 $jekyll_base_dir$target_dir
+    # case: file at data dir DOESN'T exist
+    elif [ ! -f $data_base_dir$target_dir$2 ]; then
+      mv $2 $data_base_dir$target_dir
       moved_file=true
     fi
     if [ "$moved_file" = true ]; then
-      echo "copied output file to jekyll directory."
+      echo "copied output file to data directory."
     else
       echo "file wasn't moved. deleting file."
       cd $script_base_dir

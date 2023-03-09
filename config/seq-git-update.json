@@ -7,7 +7,7 @@
       "module": "ExecCmd",
       "class": "ExecCmd",
       "parameters": {
-        "path": "/home/zack/Git/zackdev.github.io",
+        "path": "/home/zack/Git/data",
         "cmds": ["git pull", "git add --all", "git commit -m 'automated dataset update'", "git push"]
       }
     }
