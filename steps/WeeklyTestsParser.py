@@ -16,11 +16,13 @@ class WeeklyTestsParser(AbstractStep):
 
             calendar_weeks = []
             weekly_tests = []
+            weekly_tests_positive = []
             parse_error = False
 
             for x in range(1, 10):
                 calendar_weeks.append(f'2020-W0{x}')
                 weekly_tests.append(0)
+                weekly_tests_positive.append(0)
 
             row_index = 0
             for row in ws:
@@ -47,21 +49,32 @@ class WeeklyTestsParser(AbstractStep):
                                 self.logger.debug(f'appended {tests}')
                             else:
                                 raise StepError('error reading tests. got "None"')
-
+                        elif col_index == 3:
+                            if isinstance(col.value, float):
+                                try:
+                                    tests_positive = int(col.value)
+                                except Exception as e:
+                                    raise StepError('unexpected value for tests_positive')
+                            else:
+                                raise StepError('unexpected type for tests_positive.')
+                            if tests_positive is not None:
+                                weekly_tests_positive.append(tests_positive)
+                            else:
+                                raise StepError('error reading tests_positive. got "None"')
                         col_index += 1
                 row_index += 1
 
             if parse_error is False:
                 # data consistency check, length calendar_weeks equals length weekly_tests
-                if len(calendar_weeks) != len(weekly_tests):
-                    raise StepError('calendar_weeks and weekly_tests array length not equal.')
+                if len(calendar_weeks) != len(weekly_tests) != len(weekly_tests_positive):
+                    raise StepError('calendar_weeks, weekly_tests and weekly_tests_positive array length not equal.')
 
-                if len(calendar_weeks) < 1 and len(weekly_tests) < 1:
-                    raise StepError('calendar_weeks and weekly_tests array length is zero.')
+                if len(calendar_weeks) < 1 and len(weekly_tests) < 1 and len(weekly_tests_positive) < 1:
+                    raise StepError('calendar_weeks, weekly_tests and weekly_tests_positive array length is zero.')
 
                 # calculate total tests
                 total_tests = []
-                for i in range(len(calendar_weeks)):
+                for i in range(len(weekly_tests)):
                     total_tests.append(sum(weekly_tests[0:i + 1]))
 
                 # build dict
@@ -72,6 +85,7 @@ class WeeklyTestsParser(AbstractStep):
                     de = {
                         "calendar_week": calendar_weeks[i],
                         "weekly_tests": weekly_tests[i],
+                        "weekly_tests_positive": weekly_tests_positive[i],
                         "total_tests": total_tests[i]
                     }
                     dict['data'].append(de)
