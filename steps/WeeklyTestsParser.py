@@ -66,16 +66,21 @@ class WeeklyTestsParser(AbstractStep):
 
             if parse_error is False:
                 # data consistency check, length calendar_weeks equals length weekly_tests
-                if len(calendar_weeks) != len(weekly_tests) != len(weekly_tests_positive):
-                    raise StepError('calendar_weeks, weekly_tests and weekly_tests_positive array length not equal.')
+                if len(calendar_weeks) != len(weekly_tests) != len(weekly_tests_positive) != len(weekly_tests_negative):
+                    raise StepError('calendar_weeks, weekly_tests, weekly_tests_positive and weekly_tests_negative array length not equal.')
 
-                if len(calendar_weeks) < 1 and len(weekly_tests) < 1 and len(weekly_tests_positive) < 1:
-                    raise StepError('calendar_weeks, weekly_tests and weekly_tests_positive array length is zero.')
+                if len(calendar_weeks) < 1 and len(weekly_tests) < 1 and len(weekly_tests_positive) < 1 and len(weekly_tests_negative) < 1:
+                    raise StepError('calendar_weeks, weekly_tests, weekly_tests_positive and weekly_tests_negative array length is zero.')
 
                 # calculate total tests
                 total_tests = []
                 for i in range(len(weekly_tests)):
                     total_tests.append(sum(weekly_tests[0:i + 1]))
+
+                # calculate negative tests
+                weekly_tests_negative = []
+                for i in range(len(weekly_tests)):
+                    weekly_tests_negative.append(weekly_tests[i] - weekly_tests_positive[i])
 
                 # build dict
                 dict = {
@@ -84,8 +89,8 @@ class WeeklyTestsParser(AbstractStep):
                 for i in range(len(calendar_weeks)):
                     de = {
                         "calendar_week": calendar_weeks[i],
-                        "weekly_tests": weekly_tests[i],
                         "weekly_tests_positive": weekly_tests_positive[i],
+                        "weekly_tests_negative": weekly_tests_negative[i],
                         "total_tests": total_tests[i]
                     }
                     dict['data'].append(de)
