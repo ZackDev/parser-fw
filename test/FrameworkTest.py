@@ -40,3 +40,7 @@ class FrameworkTest(unittest.TestCase):
         with self.assertRaises(SequenceProviderError):
             factory = SequenceProviderAndRunnerFactory('Unittest')
             factory.get_provider().get_sequence('faulty_test')
+
+        # test get_sequence_names
+        sequence_names = ['test', 'faulty-test']
+        self.assertEqual(sequence_names, sequence_provider.get_sequence_names())
