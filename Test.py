@@ -8,6 +8,7 @@ from test.StepTest import StepTest
 from test.FrameworkTest import FrameworkTest
 from test.ValidatorsTest import ValidatorsTest
 from test.ConvertersTest import ConvertersTest
+from test.CustomModuleTest import HashAndCompareTest
 from test.CustomModuleTest import HTTPResponseSourceTest
 from test.CustomModuleTest import DailyCasesParserTest
 from test.CustomModuleTest import VaccinationsByVaccineParserTest
@@ -62,6 +63,12 @@ def validators_test_suite():
     return suite
 
 
+def hash_and_compare_suite():
+    suite = unittest.TestSuite()
+    suite.addTest(HashAndCompareTest('test_hash_and_compare'))
+    return suite
+
+
 def json_test_suite():
     suite = unittest.TestSuite()
     suite.addTest(JSONTest('test_jsonDumps'))
@@ -101,6 +108,7 @@ if __name__ == '__main__':
     test_results.append(runner.run(tools_test_suite()))
     test_results.append(runner.run(converters_test_suite()))
     test_results.append(runner.run(validators_test_suite()))
+    test_results.append(runner.run(hash_and_compare_suite()))
     test_results.append(runner.run(json_test_suite()))
     test_results.append(runner.run(http_source_test_suite()))
     test_results.append(runner.run(daily_cases_parser_test_suite()))
@@ -114,4 +122,6 @@ if __name__ == '__main__':
         errors += len(result.errors)
         failures += len(result.failures)
     end_time = time.monotonic() - start_time
-    logger.info(f'Total:{total_runs}\t Errors:{errors}\t Failures:{failures}\t Duration:{end_time:.2f}s')
+    test_result_str = f'Total:{total_runs}\t Errors:{errors}\t Failures:{failures}\t Duration:{end_time:.2f}s'
+    print(test_result_str)
+    logger.info(test_result_str)

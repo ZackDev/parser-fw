@@ -1,5 +1,6 @@
 import unittest
 from Abstract import StepError
+from steps.HashAndCompare import HashAndCompare
 from steps.HTTPResponseSource import HTTPResponseSource
 from steps.DailyCasesParser import DailyCasesParser
 from steps.VaccinationsByVaccineParser import VaccinationsByVaccineParser
@@ -103,3 +104,21 @@ class VaccinationsByVaccineParserTest(unittest.TestCase):
             with open('test/files/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen_faulty_date.csv', 'rb') as csv:
                 with self.assertRaises(StepError):
                     parser.run(csv.read())
+
+
+class HashAndCompareTest(unittest.TestCase):
+    def test_hash_and_compare(self):
+        cfg = {"hashname": 'sha512', "filenames": ['test/files/cfg/faulty_test_cfg.json', 'test/files/cfg/seq-test-cfg.json']}
+        step = HashAndCompare(**cfg)
+        step.run('')
+        result = step.data
+        self.assertNotEqual(result[0], True)
+        self.assertEqual(result[0], False)
+
+        cfg = {"hashname": 'sha512', "filenames": ['test/files/cfg/faulty_test_cfg.json', 'test/files/cfg/faulty_test_cfg.json']}
+        step = HashAndCompare(**cfg)
+        step.run('')
+        result = step.data
+        self.assertNotEqual(result[0], False)
+        self.assertEqual(result[0], True)
+
