@@ -4,15 +4,15 @@ from SequenceRunner import SequenceRunner
 
 
 class SequenceProviderAndRunnerFactory(AbstractSequenceProviderAndRunnerFactory):
-    def __init__(self, run_type: str, sequence_name: str):
-        super().__init__(run_type, sequence_name)
+    def __init__(self, run_type: str):
+        super().__init__(run_type)
         match run_type:
             case 'Production':
-                self.provider = SequenceProvider(self.sequence_name)
-                self.runner = SequenceRunner(self.sequence_name)
+                self.provider = SequenceProvider()
+                self.runner = SequenceRunner()
             case 'Unittest':
-                self.provider = SequenceProvider(self.sequence_name, './test/files/cfg/')
-                self.runner = SequenceRunner(self.sequence_name)
+                self.provider = SequenceProvider('./test/files/cfg/')
+                self.runner = SequenceRunner()
 
     def get_provider(self) -> SequenceProvider:
         return self.provider

@@ -13,24 +13,9 @@ class SequenceProviderError(Exception):
 
 class SequenceProvider(AbstractSequenceProvider):
 
-    def __init__(self, sequence_name: str, config_directory: str = './config/'):
+    def __init__(self, config_directory: str = './config/'):
         self.config_directory = config_directory
         self.logger = logging.getLogger(__name__)
-        self.sequence_cfg = self._get_config('sequence', sequence_name)
-        self.steps = []
-        self.logger.debug(f'{self.sequence_cfg}')
-
-        step_configs = self._get_step_configs(self.sequence_cfg)
-
-        for s_cfg in step_configs:
-            step_cls = self._get_step_class(s_cfg)
-            step_params = self._get_parameters(s_cfg, 'parameters')
-            self.steps.append(step_cls(**step_params))
-
-        self.logger.debug(f'{self.steps}')
-
-        if len(self.steps) < 1:
-            raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
 
     # imports and returns the module specified by <module_name>
     # - raises ModuleNotFoundError
@@ -132,5 +117,35 @@ class SequenceProvider(AbstractSequenceProvider):
         except Exception as e:
             raise SequenceProviderError(f'unexpected error reading package/module/class keys from sequence_config.') from e
 
-    def get_sequence(self) -> list:
+    def get_sequence(self, sequence_name) -> list:
+        self.sequence_cfg = self._get_config('sequence', sequence_name)
+        self.steps = []
+        self.logger.debug(f'{self.sequence_cfg}')
+
+        step_configs = self._get_step_configs(self.sequence_cfg)
+
+        for s_cfg in step_configs:
+            step_cls = self._get_step_class(s_cfg)
+            step_params = self._get_parameters(s_cfg, 'parameters')
+            self.steps.append(step_cls(**step_params))
+
+        self.logger.debug(f'{self.steps}')
+
+        if len(self.steps) < 1:
+            raise SequenceProviderError(f'no steps found for sequence: {sequence_name}.')
         return self.steps
+
+    def get_sequence_names(self) -> list:
+        sequence_names = []
+        config_files = self._get_config_files()
+        for file in config_files:
+            with open(join(self.config_directory, file), 'r') as f:
+                try:
+                    c = json.loads(f.read())
+                    c_name = c['name']
+                    if c_name is not None:
+                        sequence_names.append(c_name)
+                except Exception as exc:
+                    print(f'error reading config file {f}')
+                    pass
+        return sequence_names
