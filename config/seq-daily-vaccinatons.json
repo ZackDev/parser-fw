@@ -8,7 +8,7 @@
       "class": "HTTPResponseSource",
       "parameters":
       {
-        "url": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Aktuell_Deutschland_Bundeslaender_COVID-19-Impfungen.csv"
+        "url": "https://raw.githubusercontent.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland/master/Deutschland_Bundeslaender_COVID-19-Impfungen.csv"
       }
     },
     {
